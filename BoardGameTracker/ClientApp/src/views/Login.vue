@@ -104,7 +104,7 @@ export default Vue.extend({
         };
         this.$store.commit("setUser", user);
         if (this.$route.query.redirect) {
-          this.$router.push(this.$route.query.redirect);
+          this.$router.push(this.$route.query.redirect.toString());
         } else {
           this.$router.push({ name: "home" });
         }
