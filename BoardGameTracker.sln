@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28315.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardGameTracker", "BoardGameTracker\BoardGameTracker.csproj", "{DBBA9187-87F6-4812-8399-4A78BAE765F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardGameTracker", "BoardGameTracker\BoardGameTracker.csproj", "{DBBA9187-87F6-4812-8399-4A78BAE765F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BggApi", "BggApi\BggApi.csproj", "{BC5CF1F3-1ED5-42CE-91B8-C49D55D4A6B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{DBBA9187-87F6-4812-8399-4A78BAE765F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBBA9187-87F6-4812-8399-4A78BAE765F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBBA9187-87F6-4812-8399-4A78BAE765F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC5CF1F3-1ED5-42CE-91B8-C49D55D4A6B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC5CF1F3-1ED5-42CE-91B8-C49D55D4A6B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC5CF1F3-1ED5-42CE-91B8-C49D55D4A6B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC5CF1F3-1ED5-42CE-91B8-C49D55D4A6B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
