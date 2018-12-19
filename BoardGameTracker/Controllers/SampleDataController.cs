@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BoardGameTracker.Database;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoardGameTracker.Controllers
@@ -9,21 +10,16 @@ namespace BoardGameTracker.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
+        private readonly BoardGameContext db;
+        public SampleDataController(BoardGameContext boardGameContext)
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+            this.db = boardGameContext;
+        }
 
         [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts()
+        public IActionResult WeatherForecasts()
         {
-             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            });
+            return this.Ok(db.Players.ToList());
         }
 
         public class WeatherForecast
