@@ -19,6 +19,15 @@ namespace BoardGameTracker
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+             .ConfigureAppConfiguration((hostingContext, config) =>
+             {
+                 config.AddEnvironmentVariables();
+             })
+              .ConfigureLogging((hostingContext, logging) =>
+              {
+                  logging.AddDebug();
+                  logging.AddConsole();
+              })
                 .UseStartup<Startup>();
     }
 }
