@@ -2,7 +2,7 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <span>weatherForecasts {{weatherForecasts}}</span>
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App sssssssss"/>
+    <HelloWorld msg="Welcome to the board game tracking app"/>
   </div>
 </template>
 
