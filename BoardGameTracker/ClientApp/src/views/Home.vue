@@ -1,11 +1,6 @@
 <template>
   <div class="home">
-    <span>weatherForecasts {{weatherForecasts}}</span>
-    <img
-      alt="Vue logo"
-      src="../assets/logo.png"
-    >
-    <HelloWorld msg="Welcome to the board game tracking app i am a test am" />
+    <HelloWorld msg="Welcome to the board game tracking app i am a test am"/>
   </div>
 </template>
 

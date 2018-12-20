@@ -5,13 +5,25 @@
         <v-alert :value="error" type="error">{{error}}</v-alert>
       </v-flex>
     </v-layout>
-    {{error}}
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
+          <v-card-title>
+            <h3>Sign up</h3>
+          </v-card-title>
           <v-card-text>
             <v-container>
-              <form @submit.prevent="signIn">
+              <form @submit.prevent="signUp">
+                <v-layout row>
+                  <v-flex xs12>
+                    <v-text-field
+                      name="display"
+                      label="Display Name"
+                      v-model="displayName"
+                      required
+                    ></v-text-field>
+                  </v-flex>
+                </v-layout>
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field name="email" label="Username" v-model="username" required></v-text-field>
@@ -32,16 +44,11 @@
                 <v-layout row>
                   <v-flex xs12>
                     <v-btn type="submit" :disabled="loading" :loading="loading" color="primary">
-                      Sign in
+                      Sign up
                       <span slot="loader" class="custom-loader">
                         <v-icon light>cached</v-icon>
                       </span>
                     </v-btn>
-                  </v-flex>
-                </v-layout>
-                <v-layout row>
-                  <v-flex xs12>
-                    <router-link :to="{name : 'register'}">Dont have an account? Sign up</router-link>
                   </v-flex>
                 </v-layout>
               </form>
@@ -58,34 +65,28 @@ import Vue from "vue";
 import { httpClient } from "@/axios-service";
 import { User } from "../models/User";
 export default Vue.extend({
-  name: "Login",
+  name: "Register",
   data: () => ({
     error: "",
     loading: false,
+    displayName: "",
     username: "",
     password: ""
   }),
   methods: {
-    async signIn() {
+    async signUp() {
       this.loading = true;
       try {
-        const authPlayer = (await httpClient.post("Users/authenticate", {
+        const authPlayer = (await httpClient.post("Users/register", {
+          name: this.displayName,
           username: this.username,
           password: this.password
         })).data;
-        const user: User = {
-          id: authPlayer.id,
-          name: authPlayer.name,
-          token: authPlayer.token
-        };
-        this.$store.commit("setUser", user);
-        if (this.$route.query.redirect) {
-          this.$router.push(this.$route.query.redirect.toString());
-        } else {
-          this.$router.push({ name: "home" });
-        }
+
+        this.$router.push({ name: "home" });
       } catch (error) {
-        this.error = error;
+        console.log(error.response);
+        this.error = error.response.data.message;
       }
       this.loading = false;
     }
