@@ -57,9 +57,9 @@ namespace BoardGameTracker
             }));
 
 
-            services.AddEntityFrameworkSqlServer().AddDbContext<BoardGameContext>(options =>
-         options.UseSqlServer(Configuration.GetConnectionString("BoardGameDb"))
-    );
+                services.AddEntityFrameworkSqlServer().AddDbContext<BoardGameContext>(options =>
+             options.UseSqlServer(Configuration.GetConnectionString("BoardGameDb"))
+        );
             
 
 

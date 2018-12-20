@@ -1,9 +1,7 @@
 import axios from 'axios';
-let baseURL = 'https://localhost:44309/';
-
-console.log((window as any).uri);
-if ((window as any).uri) {
-  baseURL = (window as any).uri;
+let baseURL = process.env.BASE_URL;
+if (process.env.NODE_ENV === 'development') {
+  baseURL = 'https://localhost:44309/';
 }
 
 export const httpClient = axios.create({
