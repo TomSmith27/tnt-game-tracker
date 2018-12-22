@@ -3,6 +3,9 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import LoginPage from './views/Login.vue';
 import RegisterPage from './views/Register.vue';
+import GameList from './views/GameList.vue';
+import GameSessionCreate from './views/GameSessionCreate.vue';
+import GameSessionList from './views/GameSessionList.vue';
 import store from './store';
 import { User } from './models/User';
 
@@ -26,6 +29,22 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/games',
+      name: 'games',
+      component: GameList
+    },
+    {
+      path: '/game-session/create/:gameId?',
+      name: 'game-session-create',
+      component: GameSessionCreate,
+      props: true
+    },
+    {
+      path: '/game-session',
+      name: 'game-sessions',
+      component: GameSessionList
     },
     {
       path: '/about',
