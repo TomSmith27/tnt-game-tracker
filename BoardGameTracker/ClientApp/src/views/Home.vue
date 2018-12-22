@@ -59,7 +59,7 @@ export default Vue.extend({
     search: "",
     searching: false,
     searchError: "",
-    boardGames: []
+    boardGames: [],
   }),
   methods: {
     slowSearch: _.debounce(async function(this: any) {
@@ -69,7 +69,7 @@ export default Vue.extend({
       this.searching = true;
       try {
         const result = await httpClient.get(
-          `games/search-import?search=${this.search}`
+          `games/search-import?search=${this.search}`,
         );
         this.boardGames = result.data;
       } catch (e) {
@@ -82,19 +82,19 @@ export default Vue.extend({
     importGame(objectid: number) {
       httpClient
         .post("games", {
-          objectid
+          objectid,
         })
         .then(response => {
           router.push("games");
         });
-    }
+    },
   },
   watch: {
     async search() {
       if (this.search.length > 2) {
         this.slowSearch();
       }
-    }
-  }
+    },
+  },
 });
 </script>

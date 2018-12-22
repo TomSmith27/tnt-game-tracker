@@ -57,7 +57,7 @@ export default Vue.extend({
   name: "GameList",
   data: () => ({
     games: null,
-    error: ""
+    error: "",
   }),
   created() {
     this.getGames();
@@ -74,8 +74,8 @@ export default Vue.extend({
       httpClient.delete(`games/${id}`).then(response => {
         this.getGames();
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

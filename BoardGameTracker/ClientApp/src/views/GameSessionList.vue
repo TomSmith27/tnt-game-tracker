@@ -36,18 +36,18 @@ import moment from "moment";
 export default Vue.extend({
   name: "GameSessionList",
   data: () => ({
-    gameSessions: []
+    gameSessions: [],
   }),
   filters: {
     bigDate: (value: string) => {
       return moment(value).format("Do MMM YYYY");
-    }
+    },
   },
   created() {
     httpClient.get("game-session").then(response => {
       this.gameSessions = response.data;
     });
-  }
+  },
 });
 </script>
 

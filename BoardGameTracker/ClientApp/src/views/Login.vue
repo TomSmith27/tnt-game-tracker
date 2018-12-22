@@ -63,7 +63,7 @@ export default Vue.extend({
     error: "",
     loading: false,
     username: "",
-    password: ""
+    password: "",
   }),
   methods: {
     async signIn() {
@@ -71,12 +71,12 @@ export default Vue.extend({
       try {
         const authPlayer = (await httpClient.post("Users/authenticate", {
           username: this.username,
-          password: this.password
+          password: this.password,
         })).data;
         const user: User = {
           id: authPlayer.id,
           name: authPlayer.name,
-          token: authPlayer.token
+          token: authPlayer.token,
         };
         this.$store.commit("setUser", user);
         if (this.$route.query.redirect) {
@@ -88,8 +88,8 @@ export default Vue.extend({
         this.error = error;
       }
       this.loading = false;
-    }
-  }
+    },
+  },
 });
 </script>
 

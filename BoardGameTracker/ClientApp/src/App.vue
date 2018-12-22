@@ -75,21 +75,21 @@
 import Vue from "vue";
 export default Vue.extend({
   data: () => ({
-    drawer: null
+    drawer: null,
   }),
   props: {
-    source: String
+    source: String,
   },
   methods: {
     logout() {
       this.$store.commit("logout");
       this.$router.push({ name: "login" });
-    }
+    },
   },
   computed: {
     userName(): string {
       return this.$store.state.user.name;
-    }
-  }
+    },
+  },
 });
 </script>
