@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Game Create</h1>
+    <h1>Game Update</h1>
     <v-progress-circular v-if="isLoading" :size="50" color="primary" indeterminate></v-progress-circular>
     <v-form v-else>
       <v-autocomplete
@@ -50,7 +50,7 @@ import { httpClient } from "../axios-service";
 export default Vue.extend({
   name: "GameSessionCreate",
   props: {
-    gameId: {
+    id: {
       type: Number
     }
   },
@@ -68,9 +68,9 @@ export default Vue.extend({
     try {
       this.games = (await httpClient.get("games")).data;
       this.players = (await httpClient.get("users")).data;
-      if (this.gameId) {
-        this.selectedGame = this.gameId;
-      }
+      const currentGame = await httpClient.get(`game-session/${this.id}`);
+      this.selectedGame = currentGame.data.gameId;
+      this.selectedPlayers = currentGame.data.players.map((p: any) => p.player);
     } catch (error) {}
 
     this.isLoading = false;
@@ -86,7 +86,7 @@ export default Vue.extend({
   methods: {
     async submit() {
       try {
-        const sessionId = (await httpClient.post("game-session", {
+        const sessionId = (await httpClient.post(`game-session/${this.id}`, {
           gameId: this.selectedGame,
           date: this.date,
           players: this.selectedPlayers.map((p: any) => p.id)
