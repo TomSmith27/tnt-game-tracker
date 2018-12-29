@@ -20,7 +20,7 @@
           full-width
           width="290px"
         >
-          <v-text-field slot="activator" v-model="date" label="Picker in dialog" readonly></v-text-field>
+          <v-text-field slot="activator" v-model="date" label="Date Played" readonly></v-text-field>
           <v-date-picker v-model=" date" scrollable>
             <v-spacer></v-spacer>
             <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>

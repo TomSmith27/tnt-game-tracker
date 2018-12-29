@@ -4,14 +4,20 @@
     <v-container grid-list-md text-xs-center>
       <v-alert :value="error" type="error">{{error}}</v-alert>
       <v-layout row wrap>
-        <v-flex :key="game.objectId" v-for="game in games" xs12 md6 lg4>
+        <v-flex :key="game.objectId" v-for="game in games" xs12 md6>
           <v-card>
-            <v-container fluid grid-list-lg>
-              <v-layout row>
-                <v-flex xs5>
-                  <v-img v-if="game.thumbnail" contain :src="game.thumbnail" aspect-ratio="1"></v-img>
-                </v-flex>
-                <v-flex xs7>
+            <v-layout>
+              <v-flex xs5>
+                <v-img
+                  max-height="200px"
+                  v-if="game.thumbnail"
+                  contain
+                  :src="game.thumbnail"
+                  aspect-ratio="1"
+                ></v-img>
+              </v-flex>
+              <v-flex xs7>
+                <v-card-title primary-title>
                   <div>
                     <div class="headline">{{game.name}}</div>
                     <div>
@@ -27,21 +33,28 @@
                       </span>
                     </div>
                   </div>
-                </v-flex>
-              </v-layout>
-            </v-container>
+                </v-card-title>
+              </v-flex>
+            </v-layout>
+            <v-divider light></v-divider>
             <v-card-actions>
-              <v-btn small absolute top right fab @click="deleteGame(game.id)" color="error">
-                <v-icon>delete</v-icon>
-              </v-btn>
               <v-btn
+                block
                 :to="{name : 'game-session-create', params : {gameId : game.id}}"
                 color="primary"
-              >Create Session</v-btn>
+              >
+                <v-icon>play_arrow</v-icon>
+              </v-btn>
               <v-btn
+                block
                 :href="`https://boardgamegeek.com/boardgame/${game.objectId}`"
                 color="secondary"
-              >BGG Link</v-btn>
+              >
+                <v-icon>link</v-icon>
+              </v-btn>
+              <v-btn block color="error">
+                <v-icon @click="deleteGame(game.id)">delete</v-icon>
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>

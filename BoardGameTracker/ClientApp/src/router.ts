@@ -66,7 +66,7 @@ router.beforeEach((to, from, next) => {
   if ((store.state.user as User).token === undefined) {
     const userJson = localStorage.getItem("user");
     if (userJson) {
-      let user = JSON.parse(userJson);
+      const user = JSON.parse(userJson);
       store.commit("setUser", user);
     }
   }

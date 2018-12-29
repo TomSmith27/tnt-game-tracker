@@ -27,6 +27,7 @@ namespace BoardGameTracker.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
+            this.db.Players.Load();
             var gamePlaySessions = this.db.GamePlaySessions.Include(g => g.Game)
                 .Include(p => p.Players);
             return this.Ok(gamePlaySessions);

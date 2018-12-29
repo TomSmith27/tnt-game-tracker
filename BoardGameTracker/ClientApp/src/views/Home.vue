@@ -12,7 +12,7 @@
     <v-alert :value="searchError" type="error">{{searchError}}</v-alert>
     <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
-        <v-flex v-for="game in boardGames" :key="game.objectid" xs6>
+        <v-flex v-for="game in boardGames" :key="game.objectid" md6>
           <v-card>
             <v-card-title primary-title>
               <div>
@@ -59,42 +59,46 @@ export default Vue.extend({
     search: "",
     searching: false,
     searchError: "",
-    boardGames: [],
+    lastSearch: "",
+    boardGames: []
   }),
   methods: {
     slowSearch: _.debounce(async function(this: any) {
       this.fastSearch();
     }, 2000),
     async fastSearch() {
-      this.searching = true;
-      try {
-        const result = await httpClient.get(
-          `games/search-import?search=${this.search}`,
-        );
-        this.boardGames = result.data;
-      } catch (e) {
-        if (e.message === "Network Error") {
-          this.searchError = "Network Error";
+      if (this.lastSearch !== this.search) {
+        this.lastSearch = this.search;
+        this.searching = true;
+        try {
+          const result = await httpClient.get(
+            `games/search-import?search=${this.search}`
+          );
+          this.boardGames = result.data;
+        } catch (e) {
+          if (e.message === "Network Error") {
+            this.searchError = "Network Error";
+          }
         }
+        this.searching = false;
       }
-      this.searching = false;
     },
     importGame(objectid: number) {
       httpClient
         .post("games", {
-          objectid,
+          objectid
         })
         .then(response => {
           router.push("games");
         });
-    },
+    }
   },
   watch: {
     async search() {
       if (this.search.length > 2) {
         this.slowSearch();
       }
-    },
-  },
+    }
+  }
 });
 </script>
