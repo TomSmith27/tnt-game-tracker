@@ -30,20 +30,16 @@
               <v-list-group v-model="gameSession.show">
                 <v-list-tile slot="activator">
                   <v-list-tile-content>
-                    <v-list-tile-title>Players : {{gameSession.players.length}}</v-list-tile-title>
+                    <v-list-tile-title>Players : {{gameSession.playerSessionRatings.length}}</v-list-tile-title>
                   </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile :key="player.id" v-for="player in gameSession.players">
+                <v-list-tile :key="player.id" v-for="player in gameSession.playerSessionRatings">
                   <v-list-tile-content>
-                    <v-list-tile-title>
-                      {{ player.player.name }}
-                      <v-icon>star_border</v-icon>
-                      <v-icon>star_border</v-icon>
-                      <v-icon>star_border</v-icon>
-                      <v-icon>star_border</v-icon>
-                      <v-icon>star_border</v-icon>
-                    </v-list-tile-title>
+                    <v-list-tile-title>{{ player.player.name }}</v-list-tile-title>
+                    <v-list-tile-sub-title>
+                      <star-rating v-model="player.rating" :star-size="50" :read-only="true"></star-rating>
+                    </v-list-tile-sub-title>
                   </v-list-tile-content>
 
                   <v-list-tile-action>
@@ -67,49 +63,7 @@ export default Vue.extend({
   name: "GameSessionList",
   data: () => ({
     gameSessions: [],
-    error: "",
-    items: [
-      {
-        action: "local_activity",
-        title: "Attractions",
-        items: [{ title: "List Item" }]
-      },
-      {
-        action: "restaurant",
-        title: "Dining",
-        active: true,
-        items: [
-          { title: "Breakfast & brunch" },
-          { title: "New American" },
-          { title: "Sushi" }
-        ]
-      },
-      {
-        action: "school",
-        title: "Education",
-        items: [{ title: "List Item" }]
-      },
-      {
-        action: "directions_run",
-        title: "Family",
-        items: [{ title: "List Item" }]
-      },
-      {
-        action: "healing",
-        title: "Health",
-        items: [{ title: "List Item" }]
-      },
-      {
-        action: "content_cut",
-        title: "Office",
-        items: [{ title: "List Item" }]
-      },
-      {
-        action: "local_offer",
-        title: "Promotions",
-        items: [{ title: "List Item" }]
-      }
-    ]
+    error: ""
   }),
   filters: {
     bigDate: (value: string) => {

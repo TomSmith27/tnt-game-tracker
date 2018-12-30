@@ -38,14 +38,14 @@ namespace BoardGameTracker.Controllers
             var currentGames = db.Games.ToDictionary(g => g.ObjectId);
             List<ImportableGame> importableGames = new List<ImportableGame>();
 
-            foreach (var searchResult in result.Boardgames)
+            foreach (var searchResult in result.Boardgames.Where(g => g.Name.Any(s => s.Primary)))
             {
                 importableGames.Add(currentGames.ContainsKey(searchResult.Objectid)
                     ? new ImportableGame(currentGames[searchResult.Objectid])
                     : new ImportableGame(searchResult));
             }
 
-            return this.Ok(importableGames);
+            return this.Ok(importableGames.OrderByDescending(s => s.YearPublished));
 
         }
 

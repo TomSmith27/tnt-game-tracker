@@ -23,8 +23,12 @@
         {
             this.db.Players.Load();
             var gamePlaySessions = this.db.GamePlaySessions.Include(g => g.Game)
+                .ThenInclude(g => g.PlayerRatings)
                 .Include(p => p.Players);
-            return this.Ok(gamePlaySessions);
+
+            var gameSessions = gamePlaySessions.Select(g => new GamePlaySessionDto(g));
+
+            return this.Ok(gameSessions);
         }
 
         [HttpGet("{sessionId:int}")]
@@ -53,6 +57,20 @@
 
             var session = gameSession.ToModel();
             db.GamePlaySessions.Add(session);
+
+            var game = this.db.Games.Include(g => g.PlayerRatings).SingleOrDefault(g => g.Id == gameSession.GameId);
+            foreach (var player in session.Players)
+            {
+                if(!game.PlayerRatings.Any(p => p.PlayerId == player.PlayerId))
+                {
+                    game.PlayerRatings.Add(new Models.PlayerRating()
+                    {
+                        PlayerId = player.PlayerId
+                    });
+                }
+            }
+
+
             db.SaveChanges();
 
             return this.Ok(session.Id);
