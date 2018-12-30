@@ -51,8 +51,8 @@ export default Vue.extend({
   name: "GameSessionCreate",
   props: {
     gameId: {
-      type: Number
-    }
+      type: Number,
+    },
   },
   data: () => ({
     isLoading: true,
@@ -61,7 +61,7 @@ export default Vue.extend({
     players: [],
     selectedGame: 0,
     selectedPlayers: [],
-    date: new Date().toISOString().substr(0, 10)
+    date: new Date().toISOString().substr(0, 10),
   }),
   async created() {
     this.isLoading = true;
@@ -81,7 +81,7 @@ export default Vue.extend({
         return this.games.filter(g => g.id == this.selectedGame)[0].thumbnail;
       }
       return "";
-    }
+    },
   },
   methods: {
     async submit() {
@@ -89,14 +89,14 @@ export default Vue.extend({
         const sessionId = (await httpClient.post("game-session", {
           gameId: this.selectedGame,
           date: this.date,
-          players: this.selectedPlayers.map((p: any) => p.id)
+          players: this.selectedPlayers.map((p: any) => p.id),
         })).data;
         this.$router.push({
-          name: "game-sessions"
+          name: "game-sessions",
         });
       } catch (error) {}
-    }
-  }
+    },
+  },
 });
 </script>
 

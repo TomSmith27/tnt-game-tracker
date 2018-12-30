@@ -63,12 +63,12 @@ export default Vue.extend({
   name: "GameSessionList",
   data: () => ({
     gameSessions: [],
-    error: ""
+    error: "",
   }),
   filters: {
     bigDate: (value: string) => {
       return moment(value).format("Do MMM YYYY");
-    }
+    },
   },
   created() {
     httpClient.get("game-session").then(response => {
@@ -78,7 +78,7 @@ export default Vue.extend({
       this.gameSessions = response.data;
       this.gameSessions.reverse();
     });
-  }
+  },
 });
 </script>
 

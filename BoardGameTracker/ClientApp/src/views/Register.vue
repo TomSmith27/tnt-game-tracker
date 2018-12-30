@@ -71,7 +71,7 @@ export default Vue.extend({
     loading: false,
     displayName: "",
     username: "",
-    password: ""
+    password: "",
   }),
   methods: {
     async signUp() {
@@ -80,7 +80,7 @@ export default Vue.extend({
         const authPlayer = (await httpClient.post("Users/register", {
           name: this.displayName,
           username: this.username,
-          password: this.password
+          password: this.password,
         })).data;
 
         this.$router.push({ name: "home" });
@@ -89,8 +89,8 @@ export default Vue.extend({
         this.error = error.response.data.message;
       }
       this.loading = false;
-    }
-  }
+    },
+  },
 });
 </script>
 
