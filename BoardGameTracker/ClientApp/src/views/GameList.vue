@@ -21,7 +21,9 @@
                   <v-icon v-else color="danger" v-text="test"></v-icon>
                 </v-avatar>
               </td>
-              <td class="text-xs-left">{{ props.item.name }}</td>
+              <td class="text-xs-left">
+                <router-link :to="{name : 'game-detail', params : { id : props.item.id}}">{{ props.item.name }}</router-link>
+              </td>
               <td class="text-xs-left">{{ props.item.timesPlayed }}</td>
               <td class="text-xs-left" v-if="props.item.lastPlayed">{{ props.item.lastPlayed | date }}</td>
               <td class="text-xs-left" v-else>Never</td>

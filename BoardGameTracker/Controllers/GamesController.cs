@@ -9,6 +9,7 @@ namespace BoardGameTracker.Controllers
     using BoardGameTracker.Database;
     using BoardGameTracker.Dto;
     using BoardGameTracker.Models;
+    using BoardGameTracker.Services;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
@@ -19,11 +20,13 @@ namespace BoardGameTracker.Controllers
     {
         private readonly BoardGameContext db;
         private readonly IBggService bggService;
+        private readonly IUserService userService;
 
-        public GamesController(BoardGameContext db, IBggService bggService)
+        public GamesController(BoardGameContext db, IBggService bggService, IUserService userService)
         {
             this.db = db;
             this.bggService = bggService;
+            this.userService = userService;
         }
 
         [HttpGet("")]
@@ -56,13 +59,17 @@ namespace BoardGameTracker.Controllers
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
+            this.db.Players.Load();
+
             var game = this.db.Games
                 .Include(g => g.Categories)
+                .Include(g => g.PlayerRatings)
                 .FirstOrDefault(g => g.Id == id);
 
 
             return this.Ok(game);
         }
+
 
         [HttpPost("")]
         public async Task<IActionResult> Create(BgObject bgObject)
@@ -104,6 +111,19 @@ namespace BoardGameTracker.Controllers
             this.db.SaveChanges();
 
             return this.Ok(bgObject.ObjectId);
+        }
+
+        [HttpPost("{id:int}/rate")]
+        public async Task<IActionResult> Rate(int id, RatingDto dto)
+        {
+            var userId = int.Parse(this.HttpContext.User.Identity.Name);
+            var user = userService.GetById(userId);
+            var rating = this.db.Ratings.First(r => r.GameId == id && r.PlayerId == user.Id);
+            rating.Rating = dto.Rating;
+            await db.SaveChangesAsync();
+
+            return this.Ok();
+
         }
 
         [HttpPost("import")]
