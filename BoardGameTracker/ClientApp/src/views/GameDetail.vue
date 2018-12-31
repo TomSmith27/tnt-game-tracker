@@ -4,17 +4,15 @@
       <v-card>
         <v-card-title primary-title>
           <v-layout row wrap>
-            <v-flex xs12 md2>
+            <v-flex xs12 md2 lg2>
               <img :src="game.thumbnail">
             </v-flex>
-            <v-flex xs12 md10>
-              <h3>{{game.name}}</h3>
-
-              <v-flex md2>
+            <v-flex xs12 md3 lg2>
+              <v-flex md12>
                 <h4>Bgg Raitng</h4>
                 <div class="rating">{{game.averageRating | round}}</div>
               </v-flex>
-              <v-flex md2>
+              <v-flex md12>
                 <h4>Our Raitng</h4>
                 <v-btn color="primary" block @click="ratingsPanelOpen = true">{{ourRating | round}}</v-btn>
                 <div class="rating"></div>
@@ -36,6 +34,22 @@
 
               <!--  <p v-html="game.description"></p> -->
               <!--     {{game}} -->
+            </v-flex>
+            <v-flex md7 lg8>
+              <div class="headline">{{game.name}}</div>
+              <div>
+                <span>
+                  <v-icon>people</v-icon>
+                  {{game.minPlayers}} - {{game.maxPlayers}}
+                </span>
+              </div>
+              <div>
+                <span>
+                  <v-icon>alarm</v-icon>
+                  {{game.minPlaytime}}" - {{game.maxPlaytime}}"
+                </span>
+              </div>
+              <p class="description" v-html="game.description"></p>
             </v-flex>
           </v-layout>
         </v-card-title>
@@ -72,8 +86,8 @@ export default Vue.extend({
   },
   computed: {
     ourRating(): number {
-      if (this.game && this.game.playerRatings != null) {
-        return this.game.playerRatings.filter(f => f.rating).map(r => r.rating).reduce((a, b) => a + b) / this.game.playerRatings.length;
+      if (this.game && this.game.playerRatings != null && this.game.playerRatings.length > 0) {
+        return this.game.playerRatings.filter(f => f.rating).map(r => r.rating).reduce((a, b) => a + b, 0) / this.game.playerRatings.length;
       }
       return 0;
     }
@@ -87,5 +101,10 @@ export default Vue.extend({
 .rating {
   font-size: 20px;
   background-color: red;
+}
+
+.description {
+  max-height: 100px;
+  overflow: scroll;
 }
 </style>

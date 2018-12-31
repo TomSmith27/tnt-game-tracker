@@ -21,15 +21,15 @@
                   <v-icon v-else color="danger" v-text="test"></v-icon>
                 </v-avatar>
               </td>
-              <td class="text-xs-left">
+              <td class="pa-0 text-xs-left">
                 <router-link :to="{name : 'game-detail', params : { id : props.item.id}}">{{ props.item.name }}</router-link>
               </td>
-              <td class="text-xs-left">{{ props.item.timesPlayed }}</td>
-              <td class="text-xs-left" v-if="props.item.lastPlayed">{{ props.item.lastPlayed | date }}</td>
-              <td class="text-xs-left" v-else>Never</td>
-              <td class="text-xs-left">{{ props.item.averageRating | round }}</td>
-              <td class="text-xs-left">{{ props.item.playersAverageRating }}</td>
-              <td class="text-xs-left"></td>
+              <td class="pa-0 text-xs-left">{{ props.item.timesPlayed }}</td>
+              <td class="pa-0 text-xs-left" v-if="props.item.lastPlayed">{{ props.item.lastPlayed | date }}</td>
+              <td class="pa-0 text-xs-left" v-else>Never</td>
+              <td class="pa-0 text-xs-left">{{ props.item.averageRating | round }}</td>
+              <td class="pa-0 text-xs-left">{{ props.item.playersAverageRating }}</td>
+              <td class="pa-0 text-xs-left"></td>
             </tr>
           </template>
           <template slot="expand" slot-scope="props">

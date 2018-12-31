@@ -60,7 +60,7 @@ namespace BoardGameTracker.Controllers
         public IActionResult Get(int id)
         {
             this.db.Players.Load();
-
+            this.db.Categories.Load();
             var game = this.db.Games
                 .Include(g => g.Categories)
                 .Include(g => g.PlayerRatings)
