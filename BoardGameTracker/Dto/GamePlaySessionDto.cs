@@ -11,10 +11,14 @@ namespace BoardGameTracker.Dto
         public GamePlaySessionDto(GamePlaySession g)
         {
             this.Game = g.Game;
-            this.PlayerSessionRatings = g.Players.Select(p => new PlayerSessionRatingDto(p, g.Game.PlayerRatings.SingleOrDefault(pr => pr.PlayerId == p.PlayerId)));
+            this.Date = g.Date;
+            this.BggAverageRating = g.Game.AverageRating;
+            this.PlayerAverageRating = g.Game.PlayerRatings.Average(a => a.Rating);
         }
 
         public BoardGameEntry Game { get; }
-        public IEnumerable<PlayerSessionRatingDto> PlayerSessionRatings { get; }
+        public DateTimeOffset Date { get; }
+        public double BggAverageRating { get; }
+        public double? PlayerAverageRating { get; }
     }
 }

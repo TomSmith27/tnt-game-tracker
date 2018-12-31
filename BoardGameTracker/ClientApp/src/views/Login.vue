@@ -54,22 +54,22 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { httpClient } from "@/axios-service";
-import { User } from "../models/User";
+import Vue from 'vue';
+import { httpClient } from '@/axios-service';
+import { User } from '../models/User';
 export default Vue.extend({
-  name: "Login",
+  name: 'Login',
   data: () => ({
-    error: "",
+    error: '',
     loading: false,
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   }),
   methods: {
     async signIn() {
       this.loading = true;
       try {
-        const authPlayer = (await httpClient.post("Users/authenticate", {
+        const authPlayer = (await httpClient.post('Users/authenticate', {
           username: this.username,
           password: this.password,
         })).data;
@@ -78,11 +78,11 @@ export default Vue.extend({
           name: authPlayer.name,
           token: authPlayer.token,
         };
-        this.$store.commit("setUser", user);
+        this.$store.commit('setUser', user);
         if (this.$route.query.redirect) {
           this.$router.push(this.$route.query.redirect.toString());
         } else {
-          this.$router.push({ name: "home" });
+          this.$router.push({ name: 'home' });
         }
       } catch (error) {
         this.error = error;

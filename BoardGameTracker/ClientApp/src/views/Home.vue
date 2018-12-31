@@ -47,19 +47,19 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import axios from "axios";
-import _ from "lodash";
-import { httpClient } from "../axios-service";
-import router from "../router";
+import Vue from 'vue';
+import axios from 'axios';
+import _ from 'lodash';
+import { httpClient } from '../axios-service';
+import router from '../router';
 export default Vue.extend({
-  name: "home",
+  name: 'home',
   components: {},
   data: () => ({
-    search: "",
+    search: '',
     searching: false,
-    searchError: "",
-    lastSearch: "",
+    searchError: '',
+    lastSearch: '',
     boardGames: [],
   }),
   methods: {
@@ -76,8 +76,8 @@ export default Vue.extend({
           );
           this.boardGames = result.data;
         } catch (e) {
-          if (e.message === "Network Error") {
-            this.searchError = "Network Error";
+          if (e.message === 'Network Error') {
+            this.searchError = 'Network Error';
           }
         }
         this.searching = false;
@@ -85,11 +85,11 @@ export default Vue.extend({
     },
     importGame(objectid: number) {
       httpClient
-        .post("games", {
+        .post('games', {
           objectid,
         })
         .then(response => {
-          router.push("games");
+          router.push('games');
         });
     },
   },

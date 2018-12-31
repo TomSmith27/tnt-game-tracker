@@ -44,7 +44,7 @@
       </v-menu>
       <div v-else>
         <v-btn flat :to="{name : 'login'}">Login</v-btn>
-        <v-btn flat :to="{name : 'register'}">Register</v-btn>
+        <v-btn class="hidden-sm-and-down" flat :to="{name : 'register'}">Register</v-btn>
       </div>
     </v-toolbar>
     <v-content>
@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue';
 export default Vue.extend({
   data: () => ({
     drawer: null,
@@ -73,8 +73,8 @@ export default Vue.extend({
   },
   methods: {
     logout() {
-      this.$store.commit("logout");
-      this.$router.push({ name: "login" });
+      this.$store.commit('logout');
+      this.$router.push({ name: 'login' });
     },
   },
   computed: {

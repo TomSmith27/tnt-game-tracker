@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 namespace BoardGameTracker.Controllers
 {
-    using System.Collections.Generic;
     using BoardGame.Api.Dto;
     using BoardGameTracker.Database;
+    using BoardGameTracker.Dto;
     using BoardGameTracker.Models;
     using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
 
     [Route("api/games")]
     [ApiController]
@@ -25,9 +27,11 @@ namespace BoardGameTracker.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] DateTimeOffset? from)
         {
-            return this.Ok(this.db.Games.ToList());
+            var games  = this.db.Games.Include(g => g.Sessions).Include(g => g.PlayerRatings).ToList();
+            return this.Ok(games.Select(g => new GameDto(g, from)));
+
         }
 
         [HttpGet("search-import")]
@@ -88,9 +92,9 @@ namespace BoardGameTracker.Controllers
                 else
                 {
                     boardGame.Categories.Add(new GameCategoryGameEntry
-                        {
-                            BoardGameCategory = categories[importCategory.Objectid]
-                        }
+                    {
+                        BoardGameCategory = categories[importCategory.Objectid]
+                    }
                     );
                 }
             }

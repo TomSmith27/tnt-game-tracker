@@ -4,7 +4,8 @@
     <router-link :to="{name : 'game-session-create'}">
       <v-btn color="primary">New</v-btn>
     </router-link>
-    <v-timeline dense>
+
+    <!--   <v-timeline dense>
       <v-timeline-item :key="gameSession.id" v-for="gameSession in gameSessions" small>
         <div class="py-4">
           <v-card>
@@ -43,7 +44,7 @@
                   </v-list-tile-content>
 
                   <v-list-tile-action>
-                    <!--     <v-icon>{{ subItem.action }}</v-icon> -->
+        
                   </v-list-tile-action>
                 </v-list-tile>
               </v-list-group>
@@ -51,7 +52,7 @@
           </v-card>
         </div>
       </v-timeline-item>
-    </v-timeline>
+    </v-timeline>-->
   </div>
 </template>
 
@@ -63,12 +64,12 @@ export default Vue.extend({
   name: "GameSessionList",
   data: () => ({
     gameSessions: [],
-    error: "",
+    error: ","
   }),
   filters: {
     bigDate: (value: string) => {
       return moment(value).format("Do MMM YYYY");
-    },
+    }
   },
   created() {
     httpClient.get("game-session").then(response => {
@@ -78,7 +79,7 @@ export default Vue.extend({
       this.gameSessions = response.data;
       this.gameSessions.reverse();
     });
-  },
+  }
 });
 </script>
 

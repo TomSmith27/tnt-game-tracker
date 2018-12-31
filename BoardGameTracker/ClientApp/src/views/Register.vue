@@ -16,12 +16,7 @@
               <form @submit.prevent="signUp">
                 <v-layout row>
                   <v-flex xs12>
-                    <v-text-field
-                      name="display"
-                      label="Display Name"
-                      v-model="displayName"
-                      required
-                    ></v-text-field>
+                    <v-text-field name="display" label="Display Name" v-model="displayName" required></v-text-field>
                   </v-flex>
                 </v-layout>
                 <v-layout row>
@@ -31,14 +26,7 @@
                 </v-layout>
                 <v-layout row>
                   <v-flex xs12>
-                    <v-text-field
-                      name="password"
-                      label="Password"
-                      id="password"
-                      v-model="password"
-                      type="password"
-                      required
-                    ></v-text-field>
+                    <v-text-field name="password" label="Password" id="password" v-model="password" type="password" required></v-text-field>
                   </v-flex>
                 </v-layout>
                 <v-layout row>
@@ -61,35 +49,34 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { httpClient } from "@/axios-service";
-import { User } from "../models/User";
+import Vue from 'vue';
+import { httpClient } from '@/axios-service';
+import { User } from '../models/User';
 export default Vue.extend({
-  name: "Register",
+  name: 'Register',
   data: () => ({
-    error: "",
+    error: '',
     loading: false,
-    displayName: "",
-    username: "",
-    password: "",
+    displayName: '',
+    username: '',
+    password: ',,,',
   }),
   methods: {
     async signUp() {
       this.loading = true;
       try {
-        const authPlayer = (await httpClient.post("Users/register", {
+        const authPlayer = (await httpClient.post('Users/register', {
           name: this.displayName,
           username: this.username,
           password: this.password,
         })).data;
 
-        this.$router.push({ name: "home" });
+        this.$router.push({ name: 'home' });
       } catch (error) {
-        console.log(error.response);
         this.error = error.response.data.message;
       }
       this.loading = false;
-    },
+    }
   },
 });
 </script>

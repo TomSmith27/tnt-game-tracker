@@ -26,9 +26,9 @@
                 .ThenInclude(g => g.PlayerRatings)
                 .Include(p => p.Players);
 
-            var gameSessions = gamePlaySessions.Select(g => new GamePlaySessionDto(g));
+            var gameSessions = gamePlaySessions.Select(g => new GamePlaySessionDto(g)).ToList();
 
-            return this.Ok(gameSessions);
+            return this.Ok(gameSessions.GroupBy(g => g.Date));
         }
 
         [HttpGet("{sessionId:int}")]
