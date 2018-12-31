@@ -72,7 +72,7 @@ export default Vue.extend({
   },
   computed: {
     ourRating(): number {
-      if (this.game) {
+      if (this.game && this.game.playerRatings != null) {
         return this.game.playerRatings.filter(f => f.rating).map(r => r.rating).reduce((a, b) => a + b) / this.game.playerRatings.length;
       }
       return 0;
