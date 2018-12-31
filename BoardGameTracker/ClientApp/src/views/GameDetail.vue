@@ -16,7 +16,7 @@
                 <h4>Our Raitng</h4>
                 <v-btn color="primary" block @click="ratingsPanelOpen = true">{{ourRating | round}}</v-btn>
                 <div class="rating"></div>
-                <v-dialog v-model="ratingsPanelOpen" max-width="60%">
+                <v-dialog v-model="ratingsPanelOpen" max-width="90%">
                   <v-card>
                     <v-card-title>
                       <h4>Ratings</h4>
@@ -31,7 +31,10 @@
                   </v-card>
                 </v-dialog>
               </v-flex>
-
+              <v-flex xs12>
+                <h5>Categories</h5>
+                <v-chip v-for="category in game.categories">{{category.boardGameCategory.name}}</v-chip>
+              </v-flex>
               <!--  <p v-html="game.description"></p> -->
               <!--     {{game}} -->
             </v-flex>

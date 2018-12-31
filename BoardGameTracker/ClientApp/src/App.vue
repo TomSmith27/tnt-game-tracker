@@ -87,3 +87,11 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style>
+@media only screen and (max-width: 959px) {
+  #inspire .container {
+    padding: 5px;
+  }
+}
+</style>
