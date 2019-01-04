@@ -28,12 +28,12 @@ const router = new Router({
 			component: RegisterPage
 		},
 		{
-			path: '/',
+			path: '/search',
 			name: 'home',
 			component: Home
 		},
 		{
-			path: '/games',
+			path: '/',
 			name: 'games',
 			component: GameList
 		},

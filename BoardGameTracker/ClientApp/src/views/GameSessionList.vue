@@ -4,54 +4,48 @@
     <router-link :to="{name : 'game-session-create'}">
       <v-btn color="primary">New</v-btn>
     </router-link>
-
-    <!--   <v-timeline dense>
+    <v-timeline dense>
+      <v-timeline-item :key="gameSession.id" v-for="gameSession in gameSessions" color="primary lighten-1" fill-dot left small>
+        <v-card>
+          <v-card-title class="primary lighten-1">
+            <h2 class="white--text font-weight-light">{{gameSession.key | date}}</h2>
+          </v-card-title>
+          <v-container>
+            <v-layout row wrap>
+              <v-flex xs12>
+                <div class="pa-2 text-xs-left" :key="game.id" v-for="game in gameSession.g">
+                  <img :src="game.game.thumbnail" style="width : 50px">
+                  <router-link :to="{name : 'game-detail', params : { id : game.game.id}}">{{ game.game.name }}</router-link>
+                  <div class="pl-2">
+                    <strong>Players</strong>
+                  </div>
+                  <div class="pl-4" :key="player.player.id" v-for="player in game.game.playerRatings">{{player.player.name}}</div>
+                </div>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-timeline-item>
+    </v-timeline>
+    <!--    <v-timeline dense fill-dot left small>
       <v-timeline-item :key="gameSession.id" v-for="gameSession in gameSessions" small>
-        <div class="py-4">
-          <v-card>
-            <v-img
-              max-height="200px"
-              v-if="gameSession.game.thumbnail"
-              contain
-              :src="gameSession.game.thumbnail"
-              aspect-ratio="1"
-            ></v-img>
-
-            <v-card-title primary-title>
-              <div>
-                <div class="headline">{{gameSession.game.name}}</div>
-                <h3 class="grey--text">{{gameSession.date | bigDate}}</h3>
-              </div>
-            </v-card-title>
-            <v-btn
-              color="success"
-              :to="{name : 'game-session-update', params : { id : gameSession.id}}"
-            >Edit</v-btn>
-            <v-list>
-              <v-list-group v-model="gameSession.show">
-                <v-list-tile slot="activator">
-                  <v-list-tile-content>
-                    <v-list-tile-title>Players : {{gameSession.playerSessionRatings.length}}</v-list-tile-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-
-                <v-list-tile :key="player.id" v-for="player in gameSession.playerSessionRatings">
-                  <v-list-tile-content>
-                    <v-list-tile-title>{{ player.player.name }}</v-list-tile-title>
-                    <v-list-tile-sub-title>
-                      <star-rating v-model="player.rating" :star-size="50" :read-only="true"></star-rating>
-                    </v-list-tile-sub-title>
-                  </v-list-tile-content>
-
-                  <v-list-tile-action>
-        
-                  </v-list-tile-action>
-                </v-list-tile>
-              </v-list-group>
-            </v-list>
-          </v-card>
+        <div>
+          <h2>{{gameSession.key}}</h2>
+          <div :key="game.id" v-for="game in gameSession.g">{{game.game.name}}</div>
         </div>
       </v-timeline-item>
+      <v-card>
+        <v-card-title class="amber lighten-1 justify-end">
+          <h2 class="display-1 mr-3 white--text font-weight-light">Title 2</h2>
+          <v-icon dark size="42">mdi-home-outline</v-icon>
+        </v-card-title>
+        <v-container>
+          <v-layout>
+            <v-flex xs8>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit.</v-flex>
+            <v-flex xs4>Lorem ipsum dolor sit amet, no nam oblique veritus.</v-flex>
+          </v-layout>
+        </v-container>
+      </v-card>
     </v-timeline>-->
   </div>
 </template>
@@ -64,7 +58,7 @@ export default Vue.extend({
   name: "GameSessionList",
   data: () => ({
     gameSessions: [],
-    error: ","
+    error: ""
   }),
   filters: {
     bigDate: (value: string) => {

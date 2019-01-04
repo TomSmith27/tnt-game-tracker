@@ -6,6 +6,9 @@
           <v-layout row wrap>
             <v-flex xs12 md2 lg2>
               <img :src="game.thumbnail">
+              <v-btn block :to="{name : 'game-session-create', params : {gameId : game.id}}" color="primary">
+                <v-icon>play_arrow</v-icon>
+              </v-btn>
             </v-flex>
             <v-flex xs12 md3 lg2>
               <v-flex md12>
@@ -104,7 +107,8 @@ export default Vue.extend({
 <style>
 .rating {
   font-size: 20px;
-  background-color: red;
+  background-color: #424242;
+  color: white;
 }
 
 .description {
