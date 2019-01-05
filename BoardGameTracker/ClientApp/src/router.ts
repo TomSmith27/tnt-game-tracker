@@ -8,6 +8,7 @@ import GameDetail from './views/GameDetail.vue';
 import GameSessionCreate from './views/GameSessionCreate.vue';
 import GameSessionUpdate from './views/GameSessionUpdate.vue';
 import GameSessionList from './views/GameSessionList.vue';
+import GameRatings from './views/GameRatings.vue';
 import store from './store';
 import { User } from './models/User';
 
@@ -59,6 +60,11 @@ const router = new Router({
 			path: '/game-session',
 			name: 'game-sessions',
 			component: GameSessionList
+		},
+		{
+			path: '/game-ratings',
+			name: 'game-ratings',
+			component: GameRatings
 		},
 		{
 			path: '/about',

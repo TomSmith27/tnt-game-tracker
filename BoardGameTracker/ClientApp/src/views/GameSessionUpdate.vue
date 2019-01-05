@@ -47,6 +47,7 @@ export default Vue.extend({
       this.games = (await httpClient.get('games')).data;
       this.players = (await httpClient.get('users')).data;
       const currentGame = await httpClient.get(`game-session/${this.id}`);
+      this.date = currentGame.data.date.substr(0, 10);
       this.selectedGame = currentGame.data.gameId;
       this.selectedPlayers = currentGame.data.players.map((p: any) => p.player);
     } catch (error) { }

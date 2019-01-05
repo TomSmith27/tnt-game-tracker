@@ -50,62 +50,6 @@
           <v-alert slot="no-results" :value="true" color="error" icon="warning">Your search for "{{ search }}" found no results.</v-alert>
         </v-data-table>
       </v-card>
-      <!--   <v-layout row wrap>
-        <v-flex :key="game.objectId" v-for="game in games" xs12 md6>
-          <v-card>
-            <v-layout>
-              <v-flex xs5>
-                <v-img
-                  max-height="200px"
-                  v-if="game.thumbnail"
-                  contain
-                  :src="game.thumbnail"
-                  aspect-ratio="1"
-                ></v-img>
-              </v-flex>
-              <v-flex xs7>
-                <v-card-title primary-title>
-                  <div>
-                    <div class="headline">{{game.name}}</div>
-                    <div>
-                      <span>
-                        <v-icon>people</v-icon>
-                        {{game.minPlayers}} - {{game.maxPlayers}}
-                      </span>
-                    </div>
-                    <div>
-                      <span>
-                        <v-icon>alarm</v-icon>
-                        {{game.minPlaytime}}" - {{game.maxPlaytime}}"
-                      </span>
-                    </div>
-                  </div>
-                </v-card-title>
-              </v-flex>
-            </v-layout>
-            <v-divider light></v-divider>
-            <v-card-actions>
-              <v-btn
-                block
-                :to="{name : 'game-session-create', params : {gameId : game.id}}"
-                color="primary"
-              >
-                <v-icon>play_arrow</v-icon>
-              </v-btn>
-              <v-btn
-                block
-                :href="`https://boardgamegeek.com/boardgame/${game.objectId}`"
-                color="secondary"
-              >
-                <v-icon>link</v-icon>
-              </v-btn>
-              <v-btn block color="error">
-                <v-icon @click="deleteGame(game.id)">delete</v-icon>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-      </v-layout>-->
     </v-container>
   </div>
 </template>
@@ -168,8 +112,7 @@ export default Vue.extend({
           this.games = (await httpClient.get(`games`)).data;
         }
       } catch (error) {
-        console.log(this.timeFilter);
-        // this.error = error;
+
       }
       this.loading = false;
     },

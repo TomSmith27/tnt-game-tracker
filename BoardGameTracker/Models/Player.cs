@@ -10,6 +10,6 @@
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public List<GamePlaySessionPlayer> GamePlaySessions { get; set; }
-        public List<PlayerRating> Ratings { get; set; }
+        public ICollection<PlayerRating> Ratings { get; set; }
     }
 }

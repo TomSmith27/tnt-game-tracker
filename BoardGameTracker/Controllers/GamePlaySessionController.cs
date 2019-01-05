@@ -29,7 +29,7 @@
             var gameSessions = gamePlaySessions.Select(g => new GamePlaySessionDto(g)).ToList().GroupBy(g => g.Date);
 
 
-            return this.Ok(gameSessions.Select(g => new { g.Key, g }));
+            return this.Ok(gameSessions.Select(g => new { g.Key, g }).OrderByDescending(o => o.Key));
         }
 
         [HttpGet("{sessionId:int}")]

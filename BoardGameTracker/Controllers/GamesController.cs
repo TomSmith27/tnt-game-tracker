@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace BoardGameTracker.Controllers
 {
     using BoardGame.Api.Dto;
@@ -68,6 +69,18 @@ namespace BoardGameTracker.Controllers
 
 
             return this.Ok(game);
+        }
+
+        [HttpGet("player-ratings")]
+
+        public IActionResult PlayerRating()
+        {
+            var userId = int.Parse(this.HttpContext.User.Identity.Name);
+            var playerRatings = this.db.Players
+                .Include(s => s.Ratings)
+                .ThenInclude(rating => rating.Game)
+                .Single(p => p.Id == userId);
+            return this.Ok(playerRatings);           
         }
 
 

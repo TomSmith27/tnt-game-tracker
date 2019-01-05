@@ -24,6 +24,14 @@
             <v-list-tile-title>Game Sessions</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile :to="{name : 'game-ratings'}">
+          <v-list-tile-action>
+            <v-icon>contact_mail</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>My Game Ratings</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="primary" dark fixed app>
@@ -57,7 +65,7 @@
       </v-container>
     </v-content>
     <v-footer color="secondary" app>
-      <span class="white--text">&copy; 2017</span>
+      <span class="pl-4 white--text">&copy; 2019</span>
     </v-footer>
   </v-app>
 </template>
