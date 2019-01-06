@@ -28,7 +28,7 @@
                           </v-btn>
                         </div>
                         <div>
-                          <v-chip label outline color="secondary" :key="player.player.id" v-for="player in gameSession.players">{{player.player.name}}</v-chip>
+                          <v-chip label outline color="secondary" :key="player.id" v-for="player in gameSession.players">{{player.name}}</v-chip>
                         </div>
                       </div>
                     </v-card-title>
