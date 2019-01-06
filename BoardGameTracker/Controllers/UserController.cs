@@ -66,6 +66,7 @@
             try
             {
                 var player = playerDto.ToModel();
+                this.
                 // save 
                 userService.Create(player, playerDto.Password);
                 return Ok();

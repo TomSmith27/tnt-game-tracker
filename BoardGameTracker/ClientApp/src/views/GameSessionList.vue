@@ -4,6 +4,7 @@
     <router-link :to="{name : 'game-session-create'}">
       <v-btn color="primary">New</v-btn>
     </router-link>
+    <v-progress-circular v-if="isLoading" :size="50" color="primary" indeterminate></v-progress-circular>
     <v-timeline dense>
       <v-timeline-item :key="gameSessionGroup.id" v-for="gameSessionGroup in gameSessionGroups" color="primary lighten-1" fill-dot left small>
         <v-card>
@@ -50,7 +51,8 @@ export default Vue.extend({
   name: "GameSessionList",
   data: () => ({
     gameSessionGroups: [],
-    error: ""
+    error: "",
+    isLoading: false
   }),
   filters: {
     bigDate: (value: string) => {
@@ -58,11 +60,13 @@ export default Vue.extend({
     }
   },
   created() {
+    this.isLoading = true;
     httpClient.get("game-session").then(response => {
       response.data.forEach((element: any) => {
         element.show = false;
       });
       this.gameSessionGroups = response.data;
+      this.isLoading = false;
     });
   }
 });

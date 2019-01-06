@@ -1,13 +1,6 @@
 <template>
   <div>
-    <v-text-field
-      v-model="search"
-      append-icon="search"
-      solo
-      single-line
-      placeholder="Search..."
-      v-on:keyup.enter="fastSearch"
-    ></v-text-field>
+    <v-text-field v-model="search" append-icon="search" solo single-line placeholder="Search..." v-on:keyup.enter="fastSearch"></v-text-field>
     <v-progress-circular v-if="searching" :size="50" color="primary" indeterminate></v-progress-circular>
     <v-alert :value="searchError" type="error">{{searchError}}</v-alert>
     <v-container grid-list-md text-xs-center>
@@ -31,12 +24,7 @@
               </v-list-tile>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                v-if="!game.imported"
-                block
-                color="primary"
-                @click="importGame(game.objectId)"
-              >Import</v-btn>
+              <v-btn v-if="!game.imported" block color="primary" @click="importGame(game.objectId)">Import</v-btn>
               <v-btn v-else block color="secondary" @click="importGame(game.objectId)">ReImport</v-btn>
             </v-card-actions>
           </v-card>
@@ -63,7 +51,7 @@ export default Vue.extend({
     boardGames: [],
   }),
   methods: {
-    slowSearch: _.debounce(async function(this: any) {
+    slowSearch: _.debounce(async function (this: any) {
       this.fastSearch();
     }, 2000),
     async fastSearch() {
@@ -89,7 +77,7 @@ export default Vue.extend({
           objectid,
         })
         .then(response => {
-          router.push('games');
+          router.push({ name: 'games' });
         });
     },
   },

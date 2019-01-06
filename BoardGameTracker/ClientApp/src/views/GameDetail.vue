@@ -12,11 +12,11 @@
             </v-flex>
             <v-flex xs12 md3 lg2>
               <v-flex md12>
-                <h4>Bgg Raitng</h4>
+                <h4>Bgg Rating</h4>
                 <div class="rating">{{game.averageRating | round}}</div>
               </v-flex>
               <v-flex md12>
-                <h4>Our Raitng</h4>
+                <h4>Our Rating</h4>
                 <v-btn color="primary" block @click="ratingsPanelOpen = true">{{ourRating | round}}</v-btn>
                 <div class="rating"></div>
                 <v-dialog v-model="ratingsPanelOpen" max-width="90%">

@@ -28,7 +28,7 @@
               <td class="pa-0 text-xs-left" v-if="props.item.lastPlayed">{{ props.item.lastPlayed | date }}</td>
               <td class="pa-0 text-xs-left" v-else>Never</td>
               <td class="pa-0 text-xs-left">{{ props.item.averageRating | round }}</td>
-              <td class="pa-0 text-xs-left">{{ props.item.playersAverageRating }}</td>
+              <td class="pa-0 text-xs-left">{{ props.item.playersAverageRating |round }}</td>
               <td class="pa-0 text-xs-left"></td>
             </tr>
           </template>

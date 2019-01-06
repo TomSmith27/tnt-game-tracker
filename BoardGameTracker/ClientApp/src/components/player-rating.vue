@@ -5,7 +5,13 @@
     </v-flex>
     <v-flex xs8>
       <v-select :readonly="playerRating.player.id != currentPlayerId" v-model="playerRating.rating" class="hidden-md-and-up" :items="[1, 2, 3, 4 , 5, 6, 7, 8, 9, 10]" label="Rating"></v-select>
-      <v-rating class="hidden-sm-and-down" :large="playerRating.player.id === currentPlayerId" :readonly="playerRating.player.id != currentPlayerId" :length="10" v-model="playerRating.rating"></v-rating>
+      <v-rating
+        class="hidden-sm-and-down"
+        :color="playerRating.player.id === currentPlayerId ? 'warning' : 'primary'"
+        :readonly="playerRating.player.id != currentPlayerId"
+        :length="10"
+        v-model="playerRating.rating"
+      ></v-rating>
     </v-flex>
   </v-layout>
 </template>
