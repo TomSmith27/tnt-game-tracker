@@ -25,7 +25,8 @@
                           <router-link :to="{name : 'game-detail', params : { id : gameSession.game.id}}">{{ gameSession.game.name }}</router-link>
                         </div>
                         <div>
-                          <v-chip label outline color="secondary" :key="player.id" v-for="player in gameSession.players">
+                          <v-chip outline label :key="player.id" v-for="player in gameSession.players">
+                            <v-avatar tile class="white--text" :color="player.colour">{{player.name.charAt(0).toUpperCase()}}</v-avatar>
                             <router-link :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</router-link>
                           </v-chip>
                         </div>

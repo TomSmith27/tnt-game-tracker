@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12>
-      <h1>Player Profile</h1>
+      <h1 :style="{ color : player.colour}">Player Profile</h1>
     </v-flex>
     <v-alert :value="error" type="error">{{error}}</v-alert>
     <v-container grid-list-md text-xs-center>
@@ -13,6 +13,11 @@
                 <h3 class="headline mb-0">{{player.name}}</h3>
               </div>
             </v-card-title>
+            <v-card-actions v-if="user.id == id">
+              <v-btn :to="{name : 'player-edit', params : {id : id}}" color="primary">
+                <v-icon>edit</v-icon>
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-flex>
         <v-flex xs12 md6>
@@ -107,6 +112,11 @@ export default Vue.extend({
     }
     catch (e) {
       this.error = e;
+    }
+  },
+  computed: {
+    user(): any {
+      return this.$store.state.user;
     }
   }
 })

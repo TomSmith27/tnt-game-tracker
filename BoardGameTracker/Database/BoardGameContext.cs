@@ -30,42 +30,46 @@ namespace BoardGameTracker.Database
 
             modelBuilder.Entity<PlayerRating>().HasKey(p => new { p.GameId, p.PlayerId });
 
-            modelBuilder.Entity<BoardGameEntry>().HasData(new BoardGameEntry()
-            {
-                Id = 1,
-                Name = "Azul"
-            });
-
-            modelBuilder.Entity<GamePlaySession>().HasData(new GamePlaySession()
-            {
-                Id = 1,
-                Date = DateTimeOffset.Now,
-            });
-
-            modelBuilder.Entity<PlayerRating>().HasData(
-                new PlayerRating()
-                {
-                    GameId = 1,
-                    PlayerId = 1,
-                    Rating = 4,
-                }
-            );
-            Player adminAccount;
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                adminAccount = new Player()
-                {
-                    Id = 1,
-                    Name = "Admin",
-                    Username = "admin",
-                    PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes("password")),
-                    PasswordSalt = hmac.Key
-                };
-
-
-                modelBuilder.Entity<Player>().HasData(adminAccount);
-
-            }
+            modelBuilder.Entity<Player>()
+          .Property("colour");
         }
+
+        //    modelBuilder.Entity<BoardGameEntry>().HasData(new BoardGameEntry()
+        //    {
+        //        Id = 1,
+        //        Name = "Azul"
+        //    });
+
+        //    modelBuilder.Entity<GamePlaySession>().HasData(new GamePlaySession()
+        //    {
+        //        Id = 1,
+        //        Date = DateTimeOffset.Now,
+        //    });
+
+        //    modelBuilder.Entity<PlayerRating>().HasData(
+        //        new PlayerRating()
+        //        {
+        //            GameId = 1,
+        //            PlayerId = 1,
+        //            Rating = 4,
+        //        }
+        //    );
+        //    Player adminAccount;
+        //    using (var hmac = new System.Security.Cryptography.HMACSHA512())
+        //    {
+        //        adminAccount = new Player()
+        //        {
+        //            Id = 1,
+        //            Name = "Admin",
+        //            Username = "admin",
+        //            PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes("password")),
+        //            PasswordSalt = hmac.Key
+        //        };
+
+
+        //        modelBuilder.Entity<Player>().HasData(adminAccount);
+
+        //    }
+        //}
     }
 }

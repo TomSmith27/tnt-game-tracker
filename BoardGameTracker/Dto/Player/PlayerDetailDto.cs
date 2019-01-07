@@ -1,4 +1,5 @@
 ﻿using BoardGameTracker.Models;
+using System.Drawing;
 using System.Linq;
 
 namespace BoardGameTracker.Dto
@@ -9,6 +10,7 @@ namespace BoardGameTracker.Dto
         {
             this.Id = player.Id;
             this.Name = player.Name;
+            this.Colour = "#" + player.Colour.R.ToString("X2") + player.Colour.G.ToString("X2") + player.Colour.B.ToString("X2");
             var gamesPlayed = player.GamePlaySessions.Select(g => g.GamePlaySession.GameId);
             this.TotalGamesPlayed = gamesPlayed.Count();
             this.UniqueGamesPlayed = gamesPlayed.Distinct().Count();
@@ -41,5 +43,6 @@ namespace BoardGameTracker.Dto
         public BoardGamePlayerRatingInfoDto LowestRatedGame { get; }
         public BoardGamePlayerPlaysInfoDto MostPlayedGame { get; }
         public BoardGamePlayerPlaysInfoDto LeastPlayedGame { get; }
+        public string Colour { get; }
     }
 }

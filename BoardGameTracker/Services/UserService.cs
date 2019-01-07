@@ -93,6 +93,7 @@
             // update player properties
             player.Name= userParam.Name;
             player.Username = userParam.Username;
+            player.Colour = userParam.Colour;
 
             // update password if it was entered
             if (!string.IsNullOrWhiteSpace(password))

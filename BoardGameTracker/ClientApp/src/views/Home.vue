@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-text-field v-model="search" append-icon="search" solo single-line placeholder="Search..." v-on:keyup.enter="fastSearch"></v-text-field>
+    <v-text-field v-model="search" append-icon="search" solo single-line placeholder="Search..." v-on:keyup.enter="fastSearch" ref="search"></v-text-field>
     <v-progress-circular v-if="searching" :size="50" color="primary" indeterminate></v-progress-circular>
     <v-alert :value="searchError" type="error">{{searchError}}</v-alert>
     <v-container grid-list-md text-xs-center>
@@ -30,6 +30,7 @@
           </v-card>
         </v-flex>
       </v-layout>
+      <v-alert :value="boardGames.length === 0 && lastSearch != ''" type="error">No search results for {{lastSearch}}</v-alert>
     </v-container>
   </div>
 </template>
@@ -55,6 +56,7 @@ export default Vue.extend({
       this.fastSearch();
     }, 2000),
     async fastSearch() {
+      (this.$refs.search as HTMLElement).blur();
       if (this.lastSearch !== this.search) {
         this.lastSearch = this.search;
         this.searching = true;

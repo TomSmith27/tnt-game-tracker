@@ -10,6 +10,7 @@ import GameSessionUpdate from './views/GameSessionUpdate.vue';
 import GameSessionList from './views/GameSessionList.vue';
 import GameRatings from './views/GameRatings.vue';
 import PlayerProfile from './views/PlayerProfile.vue';
+import PlayerEdit from './views/PlayerEdit.vue';
 import store from './store';
 import { User } from './models/User';
 
@@ -71,6 +72,12 @@ const router = new Router({
 			path: '/player/:id',
 			name: 'player-profile',
 			component: PlayerProfile,
+			props: true
+		},
+		{
+			path: '/player/edit/:id',
+			name: 'player-edit',
+			component: PlayerEdit,
 			props: true
 		},
 		{
