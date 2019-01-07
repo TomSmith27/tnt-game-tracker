@@ -9,6 +9,7 @@ import GameSessionCreate from './views/GameSessionCreate.vue';
 import GameSessionUpdate from './views/GameSessionUpdate.vue';
 import GameSessionList from './views/GameSessionList.vue';
 import GameRatings from './views/GameRatings.vue';
+import PlayerProfile from './views/PlayerProfile.vue';
 import store from './store';
 import { User } from './models/User';
 
@@ -65,6 +66,12 @@ const router = new Router({
 			path: '/game-ratings',
 			name: 'game-ratings',
 			component: GameRatings
+		},
+		{
+			path: '/player/:id',
+			name: 'player-profile',
+			component: PlayerProfile,
+			props: true
 		},
 		{
 			path: '/about',

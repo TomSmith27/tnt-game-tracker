@@ -18,20 +18,24 @@
                   <v-flex xs2>
                     <v-img :src="gameSession.game.thumbnail" height="100px" contain></v-img>
                   </v-flex>
-                  <v-flex xs10>
+                  <v-flex xs9>
                     <v-card-title primary-title>
                       <div>
                         <div class="headline">
                           <router-link :to="{name : 'game-detail', params : { id : gameSession.game.id}}">{{ gameSession.game.name }}</router-link>
-                          <v-btn :to="{name : 'game-session-update', params : { id : gameSession.id}}" color="secondary">
-                            <v-icon>edit</v-icon>
-                          </v-btn>
                         </div>
                         <div>
-                          <v-chip label outline color="secondary" :key="player.id" v-for="player in gameSession.players">{{player.name}}</v-chip>
+                          <v-chip label outline color="secondary" :key="player.id" v-for="player in gameSession.players">
+                            <router-link :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</router-link>
+                          </v-chip>
                         </div>
                       </div>
                     </v-card-title>
+                  </v-flex>
+                  <v-flex xs1>
+                    <v-btn fab small :to="{name : 'game-session-update', params : { id : gameSession.id}}" color="secondary">
+                      <v-icon>edit</v-icon>
+                    </v-btn>
                   </v-flex>
                 </v-layout>
               </v-flex>

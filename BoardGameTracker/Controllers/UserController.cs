@@ -3,14 +3,17 @@
     using System;
     using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
     using System.Security.Claims;
     using System.Text;
+    using BoardGameTracker.Database;
     using BoardGameTracker.Dto;
     using BoardGameTracker.Services;
     using BoardGameTracker.Settings;
     using Exceptions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using Services;
@@ -20,13 +23,16 @@
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
+        private readonly BoardGameContext db;
         private IUserService userService;
         private readonly AppSettings appSettings;
 
         public UsersController(
+            BoardGameContext db,
             IUserService userService,
             IOptions<AppSettings> appSettings)
         {
+            this.db = db;
             this.userService = userService;
             this.appSettings = appSettings.Value;
         }
@@ -86,10 +92,18 @@
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult Get(int id)
         {
-            var user = userService.GetById(id);
-            return Ok(user);
+            var player = this.db.Players
+                .Include(p => p.GamePlaySessions)
+                .ThenInclude(s => s.GamePlaySession)
+                .ThenInclude(g => g.Game)
+                .Include(p => p.Ratings)
+                .ThenInclude(g => g.Game)
+
+                .SingleOrDefault(p => p.Id == id);
+            
+            return Ok(new PlayerDetailDto(player));
         }
 
         [HttpPut("{id}")]

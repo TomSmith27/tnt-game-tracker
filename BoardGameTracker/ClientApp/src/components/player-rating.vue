@@ -37,6 +37,7 @@ export default Vue.extend({
     currentPlayerId(): number {
       return this.$store.state.user.id;
     }
+
   },
   watch: {
     'playerRating.rating'() {

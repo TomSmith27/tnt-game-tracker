@@ -40,10 +40,14 @@
       <v-spacer></v-spacer>
       <v-menu offset-y="offset-y" v-if="loggedIn">
         <v-btn flat="flat" slot="activator" small="small">
-          {{userName}}
+          {{user.name}}
           <v-icon>keyboard_arrow_down</v-icon>
         </v-btn>
         <v-list>
+          <v-list-tile :to="{name : 'player-profile', params : {id : user.id}}">
+            <v-icon class="mr-2">person</v-icon>
+            <v-list-tile-title>Profile</v-list-tile-title>
+          </v-list-tile>
           <v-list-tile @click="logout">
             <v-icon class="mr-2">exit_to_app</v-icon>
             <v-list-tile-title>Logout</v-list-tile-title>
@@ -86,8 +90,8 @@ export default Vue.extend({
     },
   },
   computed: {
-    userName(): string {
-      return this.$store.state.user.name;
+    user(): any {
+      return this.$store.state.user;
     },
     loggedIn(): boolean {
       return this.$store.getters.loggedIn;
