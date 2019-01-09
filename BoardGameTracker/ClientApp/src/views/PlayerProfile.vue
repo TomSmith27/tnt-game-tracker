@@ -20,7 +20,7 @@
             </v-card-actions>
           </v-card>
         </v-flex>
-        <v-flex xs12 md6>
+        <v-flex xs12 md4>
           <v-card>
             <v-card-title primary-title>
               <div>
@@ -30,16 +30,27 @@
             </v-card-title>
           </v-card>
         </v-flex>
-        <v-flex xs12 md6>
+        <v-flex xs12 md4>
           <v-card>
             <v-card-title primary-title>
               <div>
-                <h4 class="mb-0">Unique Games Played</h4>
-                <div class="headline">{{player.uniqueGamesPlayed}}</div>
+                <h4 class="mb-0">Total Games Played</h4>
+                <div class="headline">{{player.totalGamesPlayed}}</div>
               </div>
             </v-card-title>
           </v-card>
         </v-flex>
+        <v-flex xs12 md4>
+          <v-card>
+            <v-card-title primary-title>
+              <div>
+                <h4 class="mb-0">Average Rating</h4>
+                <div class="headline">{{player.averageRating}}</div>
+              </div>
+            </v-card-title>
+          </v-card>
+        </v-flex>
+
         <v-flex xs6 md3>
           <v-card>
             <v-img v-if="player.mostPlayedGame" :src="player.mostPlayedGame.image" contain height="200px" aspect-ratio="1"></v-img>
@@ -64,26 +75,52 @@
             </v-card-title>
           </v-card>
         </v-flex>
-        <v-flex xs6 md3>
+        <v-flex xs12 md3>
           <v-card>
-            <v-img v-if="player.highestRatedGame" :src="player.highestRatedGame.image" contain height="200px" aspect-ratio="1"></v-img>
             <v-card-title primary-title>
               <div>
-                <h3 class="headline mb-0">Hightest Rated Game</h3>
-                <span v-if="player.highestRatedGame">Rating : {{player.highestRatedGame.rating}}</span>
-                <span v-else>None</span>
+                <h3 class="headline mb-0">Highest Rated Games</h3>
+                <v-list>
+                  <v-list-tile v-for="r in player.highestRatedGames" :key="r.title" avatar>
+                    <v-list-tile-avatar tile>
+                      <img :src="r.thumbnail">
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                      <v-list-tile-title>{{r.name}}</v-list-tile-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>{{r.rating}}</v-list-tile-action>
+                  </v-list-tile>
+                </v-list>
               </div>
             </v-card-title>
           </v-card>
         </v-flex>
-        <v-flex xs6 md3>
+        <v-flex xs12 md3>
           <v-card>
-            <v-img v-if="player.lowestRatedGame" :src="player.lowestRatedGame.image" contain height="200px" aspect-ratio="1"></v-img>
             <v-card-title primary-title>
               <div>
-                <h3 class="headline mb-0">Lowest Rated Game</h3>
-                <span v-if="player.lowestRatedGame">Rating : {{player.lowestRatedGame.rating}}</span>
-                <span v-else>None</span>
+                <h3 class="headline mb-0">Lowest Rated Games</h3>
+                <v-list>
+                  <v-list-tile v-for="r in player.lowestRatedGames" :key="r.title" avatar>
+                    <v-list-tile-avatar tile>
+                      <img :src="r.thumbnail">
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                      <v-list-tile-title>{{r.name}}</v-list-tile-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>{{r.rating}}</v-list-tile-action>
+                  </v-list-tile>
+                </v-list>
+              </div>
+            </v-card-title>
+          </v-card>
+        </v-flex>
+        <v-flex xs12 md3>
+          <v-card>
+            <v-card-title primary-title>
+              <div>
+                <h4 class="mb-0">Rating Distribution</h4>
+                <apexchart type="bar" :options="chartOptions" :series="ratingsDistribution"/>
               </div>
             </v-card-title>
           </v-card>
@@ -96,15 +133,39 @@
 <script lang="ts">
 import Vue from 'vue'
 import { httpClient } from '../axios-service'
+import { Player } from '../models/Player'
 export default Vue.extend({
+  components: {
+  },
   props: {
     id: {
       type: Number,
     },
   },
   data: () => ({
-    player: {},
-    error: ''
+    player: {} as Player,
+    error: '',
+    series: [{
+      name: 'Ratings',
+      data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+    },],
+    chartOptions: {
+      plotOptions: {
+        bar: {
+          horizontal: false,
+        },
+      },
+      stroke: {
+        show: true,
+        colors: ['transparent']
+      },
+
+      xaxis: {
+        categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+      },
+
+    }
+
   }),
   async created() {
     try {
@@ -117,6 +178,17 @@ export default Vue.extend({
   computed: {
     user(): any {
       return this.$store.state.user;
+    },
+    ratingsDistribution(): any {
+      if (this.player.ratingsDistribution == undefined) {
+        return [{ name: 'ratings', data: [] }]
+      }
+      else {
+        return [{
+          name: 'Ratings',
+          data: Object.values(this.player.ratingsDistribution)
+        }]
+      }
     }
   }
 })

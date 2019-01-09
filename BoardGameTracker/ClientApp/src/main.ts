@@ -6,7 +6,9 @@ import store from './store';
 import StarRating from 'vue-star-rating';
 import moment from 'moment';
 import _ from 'lodash';
+import VueApexCharts from 'vue-apexcharts';
 Vue.config.productionTip = false;
+//Vue.use(VueApexCharts);
 
 Vue.component('star-rating', StarRating);
 
@@ -18,6 +20,7 @@ Vue.filter('round', (value: string) => {
 	return _.round(Number.parseFloat(value), 2);
 });
 
+Vue.component('apexchart', VueApexCharts);
 new Vue({
 	router,
 	store,

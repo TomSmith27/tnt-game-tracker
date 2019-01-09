@@ -29,7 +29,17 @@
               <td class="pa-0 text-xs-left" v-else>Never</td>
               <td class="pa-0 text-xs-left">{{ props.item.averageRating | round }}</td>
               <td class="pa-0 text-xs-left">{{ props.item.playersAverageRating |round }}</td>
-              <td class="pa-0 text-xs-left"></td>
+              <td class="pa-0 text-xs-left">
+                <span v-if="props.item.difference == null"></span>
+                <v-btn flat v-else-if="props.item.difference < 0" color="red">
+                  <v-icon left>arrow_downward</v-icon>
+                  {{props.item.difference | round}}
+                </v-btn>
+                <v-btn flat v-else color="green">
+                  <v-icon left>add</v-icon>
+                  {{props.item.difference | round}}
+                </v-btn>
+              </td>
             </tr>
           </template>
           <template slot="expand" slot-scope="props">
@@ -76,9 +86,9 @@ export default Vue.extend({
       { text: "Name", value: "name" },
       { text: "Times Played", value: "timesPlayed" },
       { text: "Last Played", value: "lastPlayed" },
-      { text: "Bgg Rating", value: "averageRating" },
+      { text: "BGG Rating", value: "averageRating" },
       { text: "Player Rating", value: 'playersAverageRating' },
-      { text: "", value: "", sortable: false }
+      { text: "Difference", value: "Difference" }
     ]
   }),
   created() {
