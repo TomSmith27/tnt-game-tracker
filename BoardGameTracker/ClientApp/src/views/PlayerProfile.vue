@@ -34,8 +34,8 @@
           <v-card>
             <v-card-title primary-title>
               <div>
-                <h4 class="mb-0">Total Games Played</h4>
-                <div class="headline">{{player.totalGamesPlayed}}</div>
+                <h4 class="mb-0">Unique Games Played</h4>
+                <div class="headline">{{player.uniqueGamesPlayed}}</div>
               </div>
             </v-card-title>
           </v-card>
