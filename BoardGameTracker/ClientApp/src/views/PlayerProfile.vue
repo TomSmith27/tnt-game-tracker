@@ -50,6 +50,25 @@
             </v-card-title>
           </v-card>
         </v-flex>
+        <v-flex xs12 md4>
+          <v-card>
+            <v-card-title primary-title>
+              <div>
+                <h4 class="mb-0">Average Difference To BGG</h4>
+                <div class="headline">
+                  <v-btn flat v-if="player.averageDifferenceToBGG <= 0" color="red">
+                    <v-icon left>arrow_downward</v-icon>
+                    {{player.averageDifferenceToBGG | round}}
+                  </v-btn>
+                  <v-btn flat v-else color="green">
+                    <v-icon left>add</v-icon>
+                    {{player.averageDifferenceToBGG | round}}
+                  </v-btn>
+                </div>
+              </div>
+            </v-card-title>
+          </v-card>
+        </v-flex>
 
         <v-flex xs6 md3>
           <v-card>

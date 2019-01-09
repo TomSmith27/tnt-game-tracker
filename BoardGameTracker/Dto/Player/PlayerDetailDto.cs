@@ -13,6 +13,8 @@ namespace BoardGameTracker.Dto
             this.Name = player.Name;
             this.Colour = "#" + player.Colour.R.ToString("X2") + player.Colour.G.ToString("X2") + player.Colour.B.ToString("X2");
             this.AverageRating = player.Ratings.Where(r => r.Rating.HasValue).Average(a => a.Rating.Value);
+            this.AverageDifferenceToBGG = player.Ratings.Where(r => r.Rating.HasValue).Average(r => r.Rating.Value - r.Game.AverageRating);
+
             var ratingsDistributionGrouped =  player.Ratings.Where(r => r.Rating.HasValue).Select(r => r.Rating.Value).GroupBy(g => g);
             var ratingsDistribution = Enumerable.Range(1, 10).Select((i) => new { i }).ToDictionary(x => x.i, x => 0);
             foreach (var rating in ratingsDistributionGrouped)
@@ -59,5 +61,6 @@ namespace BoardGameTracker.Dto
         public double AverageRating { get; }
         public string Colour { get; }
         public Dictionary<int, int> RatingsDistribution { get; }
+        public double AverageDifferenceToBGG { get; }
     }
 }
