@@ -87,7 +87,7 @@
         [HttpGet]
         public IActionResult GetAll()
         {
-            var users = userService.GetAll();
+            var users = userService.GetAll().Select(p => new PlayerDto(p));
             return Ok(users);
         }
 

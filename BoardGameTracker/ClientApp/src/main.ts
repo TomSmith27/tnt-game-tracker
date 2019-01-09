@@ -10,6 +10,8 @@ import VueApexCharts from 'vue-apexcharts';
 Vue.config.productionTip = false;
 //Vue.use(VueApexCharts);
 
+import 'vue-swatches/dist/vue-swatches.min.css';
+
 Vue.component('star-rating', StarRating);
 
 Vue.filter('date', (value: string) => {
