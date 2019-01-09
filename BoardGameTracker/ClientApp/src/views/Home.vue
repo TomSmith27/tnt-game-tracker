@@ -1,6 +1,13 @@
 <template>
   <div>
-    <v-text-field v-model="search" append-icon="search" solo single-line placeholder="Search..." v-on:keyup.enter="fastSearch" ref="search"></v-text-field>
+    <v-layout row wrap>
+      <v-flex md11>
+        <v-text-field v-model="search" append-icon="search" solo single-line placeholder="Search..." v-on:keyup.enter="fastSearch" ref="search"></v-text-field>
+      </v-flex>
+      <v-flex md1>
+        <v-checkbox class="pl-4" label="Exact?" v-model="exact"></v-checkbox>
+      </v-flex>
+    </v-layout>
     <v-progress-circular v-if="searching" :size="50" color="primary" indeterminate></v-progress-circular>
     <v-alert :value="searchError" type="error">{{searchError}}</v-alert>
     <v-container grid-list-md text-xs-center>
@@ -30,7 +37,7 @@
           </v-card>
         </v-flex>
       </v-layout>
-      <v-alert :value="boardGames.length === 0 && lastSearch != ''" type="error">No search results for {{lastSearch}}</v-alert>
+      <v-alert :value="boardGames.length === 0 && lastSearch != '' && !searching" type="error">No search results for {{lastSearch}}</v-alert>
     </v-container>
   </div>
 </template>
@@ -46,9 +53,11 @@ export default Vue.extend({
   components: {},
   data: () => ({
     search: '',
+    exact: false,
     searching: false,
     searchError: '',
     lastSearch: '',
+    lastExact: false,
     boardGames: [],
   }),
   methods: {
@@ -57,12 +66,13 @@ export default Vue.extend({
     }, 2000),
     async fastSearch() {
       (this.$refs.search as HTMLElement).blur();
-      if (this.lastSearch !== this.search) {
+      if (this.lastSearch !== this.search || this.lastExact !== this.exact) {
         this.lastSearch = this.search;
+        this.lastExact = this.exact;
         this.searching = true;
         try {
           const result = await httpClient.get(
-            `games/search-import?search=${this.search}`,
+            `games/search-import?search=${this.search}&exact=${this.exact}`,
           );
           this.boardGames = result.data;
         } catch (e) {
@@ -87,6 +97,13 @@ export default Vue.extend({
     async search() {
       if (this.search.length > 2) {
         this.slowSearch();
+      }
+    },
+    async exact() {
+      console.log('a')
+      if (this.search.length > 2) {
+        console.log('b')
+        this.fastSearch();
       }
     },
   },

@@ -10,7 +10,7 @@
           <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
         </v-flex>
       </v-layout>
-      <v-data-table :loading="loading" :pagination.sync="pagination" :headers="headers" :items="ratingsFiltered" :search="search">
+      <v-data-table :loading="loading" :pagination.sync="pagination" :headers="headers" :items="ratingsFiltered" :search="search" :item-key="'game.id'">
         <template slot="items" slot-scope="props">
           <tr>
             <td>

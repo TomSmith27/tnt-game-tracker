@@ -4,11 +4,11 @@
       <strong>{{playerRating.player.name}}:</strong>
     </v-flex>
     <v-flex xs8>
-      <v-select :readonly="playerRating.player.id != currentPlayerId" v-model="playerRating.rating" class="hidden-md-and-up" :items="[1, 2, 3, 4 , 5, 6, 7, 8, 9, 10]" label="Rating"></v-select>
+      <v-select :readonly="playerRating.player.id != currentPlayer.id" v-model="playerRating.rating" class="hidden-md-and-up" :items="[1, 2, 3, 4 , 5, 6, 7, 8, 9, 10]" label="Rating"></v-select>
       <v-rating
         class="hidden-sm-and-down"
-        :color="playerRating.player.id === currentPlayerId ? 'warning' : 'primary'"
-        :readonly="playerRating.player.id != currentPlayerId"
+        :color="playerRating.player.id === currentPlayer.id ? 'warning' : 'primary'"
+        :readonly="playerRating.player.id != currentPlayer.id && !currentPlayer.isAdmin"
         :length="10"
         v-model="playerRating.rating"
       ></v-rating>
@@ -34,8 +34,8 @@ export default Vue.extend({
     }
   },
   computed: {
-    currentPlayerId(): number {
-      return this.$store.state.user.id;
+    currentPlayer(): number {
+      return this.$store.state.user;
     }
 
   },

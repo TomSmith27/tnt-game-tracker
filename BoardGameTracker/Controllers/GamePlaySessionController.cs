@@ -95,6 +95,16 @@
             session.Players = sessionUpdate.Players;
             session.GameId = sessionUpdate.GameId;
             session.Date = sessionUpdate.Date;
+            foreach (var player in session.Players)
+            {
+                if (!session.Game.PlayerRatings.Any(p => p.PlayerId == player.PlayerId))
+                {
+                    session.Game.PlayerRatings.Add(new Models.PlayerRating()
+                    {
+                        PlayerId = player.PlayerId
+                    });
+                }
+            }
             db.SaveChanges();
 
             return this.Ok(session.Id);
