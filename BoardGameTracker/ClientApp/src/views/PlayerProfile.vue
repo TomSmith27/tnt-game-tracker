@@ -45,7 +45,7 @@
             <v-card-title primary-title>
               <div>
                 <h4 class="mb-0">Average Rating</h4>
-                <div class="headline">{{player.averageRating}}</div>
+                <div class="headline">{{player.averageRating | round}}</div>
               </div>
             </v-card-title>
           </v-card>
