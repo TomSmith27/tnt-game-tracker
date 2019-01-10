@@ -164,10 +164,6 @@ export default Vue.extend({
   data: () => ({
     player: {} as Player,
     error: '',
-    series: [{
-      name: 'Ratings',
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-    },],
     chartOptions: {
       plotOptions: {
         bar: {

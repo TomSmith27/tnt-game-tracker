@@ -83,7 +83,7 @@
             if (player == null)
                 throw new AppException("Player not found");
 
-            if (userParam.Username != player.Username)
+            if (userParam.Username != player.Username && userParam.Username != null)
             {
                 // username has changed so check if the new username is already taken
                 if (this.db.Players.Any(x => x.Username == userParam.Username))
@@ -92,7 +92,10 @@
 
             // update player properties
             player.Name= userParam.Name;
-            player.Username = userParam.Username;
+            if (userParam.Username != null)
+            {
+                player.Username = userParam.Username;
+            }
             player.Colour = userParam.Colour;
 
             // update password if it was entered
