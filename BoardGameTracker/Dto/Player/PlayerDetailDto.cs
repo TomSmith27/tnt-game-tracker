@@ -1,4 +1,5 @@
 ﻿using BoardGameTracker.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace BoardGameTracker.Dto
             this.Name = player.Name;
             this.Colour = "#" + player.Colour.R.ToString("X2") + player.Colour.G.ToString("X2") + player.Colour.B.ToString("X2");
             this.AverageRating = player.Ratings.Where(r => r.Rating.HasValue).Average(a => a.Rating.Value);
-            this.AverageDifferenceToBGG = player.Ratings.Where(r => r.Rating.HasValue).Average(r => r.Rating.Value - r.Game.AverageRating);
+            this.AverageDifferenceToBGG = player.Ratings.Where(r => r.Rating.HasValue).Average(r => r.Rating.Value - Math.Round(r.Game.AverageRating, 0));
 
             var ratingsDistributionGrouped =  player.Ratings.Where(r => r.Rating.HasValue).Select(r => r.Rating.Value).GroupBy(g => g);
             var ratingsDistribution = Enumerable.Range(1, 10).Select((i) => new { i }).ToDictionary(x => x.i, x => 0);
