@@ -83,6 +83,15 @@ namespace BoardGameTracker.Controllers
             return this.Ok(playerRatings);           
         }
 
+        [HttpGet("player-unrated-games")]
+
+        public IActionResult PlayerUnratedGamesCount()
+        {
+            var userId = int.Parse(this.HttpContext.User.Identity.Name);
+            var unratedGames = this.db.Players.Where(p => p.Id == userId).Select(p => p.Ratings.Count(r => !r.Rating.HasValue)).Sum();
+            return this.Ok(unratedGames);
+        }
+
 
         [HttpPost("")]
         public async Task<IActionResult> Create(BgObject bgObject)
