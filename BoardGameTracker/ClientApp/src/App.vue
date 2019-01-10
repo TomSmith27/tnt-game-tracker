@@ -115,7 +115,14 @@ export default Vue.extend({
     },
   },
   async created() {
-    this.unratedGamesCount = (await httpClient.get(`games/player-unrated-games`)).data
+    try {
+      if (this.loggedIn) {
+        this.unratedGamesCount = (await httpClient.get(`games/player-unrated-games`)).data
+      }
+    }
+    catch (e) {
+
+    }
   },
   computed: {
     user(): any {
