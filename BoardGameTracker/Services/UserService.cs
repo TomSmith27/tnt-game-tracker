@@ -91,8 +91,8 @@
             }
 
             // update player properties
-            player.Name= userParam.Name;
-            if (userParam.Username != null)
+            player.Name = userParam.Name;
+            if (!string.IsNullOrWhiteSpace(userParam.Username))
             {
                 player.Username = userParam.Username;
             }
