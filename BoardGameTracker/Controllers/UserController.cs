@@ -87,7 +87,9 @@
         [HttpGet]
         public IActionResult GetAll()
         {
-            var users = userService.GetAll().Select(p => new PlayerDto(p));
+            var users = this.db.Players
+                .Include(p => p.GamePlaySessions)
+                .Include(p => p.Ratings).Select(p => new PlayerStatsDto(p));
             return Ok(users);
         }
 

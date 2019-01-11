@@ -1,5 +1,7 @@
-﻿namespace BoardGameTracker.Dto{
+﻿namespace BoardGameTracker.Dto
+{
     using BoardGameTracker.Models;
+
     public class PlayerDto
     {
         public PlayerDto(Player player)
@@ -15,6 +17,5 @@
         public string Username { get; }
         public string Colour { get; }
         public bool IsAdmin { get; }
-        
     }
 }

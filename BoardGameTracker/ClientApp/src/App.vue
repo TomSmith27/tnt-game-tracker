@@ -46,7 +46,7 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Board Games</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-menu left offset-y="offset-y">
+      <v-menu left offset-y="offset-y" v-if="loggedIn">
         <v-badge left slot="activator" color="red">
           <span v-if="unratedGamesCount > 0" slot="badge">{{unratedGamesCount}}</span>
           <v-icon left color="white">notifications</v-icon>

@@ -18,6 +18,10 @@
               <td class="pa-0 text-xs-left">
                 <router-link :to="{name : 'player-profile', params : { id : props.item.id}}">{{ props.item.name }}</router-link>
               </td>
+              <td>{{props.item.gamesPlayed}}</td>
+              <td>{{props.item.uniqueGamesPlayed}}</td>
+              <td>{{props.item.unratedGames}}</td>
+              <td>{{props.item.ratedGames}}</td>
             </tr>
           </template>
 
@@ -44,6 +48,10 @@ export default Vue.extend({
     headers: [
       { text: "", value: "", sortable: false },
       { text: "Name", value: "name" },
+      { text: "Total Times Played", value: "gamesPlayed" },
+      { text: "Unique Games Played", value: "uniqueGamesPlayed" },
+      { text: "Unrated Games", value: "unratedGames" },
+      { text: "Rated Games", value: "ratedGames" },
     ]
   }),
   async created() {
