@@ -88,7 +88,7 @@ export default Vue.extend({
       { text: "Last Played", value: "lastPlayed" },
       { text: "BGG Rating", value: "averageRating" },
       { text: "Player Rating", value: 'playersAverageRating' },
-      { text: "Difference", value: "Difference" }
+      { text: "Difference", value: "difference" }
     ]
   }),
   created() {

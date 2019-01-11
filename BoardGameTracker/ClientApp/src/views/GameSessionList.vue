@@ -23,6 +23,9 @@
                       <v-card-title primary-title>
                         <div>
                           <div class="headline">
+                            <v-btn flat small :to="{name : 'game-session-update', params : { id : gameSession.id}}" color="secondary">
+                              <v-icon>edit</v-icon>
+                            </v-btn>
                             <router-link :to="{name : 'game-detail', params : { id : gameSession.game.id}}">{{ gameSession.game.name }}</router-link>
                           </div>
                           <div>
@@ -34,11 +37,7 @@
                         </div>
                       </v-card-title>
                     </v-flex>
-                    <v-flex xs1>
-                      <v-btn left fab small :to="{name : 'game-session-update', params : { id : gameSession.id}}" color="secondary">
-                        <v-icon>edit</v-icon>
-                      </v-btn>
-                    </v-flex>
+                    <v-flex xs1></v-flex>
                   </v-layout>
                 </v-flex>
               </v-layout>
