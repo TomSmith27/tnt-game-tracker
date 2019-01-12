@@ -35,7 +35,7 @@ namespace BoardGameTracker.Dto
             var gamesPlayedWhereThereWasAWinner = player.GamePlaySessions.Where(g => g.GamePlaySession.Winners.Any()).Count();
             if (gamesPlayedWhereThereWasAWinner > 0)
             {
-                this.GamesWonPercentage = (player.GamePlayWins.Where(g => g.GamePlaySession.Winners.Any()).Count() / gamesPlayedWhereThereWasAWinner) * 100;
+                this.GamesWonPercentage = ((double)player.GamePlayWins.Where(g => g.GamePlaySession.Winners.Any()).Count() / gamesPlayedWhereThereWasAWinner) * 100;
             }
 
             if (player.Ratings != null && player.Ratings.Any())
@@ -62,7 +62,7 @@ namespace BoardGameTracker.Dto
         public string Name { get; }
         public int UniqueGamesPlayed { get; }
         public int TotalGamesPlayed { get; }
-        public float GamesWonPercentage { get; set; }
+        public double GamesWonPercentage { get; set; }
         public IEnumerable<BoardGamePlayerRatingInfoDto> HighestRatedGames { get; }
         public IEnumerable<BoardGamePlayerRatingInfoDto> LowestRatedGames { get; }
         public BoardGamePlayerPlaysInfoDto MostPlayedGame { get; }
