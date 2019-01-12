@@ -39,7 +39,7 @@
         <v-flex xs12 md3 lg2>
           <v-card class="text-xs-center">
             <v-card-text>
-              <div class="display-1 mb-2">{{player.gamesWonPercentage}}%</div>
+              <div class="display-1 mb-2">{{player.gamesWonPercentage | round}}%</div>
               <span>Game Win Rate</span>
             </v-card-text>
           </v-card>
