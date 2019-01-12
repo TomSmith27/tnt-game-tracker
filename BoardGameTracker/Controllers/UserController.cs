@@ -1,11 +1,5 @@
 ﻿namespace BoardGameTracker.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
     using BoardGameTracker.Database;
     using BoardGameTracker.Dto;
     using BoardGameTracker.Services;
@@ -16,8 +10,11 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
-    using Services;
-    using Settings;
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Text;
 
     [ApiController]
     [Route("api/[controller]")]
@@ -102,9 +99,9 @@
                 .ThenInclude(g => g.Game)
                 .Include(p => p.Ratings)
                 .ThenInclude(g => g.Game)
-
+                .Include(p => p.GamePlayWins)
                 .SingleOrDefault(p => p.Id == id);
-            
+
             return Ok(new PlayerDetailDto(player));
         }
 

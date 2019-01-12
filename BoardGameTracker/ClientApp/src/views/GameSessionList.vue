@@ -32,6 +32,7 @@
                             <v-chip outline label :key="player.id" v-for="player in gameSession.players">
                               <v-avatar tile class="white--text" :color="player.colour">{{player.name.charAt(0).toUpperCase()}}</v-avatar>
                               <router-link :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</router-link>
+                              <v-icon v-if="player.isWinner" color="warning">star</v-icon>
                             </v-chip>
                           </div>
                         </div>

@@ -7,4 +7,12 @@
         public GamePlaySession GamePlaySession{ get; set; }
         public int GamePlaySessionId { get; set; }
     }
+
+    public class GamePlaySessionWinner
+    {
+        public Player Player { get; set; }
+        public int PlayerId { get; set; }
+        public GamePlaySession GamePlaySession { get; set; }
+        public int GamePlaySessionId { get; set; }
+    }
 }

@@ -13,10 +13,13 @@ namespace BoardGameTracker.Dto
             this.Id = player.Id;
             this.Name = player.Name;
             this.Colour = "#" + player.Colour.R.ToString("X2") + player.Colour.G.ToString("X2") + player.Colour.B.ToString("X2");
-            this.AverageRating = player.Ratings.Where(r => r.Rating.HasValue).Average(a => a.Rating.Value);
-            this.AverageDifferenceToBGG = player.Ratings.Where(r => r.Rating.HasValue).Average(r => r.Rating.Value - Math.Round(r.Game.AverageRating, 0));
+            var playerRatings = player.Ratings.Where(r => r.Rating.HasValue);
+            if (playerRatings.Any()) {
+                this.AverageRating = playerRatings.Average(a => a.Rating.Value);
+                this.AverageDifferenceToBGG = playerRatings.Average(r => r.Rating.Value - Math.Round(r.Game.AverageRating, 0));
+            }
 
-            var ratingsDistributionGrouped =  player.Ratings.Where(r => r.Rating.HasValue).Select(r => r.Rating.Value).GroupBy(g => g);
+            var ratingsDistributionGrouped = playerRatings.Select(r => r.Rating.Value).GroupBy(g => g);
             var ratingsDistribution = Enumerable.Range(1, 10).Select((i) => new { i }).ToDictionary(x => x.i, x => 0);
             foreach (var rating in ratingsDistributionGrouped)
             {
@@ -25,11 +28,15 @@ namespace BoardGameTracker.Dto
 
             this.RatingsDistribution = ratingsDistribution;
 
-
-
             var gamesPlayed = player.GamePlaySessions.Select(g => g.GamePlaySession.GameId);
             this.TotalGamesPlayed = gamesPlayed.Count();
             this.UniqueGamesPlayed = gamesPlayed.Distinct().Count();
+
+            var gamesPlayedWhereThereWasAWinner = player.GamePlaySessions.Where(g => g.GamePlaySession.Winners.Any()).Count();
+            if (gamesPlayedWhereThereWasAWinner > 0)
+            {
+                this.GamesWonPercentage = (player.GamePlayWins.Where(g => g.GamePlaySession.Winners.Any()).Count() / gamesPlayedWhereThereWasAWinner) * 100;
+            }
 
             if (player.Ratings != null && player.Ratings.Any())
             {
@@ -55,6 +62,7 @@ namespace BoardGameTracker.Dto
         public string Name { get; }
         public int UniqueGamesPlayed { get; }
         public int TotalGamesPlayed { get; }
+        public float GamesWonPercentage { get; set; }
         public IEnumerable<BoardGamePlayerRatingInfoDto> HighestRatedGames { get; }
         public IEnumerable<BoardGamePlayerRatingInfoDto> LowestRatedGames { get; }
         public BoardGamePlayerPlaysInfoDto MostPlayedGame { get; }

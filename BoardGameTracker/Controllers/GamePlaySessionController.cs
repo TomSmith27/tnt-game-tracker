@@ -24,7 +24,8 @@
             this.db.Players.Load();
             var gamePlaySessions = this.db.GamePlaySessions.Include(g => g.Game)
                 .ThenInclude(g => g.PlayerRatings)
-                .Include(p => p.Players);
+                .Include(p => p.Players)
+                .Include(p => p.Winners);
 
             var gameSessions = gamePlaySessions.Select(g => new GamePlaySessionDto(g)).ToList().GroupBy(g => g.Date);
 
@@ -39,6 +40,7 @@
             var gamePlaySession = this.db.GamePlaySessions
                 .Include(g => g.Game)
                 .Include(g => g.Players)
+                .Include(g => g.Winners)
                 .Single(g => g.Id == sessionId);
 
             return this.Ok(gamePlaySession);
@@ -89,10 +91,16 @@
                 }
             }
 
-            var session = this.db.GamePlaySessions.Include(p => p.Players).Single(g => g.Id == id);
+            var session = this.db.GamePlaySessions
+                .Include(p => p.Players)
+                .Include(p => p.Winners)
+                .Include(p => p.Game).ThenInclude(g => g.PlayerRatings)
+                .Single(g => g.Id == id);
             session.Players.RemoveAll(p => true);
+            session.Winners.RemoveAll(p => true);
             var sessionUpdate = gameSession.ToModel();
             session.Players = sessionUpdate.Players;
+            session.Winners = sessionUpdate.Winners;
             session.GameId = sessionUpdate.GameId;
             session.Date = sessionUpdate.Date;
             foreach (var player in session.Players)

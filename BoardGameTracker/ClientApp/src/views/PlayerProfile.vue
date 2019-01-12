@@ -20,81 +20,81 @@
             </v-card-actions>
           </v-card>
         </v-flex>
-        <v-flex xs12 md4>
-          <v-card>
-            <v-card-title primary-title>
-              <div>
-                <h4 class="mb-0">Total Games Played</h4>
-                <div class="headline">{{player.totalGamesPlayed}}</div>
-              </div>
-            </v-card-title>
+        <v-flex xs6 md3 lg2>
+          <v-card class="text-xs-center">
+            <v-card-text>
+              <div class="display-1 mb-2">{{player.totalGamesPlayed}}</div>
+              <span>Total Games Played</span>
+            </v-card-text>
           </v-card>
         </v-flex>
-        <v-flex xs12 md4>
-          <v-card>
-            <v-card-title primary-title>
-              <div>
-                <h4 class="mb-0">Unique Games Played</h4>
-                <div class="headline">{{player.uniqueGamesPlayed}}</div>
-              </div>
-            </v-card-title>
+        <v-flex xs6 md3 lg2>
+          <v-card class="text-xs-center">
+            <v-card-text>
+              <div class="display-1 mb-2">{{player.uniqueGamesPlayed}}</div>
+              <span>Unique Games Played</span>
+            </v-card-text>
           </v-card>
         </v-flex>
-        <v-flex xs12 md4>
-          <v-card>
-            <v-card-title primary-title>
-              <div>
-                <h4 class="mb-0">Average Rating</h4>
-                <div class="headline">{{player.averageRating | round}}</div>
-              </div>
-            </v-card-title>
+        <v-flex xs12 md3 lg2>
+          <v-card class="text-xs-center">
+            <v-card-text>
+              <div class="display-1 mb-2">{{player.gamesWonPercentage}}%</div>
+              <span>Game Win Rate</span>
+            </v-card-text>
           </v-card>
         </v-flex>
-        <v-flex xs12 md4>
-          <v-card>
-            <v-card-title primary-title>
-              <div>
-                <h4 class="mb-0">Average Difference To BGG</h4>
-                <div class="headline">
-                  <v-btn flat v-if="player.averageDifferenceToBGG <= 0" color="red">
-                    <v-icon left>arrow_downward</v-icon>
-                    {{player.averageDifferenceToBGG | round}}
-                  </v-btn>
-                  <v-btn flat v-else color="green">
-                    <v-icon left>add</v-icon>
-                    {{player.averageDifferenceToBGG | round}}
-                  </v-btn>
-                </div>
+        <v-flex xs6 md3 lg2>
+          <v-card class="text-xs-center">
+            <v-card-text>
+              <div class="display-1 mb-2">{{player.averageRating | round}}</div>
+              <span>Average Rating</span>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex xs6 md12 lg4>
+          <v-card class="text-xs-center">
+            <v-card-text>
+              <div class="display-1 mb-2">
+                <span v-if="player.averageDifferenceToBGG <= 0" class="error--text">
+                  <v-icon class="vertical" color="error">arrow_downward</v-icon>
+                  {{player.averageDifferenceToBGG | round}}
+                </span>
+                <span v-else class="success--text">
+                  <v-icon class="vertical" color="success">arrow_upward</v-icon>
+                  {{player.averageDifferenceToBGG | round}}
+                </span>
               </div>
-            </v-card-title>
+              <span>Average Difference To BGG</span>
+            </v-card-text>
           </v-card>
         </v-flex>
 
-        <v-flex xs6 md3>
-          <v-card>
-            <v-img v-if="player.mostPlayedGame" :src="player.mostPlayedGame.image" contain height="200px" aspect-ratio="1"></v-img>
-            <v-card-title primary-title>
-              <div>
-                <h3 class="headline mb-0">Most Played Game</h3>
+        <v-flex xs6 md4 lg3>
+          <v-card class="text-xs-center">
+            <v-card-text>
+              <v-img v-if="player.mostPlayedGame" :src="player.mostPlayedGame.image" contain height="200px" aspect-ratio="1"></v-img>
+              <div class="display-1 mb-2">
                 <span v-if="player.mostPlayedGame">Plays : {{player.mostPlayedGame.plays}}</span>
                 <span v-else>None</span>
               </div>
-            </v-card-title>
+              <span>Most Played Game</span>
+            </v-card-text>
           </v-card>
         </v-flex>
-        <v-flex xs6 md3>
-          <v-card>
-            <v-img v-if="player.leastPlayedGame" :src="player.leastPlayedGame.image" contain height="200px" aspect-ratio="1"></v-img>
-            <v-card-title primary-title>
-              <div>
-                <h3 class="headline mb-0">Least Played Game</h3>
+        <v-flex xs6 md4 lg3>
+          <v-card class="text-xs-center">
+            <v-card-text>
+              <v-img v-if="player.leastPlayedGame" :src="player.leastPlayedGame.image" contain height="200px" aspect-ratio="1"></v-img>
+              <div class="display-1 mb-2">
                 <span v-if="player.leastPlayedGame">Plays : {{player.leastPlayedGame.plays}}</span>
                 <span v-else>None</span>
               </div>
-            </v-card-title>
+              <span>Least Played Game</span>
+            </v-card-text>
           </v-card>
         </v-flex>
-        <v-flex xs12 md3>
+        <v-flex xs12 md4 lg3>
           <v-card>
             <v-card-title primary-title>
               <div>
@@ -114,7 +114,7 @@
             </v-card-title>
           </v-card>
         </v-flex>
-        <v-flex xs12 md3>
+        <v-flex xs12 md4 lg3>
           <v-card>
             <v-card-title primary-title>
               <div>
@@ -134,7 +134,7 @@
             </v-card-title>
           </v-card>
         </v-flex>
-        <v-flex xs12 md3>
+        <v-flex xs12 md3 lg12>
           <v-card>
             <v-card-title primary-title>
               <div>
@@ -211,4 +211,7 @@ export default Vue.extend({
 
 
 <style>
+.vertical {
+  vertical-align: middle;
+}
 </style>

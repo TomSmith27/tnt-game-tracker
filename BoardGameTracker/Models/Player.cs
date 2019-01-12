@@ -12,7 +12,8 @@
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public bool IsAdmin { get; set; }
-        public List<GamePlaySessionPlayer> GamePlaySessions { get; set; }
+        public List<GamePlaySessionPlayer> GamePlaySessions { get; set; } = new List<GamePlaySessionPlayer>();
+        public List<GamePlaySessionWinner> GamePlayWins { get; set; } = new List<GamePlaySessionWinner>();
         public ICollection<PlayerRating> Ratings { get; set; }
  
         private int colour;

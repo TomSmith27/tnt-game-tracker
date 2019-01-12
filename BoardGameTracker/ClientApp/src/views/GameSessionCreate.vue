@@ -7,7 +7,7 @@
       <v-img max-height="200px" v-if="thumbnail" contain :src="thumbnail" aspect-ratio="1"></v-img>
       <v-flex>
         <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" persistent lazy full-width width="290px">
-          <v-text-field slot="activator" v-model="date" label="Date Played" readonly></v-text-field>
+          <v-text-field slot="activator" v-model="dateFormatted" label="Date Played" readonly></v-text-field>
           <v-date-picker v-model="date" scrollable>
             <v-spacer></v-spacer>
             <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
@@ -16,6 +16,7 @@
         </v-dialog>
       </v-flex>
       <v-combobox v-model="selectedPlayers" :items="players" label="Players" multiple item-text="name" item-value="name" type="text"></v-combobox>
+      <v-combobox v-model="winningPlayers" :items="selectedPlayers" label="Winner/s" multiple item-text="name" item-value="name" type="text"></v-combobox>
       <v-btn @click="submit" color="primary">Save</v-btn>
     </v-form>
   </div>
@@ -25,6 +26,7 @@
 import Vue from 'vue';
 import { Game } from '../models/Game';
 import { httpClient } from '../axios-service';
+import moment from 'moment';
 export default Vue.extend({
   name: 'GameSessionCreate',
   props: {
@@ -39,6 +41,7 @@ export default Vue.extend({
     players: [],
     selectedGame: 0,
     selectedPlayers: [],
+    winningPlayers: [],
     date: new Date().toISOString().substr(0, 10),
   }),
   async created() {
@@ -60,6 +63,9 @@ export default Vue.extend({
       }
       return '';
     },
+    dateFormatted(): string {
+      return this.date ? moment(this.date).format('dddd, MMMM Do YYYY') : ''
+    }
   },
   methods: {
     async submit() {
@@ -68,6 +74,7 @@ export default Vue.extend({
           gameId: this.selectedGame,
           date: this.date,
           players: this.selectedPlayers.map((p: any) => p.id),
+          winners: this.winningPlayers.map((p: any) => p.id),
         })).data;
         this.$router.push({
           name: 'game-sessions',
@@ -75,6 +82,12 @@ export default Vue.extend({
       } catch (error) { }
     },
   },
+  watch: {
+    selectedPlayers() {
+      const selectedPlayers = this.selectedPlayers.map(p => (p as any).id)
+      this.winningPlayers = this.winningPlayers.filter(value => -1 !== selectedPlayers.indexOf((value as any).id));
+    }
+  }
 });
 </script>
 

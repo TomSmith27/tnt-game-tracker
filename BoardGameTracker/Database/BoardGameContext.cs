@@ -23,6 +23,9 @@ namespace BoardGameTracker.Database
             modelBuilder.Entity<GamePlaySessionPlayer>()
                 .HasKey(t => new { t.GamePlaySessionId, t.PlayerId });
 
+            modelBuilder.Entity<GamePlaySessionWinner>()
+               .HasKey(t => new { t.GamePlaySessionId, t.PlayerId });
+
             modelBuilder.Entity<BoardGameEntry>()
                 .HasMany(nv => nv.Categories);
 
