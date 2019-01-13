@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
+import Dashboard from './views/Dashboard.vue';
 import LoginPage from './views/Login.vue';
 import RegisterPage from './views/Register.vue';
 import GameList from './views/GameList.vue';
@@ -37,9 +38,14 @@ const router = new Router({
 			component: Home
 		},
 		{
-			path: '/',
+			path: '/games',
 			name: 'games',
 			component: GameList
+		},
+		{
+			path: '/',
+			name: 'dashboard',
+			component: Dashboard
 		},
 		{
 			path: '/game/detail/:id',

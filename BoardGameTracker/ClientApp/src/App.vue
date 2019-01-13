@@ -2,15 +2,21 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" fixed app>
       <v-list dense>
-        <v-list-tile :to="{name : 'home'}">
+        <v-list-tile :to="{name : 'dashboard'}">
           <v-list-tile-action>
             <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Home</v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile :to="{name : 'home'}">
+          <v-list-tile-action>
+            <v-icon>search</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>Search</v-list-tile-content>
         </v-list-tile>
         <v-list-tile :to="{name : 'games'}">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>gamepad</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Games</v-list-tile-title>
@@ -18,7 +24,7 @@
         </v-list-tile>
         <v-list-tile :to="{name : 'game-sessions'}">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>play_arrow</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Game Sessions</v-list-tile-title>
@@ -26,7 +32,7 @@
         </v-list-tile>
         <v-list-tile :to="{name : 'game-ratings'}">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>star</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>My Game Ratings</v-list-tile-title>
@@ -34,7 +40,7 @@
         </v-list-tile>
         <v-list-tile :to="{name : 'players'}">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>people</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Players</v-list-tile-title>

@@ -36,6 +36,7 @@ export interface Player {
 	name: string;
 	uniqueGamesPlayed: number;
 	totalGamesPlayed: number;
+	gamesWonPercentage: number;
 	highestRatedGames: RatedGame[];
 	lowestRatedGames: RatedGame[];
 	mostPlayedGame: PlayedGame;
@@ -43,4 +44,5 @@ export interface Player {
 	averageRating: number;
 	colour: string;
 	ratingsDistribution: RatingsDistribution;
+	averageDifferenceToBGG: number;
 }
