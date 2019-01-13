@@ -141,21 +141,7 @@ export default Vue.extend({
     try {
       this.players = (await httpClient.get(`dashboard`)).data
       this.games = (await httpClient.get(`games`)).data
-      this.players.push({
-        gamesWonPercentage: 0,
-        name: 'B',
-      } as Player, {
-        name: 'B',
-        gamesWonPercentage: 0
-      } as Player, {
-        name: 'B',
-        gamesWonPercentage: 0
 
-      } as Player, {
-        name: 'B',
-        gamesWonPercentage: 0
-
-      } as Player)
     }
     catch (e) {
       this.error = e;
