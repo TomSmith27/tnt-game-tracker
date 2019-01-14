@@ -26,6 +26,24 @@
         <v-flex xs12 md4>
           <v-card>
             <v-card-title primary-title>
+              <h3 class="headline mb-0">Average Rating</h3>
+            </v-card-title>
+            <v-card-text>
+              <v-list>
+                <v-list-tile @click v-for="player in averageRating" :key="player.id" avatar>
+                  <v-list-tile-avatar class="white--text" tile :color="player.colour">{{player.name.charAt(0).toUpperCase()}}</v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</v-list-tile-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action>{{player.averageRating | round}}</v-list-tile-action>
+                </v-list-tile>
+              </v-list>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex xs12 md4>
+          <v-card>
+            <v-card-title primary-title>
               <h3 class="headline mb-0">Highest Rated Games</h3>
             </v-card-title>
             <v-card-text>
@@ -149,7 +167,10 @@ export default Vue.extend({
   },
   computed: {
     winLeaderBoard(): Player[] {
-      return this.players.sort((p, p2) => p2.gamesWonPercentage - p.gamesWonPercentage)
+      return this.players.map(p => p).sort((p, p2) => p2.gamesWonPercentage - p.gamesWonPercentage)
+    },
+    averageRating(): Player[] {
+      return this.players.map(p => p).sort((p, p2) => p2.averageRating - p.averageRating)
     },
     highestRatedGames(): GameListItem[] {
       return this.games.filter(g => g.playersAverageRating != null).sort((p, p2) => p2.playersAverageRating - p.playersAverageRating).slice(0, 3)
