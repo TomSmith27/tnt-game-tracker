@@ -71,9 +71,10 @@ const router = new Router({
 			component: GameSessionList
 		},
 		{
-			path: '/game-ratings',
+			path: '/game-ratings/:id?',
 			name: 'game-ratings',
-			component: GameRatings
+			component: GameRatings,
+			props: true
 		},
 		{
 			path: '/players',

@@ -22,7 +22,7 @@
               <router-link :to="{name : 'game-detail', params : { id : props.item.game.id}}">{{ props.item.game.name }}</router-link>
             </td>
             <td class="pa-0 text-xs-left">
-              <player-rating-grid @rated="ratedSuccess(props.item, $event)" :game-id="props.item.game.id" :prop-rating="props.item.rating"></player-rating-grid>
+              <player-rating-grid v-if="id === undefined" @rated="ratedSuccess(props.item, $event)" :game-id="props.item.game.id" :prop-rating="props.item.rating"></player-rating-grid>
             </td>
           </tr>
         </template>
@@ -43,6 +43,11 @@ export default Vue.extend({
   components: {
     PlayerRatingGrid
   },
+  props: {
+    id: {
+      type: Number,
+    },
+  },
   data: () => ({
     ratings: [] as Rating[],
     search: '',
@@ -56,7 +61,7 @@ export default Vue.extend({
     headers: [
       { text: "", sortable: false },
       { text: "Name", value: "game.name" },
-      { text: "My Rating", value: "rating" }
+      { text: "Rating", value: "rating" }
     ],
     error: ""
   }),
@@ -72,7 +77,11 @@ export default Vue.extend({
   },
   created() {
     this.loading = true;
-    httpClient.get("games/player-ratings").then(response => {
+    var route = "games/player-ratings";
+    if (this.id) {
+      route += `?userId=${this.id}`
+    }
+    httpClient.get(route).then(response => {
       this.ratings = response.data.ratings;
       this.loading = false;
     });

@@ -73,13 +73,17 @@ namespace BoardGameTracker.Controllers
 
         [HttpGet("player-ratings")]
 
-        public IActionResult PlayerRating()
+        public IActionResult PlayerRating(int? userId = null)
         {
-            var userId = int.Parse(this.HttpContext.User.Identity.Name);
+            if (!userId.HasValue)
+            {
+                userId = int.Parse(this.HttpContext.User.Identity.Name);
+            }
             var playerRatings = this.db.Players
                 .Include(s => s.Ratings)
                 .ThenInclude(rating => rating.Game)
                 .Single(p => p.Id == userId);
+
             return this.Ok(playerRatings);           
         }
 
