@@ -6,7 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		user: {}
+		user: {},
+		unratedGamesCount: 0
 	},
 	mutations: {
 		setUser(state, user: User) {
@@ -17,11 +18,23 @@ export default new Vuex.Store({
 		logout(state) {
 			state.user = {};
 			localStorage.removeItem('user');
+		},
+		setUnratedGamesCount(state, count) {
+			state.unratedGamesCount = count;
 		}
 	},
-	actions: {},
+	actions: {
+		async getNotifications(context) {
+			try {
+				if (context.getters.loggedIn) {
+					const unratedGamesCount = (await httpClient.get(`games/player-unrated-games`)).data;
+					context.commit('setUnratedGamesCount', unratedGamesCount);
+				}
+			} catch (e) {}
+		}
+	},
 	getters: {
-		loggedIn(state: any) {
+		loggedIn(state: any): boolean {
 			return state.user.id !== undefined;
 		}
 	}

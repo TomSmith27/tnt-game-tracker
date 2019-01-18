@@ -136,7 +136,7 @@ namespace BoardGameTracker.Controllers
 
             this.db.SaveChanges();
 
-            return this.Ok(bgObject.ObjectId);
+            return this.Ok(boardGame.Id);
         }
 
         [HttpPost("{id:int}/rate")]

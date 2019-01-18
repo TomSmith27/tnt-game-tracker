@@ -89,7 +89,7 @@ export default Vue.extend({
           objectid,
         })
         .then(response => {
-          router.push({ name: 'games' });
+          router.push({ name: 'game-detail', params: { id: response.data } });
         });
     },
   },
@@ -100,9 +100,7 @@ export default Vue.extend({
       }
     },
     async exact() {
-      console.log('a')
       if (this.search.length > 2) {
-        console.log('b')
         this.fastSearch();
       }
     },

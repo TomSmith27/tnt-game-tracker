@@ -15,8 +15,22 @@
           </v-date-picker>
         </v-dialog>
       </v-flex>
-      <v-combobox v-model="selectedPlayers" :items="players" label="Players" multiple item-text="name" item-value="name" type="text"></v-combobox>
-      <v-combobox v-model="winningPlayers" :items="selectedPlayers" label="Winner/s" multiple item-text="name" item-value="name" type="text"></v-combobox>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <h2 class="text-xs-left">Players</h2>
+        </v-flex>
+        <v-flex class="name" v-for="p in players" :key="p.id">
+          <v-checkbox v-model="selectedPlayers" :label="p.name" :value="p"></v-checkbox>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <h2 class="text-xs-left">Winners</h2>
+        </v-flex>
+        <v-flex class="name" v-for="p in selectedPlayers" :key="p.id">
+          <v-checkbox color="warning" v-model="winningPlayers" :label="p.name" :value="p"></v-checkbox>
+        </v-flex>
+      </v-layout>
       <v-btn @click="submit" color="primary">Save</v-btn>
     </v-form>
   </div>
@@ -52,8 +66,8 @@ export default Vue.extend({
       const currentGame = await httpClient.get(`game-session/${this.id}`);
       this.date = currentGame.data.date.substr(0, 10);
       this.selectedGame = currentGame.data.gameId;
-      this.selectedPlayers = currentGame.data.players.map((p: any) => p.player);
-      this.winningPlayers = currentGame.data.winners.map((p: any) => p.player);
+      this.selectedPlayers = this.players.filter((p) => currentGame.data.players.map((p: any) => p.player.id).indexOf((p as any).id) !== -1);
+      this.winningPlayers = this.players.filter((p) => currentGame.data.winners.map((p: any) => p.player.id).indexOf((p as any).id) !== -1);
     } catch (error) { }
 
     this.isLoading = false;
@@ -95,4 +109,8 @@ export default Vue.extend({
 
 
 <style>
+.name {
+  min-width: 100px;
+  max-width: 150px;
+}
 </style>

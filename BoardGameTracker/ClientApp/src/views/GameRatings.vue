@@ -76,6 +76,7 @@ export default Vue.extend({
     }
   },
   created() {
+    this.showOnlyUnrated = (this.$route.query as any).showOnlyUnrated
     this.loading = true;
     var route = "games/player-ratings";
     if (this.id) {

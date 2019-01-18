@@ -125,5 +125,7 @@ router.beforeEach((to, from, next) => {
 		});
 	}
 
+	store.dispatch('getNotifications');
+
 	next();
 });

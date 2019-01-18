@@ -52,16 +52,16 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Board Games</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-menu left offset-y="offset-y" v-if="loggedIn">
-        <v-badge left slot="activator" color="red">
+      <v-menu left offset-y="offset-y" v-if="loggedIn" class="pr-3">
+        <v-badge slot="activator" color="red">
           <span v-if="unratedGamesCount > 0" slot="badge">{{unratedGamesCount}}</span>
-          <v-icon left color="white">notifications</v-icon>
+          <v-icon color="white">notifications</v-icon>
         </v-badge>
         <v-list>
           <v-list-tile>
             <v-list-tile-title v-if="unratedGamesCount > 0">
               You have {{unratedGamesCount}} unrated games
-              <router-link :to="{name : 'game-ratings'}">Click here to rate</router-link>
+              <router-link :to="{name : 'game-ratings', query : {showOnlyUnrated : true}}">Click here to rate</router-link>
             </v-list-tile-title>
             <v-list-tile-title v-else>You have no unrated games</v-list-tile-title>
           </v-list-tile>
@@ -109,7 +109,6 @@ import { httpClient } from './axios-service'
 export default Vue.extend({
   data: () => ({
     drawer: null,
-    unratedGamesCount: 0,
   }),
   props: {
     source: String,
@@ -121,16 +120,12 @@ export default Vue.extend({
     },
   },
   async created() {
-    try {
-      if (this.loggedIn) {
-        this.unratedGamesCount = (await httpClient.get(`games/player-unrated-games`)).data
-      }
-    }
-    catch (e) {
 
-    }
   },
   computed: {
+    unratedGamesCount(): number {
+      return this.$store.state.unratedGamesCount;
+    },
     user(): any {
       return this.$store.state.user;
     },
