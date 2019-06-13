@@ -3,6 +3,7 @@ import './plugins/vuetify';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import './registerServiceWorker';
 import StarRating from 'vue-star-rating';
 import moment from 'moment';
 import _ from 'lodash';
