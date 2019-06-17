@@ -14,6 +14,7 @@ namespace BoardGameTracker.Database
         public DbSet<GamePlaySession> GamePlaySessions { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<PlayerRating> Ratings { get; set; }
+        public DbSet<Activity> Activities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,9 +1,11 @@
 ﻿namespace BoardGameTracker.Controllers
 {
+    using BoardGameTracker.Models;
     using Database;
     using Dto;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -64,7 +66,7 @@
             var game = this.db.Games.Include(g => g.PlayerRatings).SingleOrDefault(g => g.Id == gameSession.GameId);
             foreach (var player in session.Players)
             {
-                if(!game.PlayerRatings.Any(p => p.PlayerId == player.PlayerId))
+                if (!game.PlayerRatings.Any(p => p.PlayerId == player.PlayerId))
                 {
                     game.PlayerRatings.Add(new Models.PlayerRating()
                     {
@@ -72,6 +74,13 @@
                     });
                 }
             }
+
+            this.db.Activities.Add(new Activity
+            {
+                Date = DateTimeOffset.Now,
+                Message = $"added {db.Games.Find(gameSession.GameId).Name} as a game session for {gameSession.Date.ToString("ddd, dd MMMM yyyy")} with {gameSession.Players.Count} players",
+                PlayerId = int.Parse(this.HttpContext.User.Identity.Name)
+            });
 
 
             db.SaveChanges();

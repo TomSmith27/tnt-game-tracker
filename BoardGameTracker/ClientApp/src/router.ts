@@ -13,6 +13,7 @@ import GameRatings from './views/GameRatings.vue';
 import PlayerList from './views/Players.vue';
 import PlayerProfile from './views/PlayerProfile.vue';
 import PlayerEdit from './views/PlayerEdit.vue';
+import ActivityLog from './views/ActivityLog.vue';
 import store from './store';
 import { User } from './models/User';
 
@@ -91,6 +92,12 @@ const router = new Router({
 			path: '/player/edit/:id',
 			name: 'player-edit',
 			component: PlayerEdit,
+			props: true
+		},
+		{
+			path: '/activity-log',
+			name: 'activity-log',
+			component: ActivityLog,
 			props: true
 		},
 		{

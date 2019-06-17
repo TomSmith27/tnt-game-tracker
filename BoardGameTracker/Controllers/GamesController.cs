@@ -145,7 +145,18 @@ namespace BoardGameTracker.Controllers
             var userId = int.Parse(this.HttpContext.User.Identity.Name);
             var user = userService.GetById(userId);
             var rating = this.db.Ratings.First(r => r.GameId == id && r.PlayerId == user.Id);
+            this.db.Activities.Add(new Activity
+            {
+                Date = DateTimeOffset.Now,
+                Message = $"changed {db.Games.Find(id).Name}'s rating from {rating.Rating} to {dto.Rating}",
+                PlayerId = userId
+            });
+
             rating.Rating = dto.Rating;
+            
+          
+
+
             await db.SaveChangesAsync();
 
             return this.Ok();
