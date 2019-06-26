@@ -34,7 +34,7 @@ namespace BoardGameTracker.Dto
 
             if (player.GamePlaySessions.Count > 0)
             {
-                this.GamesWonPercentage = ((double)player.GamePlayWins.Count / player.GamePlaySessions.Count) * 100;
+                this.GamesWonPercentage = ((double)player.GamePlayWins.Where(g => g.GamePlaySession.Date > new DateTimeOffset(2019,1,1,0,0,0,TimeSpan.Zero)).Count() / player.GamePlaySessions.Where(g => g.GamePlaySession.Date > new DateTimeOffset(2019, 1, 1, 0, 0, 0, TimeSpan.Zero)).Count()) * 100;
             }
 
 
