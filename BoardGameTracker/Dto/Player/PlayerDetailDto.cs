@@ -1,7 +1,6 @@
 ﻿using BoardGameTracker.Models;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 namespace BoardGameTracker.Dto
@@ -14,7 +13,8 @@ namespace BoardGameTracker.Dto
             this.Name = player.Name;
             this.Colour = "#" + player.Colour.R.ToString("X2") + player.Colour.G.ToString("X2") + player.Colour.B.ToString("X2");
             var playerRatings = player.Ratings.Where(r => r.Rating.HasValue);
-            if (playerRatings.Any()) {
+            if (playerRatings.Any())
+            {
                 this.AverageRating = playerRatings.Average(a => a.Rating.Value);
                 this.AverageDifferenceToBGG = playerRatings.Average(r => r.Rating.Value - Math.Round(r.Game.AverageRating, 0));
             }
@@ -32,11 +32,11 @@ namespace BoardGameTracker.Dto
             this.TotalGamesPlayed = gamesPlayed.Count();
             this.UniqueGamesPlayed = gamesPlayed.Distinct().Count();
 
-            var gamesPlayedWhereThereWasAWinner = player.GamePlaySessions.Where(g => g.GamePlaySession.Winners.Any() && (g.GamePlaySession.Players.Count + g.GamePlaySession.Guests) != g.GamePlaySession.Winners.Count).Count();
-            if (gamesPlayedWhereThereWasAWinner > 0)
+            if (player.GamePlaySessions.Count > 0)
             {
-                this.GamesWonPercentage = ((double)player.GamePlayWins.Where(g => g.GamePlaySession.Winners.Any() && (g.GamePlaySession.Players.Count + g.GamePlaySession.Guests) != g.GamePlaySession.Winners.Count).Count() / gamesPlayedWhereThereWasAWinner) * 100;
+                this.GamesWonPercentage = ((double)player.GamePlayWins.Count / player.GamePlaySessions.Count) * 100;
             }
+
 
             if (player.Ratings != null && player.Ratings.Any())
             {

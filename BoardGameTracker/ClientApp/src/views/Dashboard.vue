@@ -15,7 +15,9 @@
                 <v-list-tile @click v-for="player in winLeaderBoard" :key="player.id" avatar>
                   <v-list-tile-avatar class="white--text" tile :color="player.colour">{{player.name.charAt(0).toUpperCase()}}</v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</v-list-tile-title>
+                    <v-list-tile-title>
+                      <router-link :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</router-link>
+                    </v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>{{player.gamesWonPercentage | round}}%</v-list-tile-action>
                 </v-list-tile>
@@ -33,7 +35,9 @@
                 <v-list-tile @click v-for="player in averageRating" :key="player.id" avatar>
                   <v-list-tile-avatar class="white--text" tile :color="player.colour">{{player.name.charAt(0).toUpperCase()}}</v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</v-list-tile-title>
+                    <v-list-tile-title>
+                      <router-link :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</router-link>
+                    </v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>{{player.averageRating | round}}</v-list-tile-action>
                 </v-list-tile>
@@ -53,7 +57,9 @@
                     <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar">
                   </v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title>{{game.name}}</v-list-tile-title>
+                    <v-list-tile-title>
+                      <router-link :to="{name : 'game-detail', params : {id : game.id}}">{{game.name}}</router-link>
+                    </v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>{{game.playersAverageRating | round}}</v-list-tile-action>
                 </v-list-tile>
@@ -73,7 +79,9 @@
                     <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar">
                   </v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title>{{game.name}}</v-list-tile-title>
+                    <v-list-tile-title>
+                      <router-link :to="{name : 'game-detail', params : {id : game.id}}">{{game.name}}</router-link>
+                    </v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>{{game.playersAverageRating | round}}</v-list-tile-action>
                 </v-list-tile>
@@ -93,7 +101,9 @@
                     <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar">
                   </v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title>{{game.name}}</v-list-tile-title>
+                    <v-list-tile-title>
+                      <router-link :to="{name : 'game-detail', params : {id : game.id}}">{{game.name}}</router-link>
+                    </v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>
                     <span v-if="game.difference <= 0" class="error--text">
@@ -122,7 +132,9 @@
                     <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar">
                   </v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title>{{game.name}}</v-list-tile-title>
+                    <v-list-tile-title>
+                      <router-link :to="{name : 'game-detail', params : {id : game.id}}">{{game.name}}</router-link>
+                    </v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>
                     <span v-if="game.difference <= 0" class="error--text">
@@ -190,4 +202,8 @@ export default Vue.extend({
 
 
 <style>
+.v-list__tile__title a {
+  text-decoration: none;
+  color: inherit;
+}
 </style>
