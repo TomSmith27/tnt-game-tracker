@@ -112,6 +112,7 @@
             session.Winners = sessionUpdate.Winners;
             session.GameId = sessionUpdate.GameId;
             session.Date = sessionUpdate.Date;
+            session.Guests = sessionUpdate.Guests;
             foreach (var player in session.Players)
             {
                 if (!session.Game.PlayerRatings.Any(p => p.PlayerId == player.PlayerId))

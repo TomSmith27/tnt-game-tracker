@@ -22,6 +22,9 @@
         <v-flex class="name" v-for="p in players" :key="p.id">
           <v-checkbox v-model="selectedPlayers" :label="p.name" :value="p"></v-checkbox>
         </v-flex>
+        <v-flex xs12>
+          <v-text-field v-model="guests" label="Guests" type="number"></v-text-field>
+        </v-flex>
       </v-layout>
       <v-layout row wrap>
         <v-flex xs12>
@@ -53,6 +56,7 @@ export default Vue.extend({
     modal: false,
     games: [] as Game[],
     players: [],
+    guests: 0,
     selectedGame: 0,
     selectedPlayers: [],
     winningPlayers: [],
@@ -89,6 +93,7 @@ export default Vue.extend({
           date: this.date,
           players: this.selectedPlayers.map((p: any) => p.id),
           winners: this.winningPlayers.map((p: any) => p.id),
+          guests: this.guests
         })).data;
         this.$router.push({
           name: 'game-sessions',

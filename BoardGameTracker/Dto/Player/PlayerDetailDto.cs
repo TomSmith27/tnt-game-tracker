@@ -32,10 +32,10 @@ namespace BoardGameTracker.Dto
             this.TotalGamesPlayed = gamesPlayed.Count();
             this.UniqueGamesPlayed = gamesPlayed.Distinct().Count();
 
-            var gamesPlayedWhereThereWasAWinner = player.GamePlaySessions.Where(g => g.GamePlaySession.Winners.Any()).Count();
+            var gamesPlayedWhereThereWasAWinner = player.GamePlaySessions.Where(g => g.GamePlaySession.Winners.Any() && (g.GamePlaySession.Players.Count + g.GamePlaySession.Guests) != g.GamePlaySession.Winners.Count).Count();
             if (gamesPlayedWhereThereWasAWinner > 0)
             {
-                this.GamesWonPercentage = ((double)player.GamePlayWins.Where(g => g.GamePlaySession.Winners.Any()).Count() / gamesPlayedWhereThereWasAWinner) * 100;
+                this.GamesWonPercentage = ((double)player.GamePlayWins.Where(g => g.GamePlaySession.Winners.Any() && (g.GamePlaySession.Players.Count + g.GamePlaySession.Guests) != g.GamePlaySession.Winners.Count).Count() / gamesPlayedWhereThereWasAWinner) * 100;
             }
 
             if (player.Ratings != null && player.Ratings.Any())

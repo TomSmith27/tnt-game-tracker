@@ -16,6 +16,7 @@ namespace BoardGameTracker.Dto
             this.BggAverageRating = g.Game.AverageRating;
             this.PlayerAverageRating = g.Game.PlayerRatings.Average(a => a.Rating);
             this.Players = g.Players.Select(p => new PlayerSessionDto(p.Player, g.Winners.Any(w => w.PlayerId == p.PlayerId))).ToList();
+            this.Guests = g.Guests;
         }
 
         public int Id { get;  }
@@ -24,5 +25,6 @@ namespace BoardGameTracker.Dto
         public double BggAverageRating { get; }
         public double? PlayerAverageRating { get; }
         public List<PlayerSessionDto> Players { get; }
+        public int Guests { get; }
     }
 }

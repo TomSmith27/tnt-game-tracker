@@ -34,6 +34,10 @@
                               <router-link :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</router-link>
                               <v-icon v-if="player.isWinner" color="warning">star</v-icon>
                             </v-chip>
+                            <v-chip v-if="gameSession.guests > 0" outline label>
+                              <v-avatar tile class="white--text" color="secondary">+{{gameSession.guests}}</v-avatar>
+                              <span>Guests</span>
+                            </v-chip>
                           </div>
                         </div>
                       </v-card-title>
