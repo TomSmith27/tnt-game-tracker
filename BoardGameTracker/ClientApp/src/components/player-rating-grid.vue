@@ -1,6 +1,6 @@
 <template>
   <span>
-    <v-select v-model="rating" class="hidden-md-and-up" :items="[1, 2, 3, 4 , 5, 6, 7, 8, 9, 10]" label="Rating"></v-select>
+    <v-select v-model="rating" @change="rate" class="hidden-md-and-up" :items="[1, 2, 3, 4 , 5, 6, 7, 8, 9, 10]" label="Rating"></v-select>
     <v-rating class="hidden-sm-and-down" :length="10" v-model="rating"></v-rating>
   </span>
 </template>
@@ -21,9 +21,9 @@ export default Vue.extend({
     rating: 0
   }),
   methods: {
-    async rate(rating: number) {
+    async rate(value: number) {
       (await httpClient.post(`games/${this.gameId}/rate`, {
-        rating
+        rating: value
       }))
       this.$emit('rated', this.rating)
     }
@@ -40,11 +40,7 @@ export default Vue.extend({
       },
       immediate: true
     },
-    rating() {
-      if (this.rating != null) {
-        this.rate(this.rating)
-      }
-    }
+
   }
 })
 </script>

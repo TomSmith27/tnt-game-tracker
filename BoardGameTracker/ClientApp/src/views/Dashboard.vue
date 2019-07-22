@@ -151,6 +151,28 @@
             </v-card-text>
           </v-card>
         </v-flex>
+        <v-flex xs12 md4>
+          <v-card>
+            <v-card-title primary-title>
+              <h3 class="headline mb-0">Most Played Games</h3>
+            </v-card-title>
+            <v-card-text>
+              <v-list>
+                <v-list-tile @click v-for="game in mostPlayedGames" :key="game.id" avatar>
+                  <v-list-tile-avatar tile>
+                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar">
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title>
+                      <router-link :to="{name : 'game-detail', params : {id : game.id}}">{{game.name}}</router-link>
+                    </v-list-tile-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action>{{game.timesPlayed}}</v-list-tile-action>
+                </v-list-tile>
+              </v-list>
+            </v-card-text>
+          </v-card>
+        </v-flex>
       </v-layout>
     </v-container>
   </div>
@@ -195,6 +217,9 @@ export default Vue.extend({
     },
     mostUnderatedGames(): GameListItem[] {
       return this.games.filter(g => g.difference != null).sort((p, p2) => p.difference - p2.difference).slice(0, 3)
+    },
+    mostPlayedGames(): GameListItem[] {
+      return this.games.sort((p, p2) => p2.timesPlayed - p.timesPlayed).slice(0, 3)
     }
   }
 })
