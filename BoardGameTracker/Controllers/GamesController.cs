@@ -102,6 +102,12 @@ namespace BoardGameTracker.Controllers
         {
             var game = await this.bggService.Get(bgObject.ObjectId);
 
+            if(db.Games.Any(g => g.ObjectId == bgObject.ObjectId))
+            {
+                return BadRequest("Already Imported This game");
+            }
+
+
             var categories = this.db.Categories.ToDictionary(c => c.ObjectId, c => c);
 
             var boardGame = new BoardGameEntry(game);
