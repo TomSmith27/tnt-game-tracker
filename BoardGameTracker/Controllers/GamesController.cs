@@ -72,7 +72,6 @@ namespace BoardGameTracker.Controllers
         }
 
         [HttpGet("player-ratings")]
-
         public IActionResult PlayerRating(int? userId = null)
         {
             if (!userId.HasValue)
@@ -88,7 +87,6 @@ namespace BoardGameTracker.Controllers
         }
 
         [HttpGet("player-unrated-games")]
-
         public IActionResult PlayerUnratedGamesCount()
         {
             var userId = int.Parse(this.HttpContext.User.Identity.Name);
@@ -152,6 +150,19 @@ namespace BoardGameTracker.Controllers
 
         }
 
+        [HttpPost("{id:int}/add-to-wishlist")]
+        public async Task<IActionResult> AddToWishList(int id, RatingDto dto)
+        {
+            var userId = int.Parse(this.HttpContext.User.Identity.Name);
+            var user = userService.GetById(userId);
+            var rating = this.db.Ratings.First(r => r.GameId == id && r.PlayerId == user.Id);
+            rating.Rating = dto.Rating;
+            await db.SaveChangesAsync();
+
+            return this.Ok();
+
+        }
+
         [HttpPost("import")]
         public IActionResult ReImport()
         {
@@ -190,5 +201,7 @@ namespace BoardGameTracker.Controllers
 
             return this.Ok();
         }
+
+
     }
 }

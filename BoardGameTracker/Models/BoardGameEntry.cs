@@ -81,5 +81,6 @@
 
         public List<PlayerRating> PlayerRatings { get; set; }
         public List<GamePlaySession> Sessions { get; set; }
+        public List<WishListEntry> WishList { get; set; }
     }
 }
