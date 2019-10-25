@@ -13,6 +13,7 @@ import GameRatings from './views/GameRatings.vue';
 import PlayerList from './views/Players.vue';
 import PlayerProfile from './views/PlayerProfile.vue';
 import PlayerEdit from './views/PlayerEdit.vue';
+import WishList from './views/Wishlist.vue'
 import store from './store';
 import { User } from './models/User';
 
@@ -94,6 +95,12 @@ const router = new Router({
 			props: true
 		},
 		{
+			path: '/wishlist',
+			name: 'wishlist',
+			component: WishList,
+			props: true
+		},
+		{
 			path: '/about',
 			name: 'about',
 			// route level code-splitting
@@ -108,7 +115,7 @@ export default router;
 
 router.beforeEach((to, from, next) => {
 	// redirect to login page if not logged in and trying to access a restricted page
-	const publicPages = [ '/login', '/register' ];
+	const publicPages = ['/login', '/register'];
 	const authRequired = !publicPages.includes(to.path);
 	if ((store.state.user as User).token === undefined) {
 		const userJson = localStorage.getItem('user');

@@ -151,16 +151,28 @@ namespace BoardGameTracker.Controllers
         }
 
         [HttpPost("{id:int}/add-to-wishlist")]
-        public async Task<IActionResult> AddToWishList(int id, RatingDto dto)
+        public async Task<IActionResult> AddToWishList(int id)
         {
             var userId = int.Parse(this.HttpContext.User.Identity.Name);
-            var user = userService.GetById(userId);
-            var rating = this.db.Ratings.First(r => r.GameId == id && r.PlayerId == user.Id);
-            rating.Rating = dto.Rating;
+            this.db.WishList.Add(new WishListEntry()
+            {
+                GameId = id,
+                PlayerId = userId
+            });
             await db.SaveChangesAsync();
 
             return this.Ok();
+        }
 
+        [HttpPost("{id:int}/remove-from-wishlist")]
+        public async Task<IActionResult> RemoveFromWishList(int id)
+        {
+            var userId = int.Parse(this.HttpContext.User.Identity.Name);
+            var wishList = this.db.WishList.First(w => w.PlayerId == userId && w.GameId == id);
+            this.db.WishList.Remove(wishList);
+            await db.SaveChangesAsync();
+
+            return this.Ok();
         }
 
         [HttpPost("import")]

@@ -46,6 +46,14 @@
             <v-list-tile-title>Players</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile :to="{name : 'wishlist'}">
+          <v-list-tile-action>
+            <v-icon>present</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Wishlist</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="primary" dark fixed app>
@@ -92,7 +100,7 @@
       <v-container fluid fill-height>
         <v-layout>
           <v-flex text-xs-center>
-            <router-view/>
+            <router-view />
           </v-flex>
         </v-layout>
       </v-container>
@@ -104,24 +112,22 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { httpClient } from './axios-service'
+import Vue from "vue";
+import { httpClient } from "./axios-service";
 export default Vue.extend({
   data: () => ({
-    drawer: null,
+    drawer: null
   }),
   props: {
-    source: String,
+    source: String
   },
   methods: {
     logout() {
-      this.$store.commit('logout');
-      this.$router.push({ name: 'login' });
-    },
+      this.$store.commit("logout");
+      this.$router.push({ name: "login" });
+    }
   },
-  async created() {
-
-  },
+  async created() {},
   computed: {
     unratedGamesCount(): number {
       return this.$store.state.unratedGamesCount;
@@ -131,8 +137,8 @@ export default Vue.extend({
     },
     loggedIn(): boolean {
       return this.$store.getters.loggedIn;
-    },
-  },
+    }
+  }
 });
 </script>
 

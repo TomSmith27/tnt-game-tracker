@@ -5,8 +5,11 @@
         <v-card-title primary-title>
           <v-layout row wrap>
             <v-flex xs12 md2 lg2>
-              <img :src="game.thumbnail">
+              <img :src="game.thumbnail" />
               <v-btn block :to="{name : 'game-session-create', params : {gameId : game.id}}" color="primary">
+                <v-icon>play_arrow</v-icon>
+              </v-btn>
+              <v-btn block @click="addToWishList" color="primary">
                 <v-icon>play_arrow</v-icon>
               </v-btn>
             </v-flex>
@@ -36,10 +39,8 @@
               </v-flex>
               <v-flex xs12>
                 <h5>Categories</h5>
-                <v-chip v-for="category in game.categories">{{category.boardGameCategory.name}}</v-chip>
+                <v-chip :key="category.id" v-for="category in game.categories">{{category.boardGameCategory.name}}</v-chip>
               </v-flex>
-              <!--  <p v-html="game.description"></p> -->
-              <!--     {{game}} -->
             </v-flex>
             <v-flex md7 lg8>
               <div class="headline">{{game.name}}</div>
@@ -70,25 +71,25 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { httpClient } from '../axios-service'
+import Vue from "vue";
+import { httpClient } from "../axios-service";
 import PlayerRating from "../components/player-rating.vue";
-import { Game } from '@/models/Game';
+import { Game } from "@/models/Game";
 export default Vue.extend({
   components: {
     PlayerRating
   },
   props: {
     id: {
-      type: Number,
-    },
+      type: Number
+    }
   },
   data: () => ({
     game: {} as Game,
     ratingsPanelOpen: false
   }),
   async created() {
-    this.game = (await httpClient.get(`games/${this.id}`)).data
+    this.game = (await httpClient.get(`games/${this.id}`)).data;
   },
   computed: {
     ourRating(): number {
@@ -98,9 +99,16 @@ export default Vue.extend({
       }
       return 0;
     }
+  },
+  methods: {
+    async addToWishList() {
+      await httpClient.post(`games/${this.id}/add-to-wishlist`);
+    },
+    async removeFromWishList() {
+      await httpClient.post(`games/${this.id}/remove-from-wishlist`);
+    }
   }
-
-})
+});
 </script>
 
 

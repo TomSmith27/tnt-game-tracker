@@ -3,7 +3,7 @@ import store from './store';
 import router from './router';
 let baseURL = process.env.BASE_URL;
 if (process.env.NODE_ENV === 'development') {
-	baseURL = 'https://localhost:44309/';
+	baseURL = 'https://localhost:44375/';
 }
 
 export const httpClient = axios.create({
