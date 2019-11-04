@@ -12,6 +12,7 @@ namespace BoardGameTracker.Dto
         public DateTimeOffset Date { get; set; }
         public List<int> Players { get; set; }
         public List<int> Winners { get; set; }
+        public int Guests { get; set; }
 
         public GamePlaySession ToModel()
         {
@@ -26,7 +27,8 @@ namespace BoardGameTracker.Dto
                 Winners = this.Winners.Select(p => new GamePlaySessionWinner()
                 {
                     PlayerId = p
-                }).ToList()
+                }).ToList(),
+                Guests = this.Guests
             };
         }
     }

@@ -15,8 +15,11 @@ import 'vue-swatches/dist/vue-swatches.min.css';
 
 Vue.component('star-rating', StarRating);
 
-Vue.filter('date', (value: string) => {
-	return moment(value).format('Do MMM YYYY');
+Vue.filter('date', (value: string, format: string) => {
+	if (format == undefined) {
+		format = 'Do MMM YYYY';
+	}
+	return moment(value).format(format);
 });
 
 Vue.filter('round', (value: string) => {
