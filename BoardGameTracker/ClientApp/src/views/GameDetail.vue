@@ -9,8 +9,11 @@
               <v-btn block :to="{name : 'game-session-create', params : {gameId : game.id}}" color="primary">
                 <v-icon>play_arrow</v-icon>
               </v-btn>
-              <v-btn block @click="addToWishList" color="primary">
-                <v-icon>play_arrow</v-icon>
+              <v-btn v-if="!isOnWishList" block @click="addToWishList" color="success">
+                <v-icon>favorite</v-icon>
+              </v-btn>
+              <v-btn v-if="isOnWishList" block @click="removeFromWishList" color="error">
+                <v-icon>favorite</v-icon>
               </v-btn>
             </v-flex>
             <v-flex xs12 md3 lg2>
@@ -71,56 +74,65 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { httpClient } from "../axios-service";
-import PlayerRating from "../components/player-rating.vue";
-import { Game } from "@/models/Game";
+import Vue from 'vue';
+import { httpClient } from '../axios-service';
+import PlayerRating from '../components/player-rating.vue';
+import { Game } from '@/models/Game';
 export default Vue.extend({
-  components: {
-    PlayerRating
-  },
-  props: {
-    id: {
-      type: Number
-    }
-  },
-  data: () => ({
-    game: {} as Game,
-    ratingsPanelOpen: false
-  }),
-  async created() {
-    this.game = (await httpClient.get(`games/${this.id}`)).data;
-  },
-  computed: {
-    ourRating(): number {
-      if (this.game && this.game.playerRatings != null && this.game.playerRatings.length > 0) {
-        var ratings = this.game.playerRatings.filter(f => f.rating).map(r => r.rating);
-        return ratings.reduce((a, b) => a + b, 0) / ratings.length;
-      }
-      return 0;
-    }
-  },
-  methods: {
-    async addToWishList() {
-      await httpClient.post(`games/${this.id}/add-to-wishlist`);
+    components: {
+        PlayerRating
     },
-    async removeFromWishList() {
-      await httpClient.post(`games/${this.id}/remove-from-wishlist`);
+    props: {
+        id: {
+            type: Number
+        }
+    },
+    data: () => ({
+        game: {} as Game,
+        isOnWishList: false,
+        ratingsPanelOpen: false
+    }),
+    async created() {
+        var response = (await httpClient.get(`games/${this.id}`)).data;
+        this.game = response.game;
+        this.isOnWishList = response.isOnWishList;
+    },
+    computed: {
+        ourRating(): number {
+            if (
+                this.game &&
+                this.game.playerRatings != null &&
+                this.game.playerRatings.length > 0
+            ) {
+                var ratings = this.game.playerRatings
+                    .filter(f => f.rating)
+                    .map(r => r.rating);
+                return ratings.reduce((a, b) => a + b, 0) / ratings.length;
+            }
+            return 0;
+        }
+    },
+    methods: {
+        async addToWishList() {
+            await httpClient.post(`games/${this.id}/add-to-wishlist`);
+        },
+        async removeFromWishList() {
+            await httpClient.post(`games/${this.id}/remove-from-wishlist`);
+        }
     }
-  }
 });
 </script>
 
 
 <style>
 .rating {
-  font-size: 20px;
-  background-color: #424242;
-  color: white;
+    font-size: 20px;
+    background-color: #424242;
+    color: white;
 }
 
 .description {
-  max-height: 100px;
-  overflow: scroll;
+    max-height: 100px;
+    overflow: scroll;
 }
 </style>

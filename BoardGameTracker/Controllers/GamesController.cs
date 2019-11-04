@@ -66,9 +66,10 @@ namespace BoardGameTracker.Controllers
                 .Include(g => g.Categories)
                 .Include(g => g.PlayerRatings)
                 .FirstOrDefault(g => g.Id == id);
+            bool isOnWishList = db.WishList.Any(a =>
+                a.PlayerId == int.Parse(this.HttpContext.User.Identity.Name) && a.GameId == id);
 
-
-            return this.Ok(game);
+            return this.Ok(new {game, isOnWishList});
         }
 
         [HttpGet("player-ratings")]
