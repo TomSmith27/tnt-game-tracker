@@ -15,245 +15,219 @@ namespace BoardGameTracker.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("BoardGameTracker.Models.BoardGameCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name");
+                b.Property<string>("Name");
 
-                    b.Property<int>("ObjectId");
+                b.Property<int>("ObjectId");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Categories");
-                });
+                b.ToTable("Categories");
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.BoardGameEntry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Age");
+                b.Property<int>("Age");
 
-                    b.Property<double>("AverageRating");
+                b.Property<double>("AverageRating");
 
-                    b.Property<string>("BestPlayerCount");
+                b.Property<string>("BestPlayerCount");
 
-                    b.Property<string>("Description");
+                b.Property<string>("Description");
 
-                    b.Property<string>("Image");
+                b.Property<string>("Image");
 
-                    b.Property<int>("MaxPlayers");
+                b.Property<int>("MaxPlayers");
 
-                    b.Property<int>("MaxPlaytime");
+                b.Property<int>("MaxPlaytime");
 
-                    b.Property<int>("MinPlayers");
+                b.Property<int>("MinPlayers");
 
-                    b.Property<int>("MinPlaytime");
+                b.Property<int>("MinPlaytime");
 
-                    b.Property<string>("Name");
+                b.Property<string>("Name");
 
-                    b.Property<int>("ObjectId");
+                b.Property<int>("ObjectId");
 
-                    b.Property<int>("PlayingTime");
+                b.Property<int>("PlayingTime");
 
-                    b.Property<string>("Thumbnail");
+                b.Property<string>("Thumbnail");
 
-                    b.Property<int>("UsersRated");
+                b.Property<int>("UsersRated");
 
-                    b.Property<DateTimeOffset>("YearPublished");
+                b.Property<DateTimeOffset>("YearPublished");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Games");
-                });
+                b.ToTable("Games");
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.GameCategoryGameEntry", b =>
-                {
-                    b.Property<int>("BoardGameCategoryId");
+            {
+                b.Property<int>("BoardGameCategoryId");
 
-                    b.Property<int>("BoardGameEntryId");
+                b.Property<int>("BoardGameEntryId");
 
-                    b.HasKey("BoardGameCategoryId", "BoardGameEntryId");
+                b.HasKey("BoardGameCategoryId", "BoardGameEntryId");
 
-                    b.HasIndex("BoardGameEntryId");
+                b.HasIndex("BoardGameEntryId");
 
-                    b.ToTable("GameCategoryGameEntry");
-                });
+                b.ToTable("GameCategoryGameEntry");
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.GamePlaySession", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTimeOffset>("Date");
+                b.Property<DateTimeOffset>("Date");
 
-                    b.Property<int>("GameId");
+                b.Property<int>("GameId");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("GameId");
+                b.HasIndex("GameId");
 
-                    b.ToTable("GamePlaySessions");
-                });
+                b.ToTable("GamePlaySessions");
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.GamePlaySessionPlayer", b =>
-                {
-                    b.Property<int>("GamePlaySessionId");
+            {
+                b.Property<int>("GamePlaySessionId");
 
-                    b.Property<int>("PlayerId");
+                b.Property<int>("PlayerId");
 
-                    b.HasKey("GamePlaySessionId", "PlayerId");
+                b.HasKey("GamePlaySessionId", "PlayerId");
 
-                    b.HasIndex("PlayerId");
+                b.HasIndex("PlayerId");
 
-                    b.ToTable("GamePlaySessionPlayer");
-                });
+                b.ToTable("GamePlaySessionPlayer");
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.GamePlaySessionWinner", b =>
-                {
-                    b.Property<int>("GamePlaySessionId");
+            {
+                b.Property<int>("GamePlaySessionId");
 
-                    b.Property<int>("PlayerId");
+                b.Property<int>("PlayerId");
 
-                    b.HasKey("GamePlaySessionId", "PlayerId");
+                b.HasKey("GamePlaySessionId", "PlayerId");
 
-                    b.HasIndex("PlayerId");
+                b.HasIndex("PlayerId");
 
-                    b.ToTable("GamePlaySessionWinner");
-                });
+                b.ToTable("GamePlaySessionWinner");
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.Player", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsAdmin");
+                b.Property<bool>("IsAdmin");
 
-                    b.Property<string>("Name");
+                b.Property<string>("Name");
 
-                    b.Property<byte[]>("PasswordHash");
+                b.Property<byte[]>("PasswordHash");
 
-                    b.Property<byte[]>("PasswordSalt");
+                b.Property<byte[]>("PasswordSalt");
 
-                    b.Property<string>("Username");
+                b.Property<string>("Username");
 
-                    b.Property<int>("colour");
+                b.Property<int>("colour");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Players");
-                });
+                b.ToTable("Players");
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.PlayerRating", b =>
-                {
-                    b.Property<int>("GameId");
+            {
+                b.Property<int>("GameId");
 
-                    b.Property<int>("PlayerId");
+                b.Property<int>("PlayerId");
 
-                    b.Property<int?>("Rating");
+                b.Property<int?>("Rating");
 
-                    b.HasKey("GameId", "PlayerId");
+                b.HasKey("GameId", "PlayerId");
 
-                    b.HasIndex("PlayerId");
+                b.HasIndex("PlayerId");
 
-                    b.ToTable("Ratings");
-                });
-
-            modelBuilder.Entity("BoardGameTracker.Models.WishListEntry", b =>
-                {
-                    b.Property<int>("GameId");
-
-                    b.Property<int>("PlayerId");
-
-                    b.HasKey("GameId", "PlayerId");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("WishList");
-                });
+                b.ToTable("Ratings");
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.GameCategoryGameEntry", b =>
-                {
-                    b.HasOne("BoardGameTracker.Models.BoardGameCategory", "BoardGameCategory")
-                        .WithMany("Games")
-                        .HasForeignKey("BoardGameCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+            {
+                b.HasOne("BoardGameTracker.Models.BoardGameCategory", "BoardGameCategory")
+                    .WithMany("Games")
+                    .HasForeignKey("BoardGameCategoryId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BoardGameTracker.Models.BoardGameEntry", "BoardGameEntry")
-                        .WithMany("Categories")
-                        .HasForeignKey("BoardGameEntryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+                b.HasOne("BoardGameTracker.Models.BoardGameEntry", "BoardGameEntry")
+                    .WithMany("Categories")
+                    .HasForeignKey("BoardGameEntryId")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.GamePlaySession", b =>
-                {
-                    b.HasOne("BoardGameTracker.Models.BoardGameEntry", "Game")
-                        .WithMany("Sessions")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+            {
+                b.HasOne("BoardGameTracker.Models.BoardGameEntry", "Game")
+                    .WithMany("Sessions")
+                    .HasForeignKey("GameId")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.GamePlaySessionPlayer", b =>
-                {
-                    b.HasOne("BoardGameTracker.Models.GamePlaySession", "GamePlaySession")
-                        .WithMany("Players")
-                        .HasForeignKey("GamePlaySessionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+            {
+                b.HasOne("BoardGameTracker.Models.GamePlaySession", "GamePlaySession")
+                    .WithMany("Players")
+                    .HasForeignKey("GamePlaySessionId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BoardGameTracker.Models.Player", "Player")
-                        .WithMany("GamePlaySessions")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+                b.HasOne("BoardGameTracker.Models.Player", "Player")
+                    .WithMany("GamePlaySessions")
+                    .HasForeignKey("PlayerId")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.GamePlaySessionWinner", b =>
-                {
-                    b.HasOne("BoardGameTracker.Models.GamePlaySession", "GamePlaySession")
-                        .WithMany("Winners")
-                        .HasForeignKey("GamePlaySessionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+            {
+                b.HasOne("BoardGameTracker.Models.GamePlaySession", "GamePlaySession")
+                    .WithMany("Winners")
+                    .HasForeignKey("GamePlaySessionId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BoardGameTracker.Models.Player", "Player")
-                        .WithMany("GamePlayWins")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+                b.HasOne("BoardGameTracker.Models.Player", "Player")
+                    .WithMany()
+                    .HasForeignKey("PlayerId")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
             modelBuilder.Entity("BoardGameTracker.Models.PlayerRating", b =>
-                {
-                    b.HasOne("BoardGameTracker.Models.BoardGameEntry", "Game")
-                        .WithMany("PlayerRatings")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade);
+            {
+                b.HasOne("BoardGameTracker.Models.BoardGameEntry", "Game")
+                    .WithMany("PlayerRatings")
+                    .HasForeignKey("GameId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BoardGameTracker.Models.Player", "Player")
-                        .WithMany("Ratings")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("BoardGameTracker.Models.WishListEntry", b =>
-                {
-                    b.HasOne("BoardGameTracker.Models.BoardGameEntry", "Game")
-                        .WithMany("WishList")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BoardGameTracker.Models.Player", "Player")
-                        .WithMany("WishList")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+                b.HasOne("BoardGameTracker.Models.Player", "Player")
+                    .WithMany("Ratings")
+                    .HasForeignKey("PlayerId")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 #pragma warning restore 612, 618
         }
     }

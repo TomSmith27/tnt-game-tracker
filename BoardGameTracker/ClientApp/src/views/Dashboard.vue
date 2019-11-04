@@ -12,7 +12,7 @@
             </v-card-title>
             <v-card-text>
               <v-list>
-                <v-list-tile @click v-for="player in winLeaderBoard" :key="player.id" avatar>
+                <v-list-tile :to="{name : 'player-profile', params : {id : player.id}}" v-for="player in winLeaderBoard" :key="player.id" avatar>
                   <v-list-tile-avatar class="white--text" tile :color="player.colour">{{player.name.charAt(0).toUpperCase()}}</v-list-tile-avatar>
                   <v-list-tile-content>
                     <v-list-tile-title :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</v-list-tile-title>
@@ -30,10 +30,10 @@
             </v-card-title>
             <v-card-text>
               <v-list>
-                <v-list-tile @click v-for="player in averageRating" :key="player.id" avatar>
+                <v-list-tile :to="{name : 'player-profile', params : {id : player.id}}" v-for="player in averageRating" :key="player.id" avatar>
                   <v-list-tile-avatar class="white--text" tile :color="player.colour">{{player.name.charAt(0).toUpperCase()}}</v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title :to="{name : 'player-profile', params : {id : player.id}}">{{player.name}}</v-list-tile-title>
+                    <v-list-tile-title>{{player.name}}</v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>{{player.averageRating | round}}</v-list-tile-action>
                 </v-list-tile>
@@ -48,9 +48,9 @@
             </v-card-title>
             <v-card-text>
               <v-list>
-                <v-list-tile @click v-for="game in highestRatedGames" :key="game.id" avatar>
+                <v-list-tile :to="{name : 'game-detail', params : {id : game.id}}" v-for="game in highestRatedGames" :key="game.id" avatar>
                   <v-list-tile-avatar tile>
-                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar">
+                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar" />
                   </v-list-tile-avatar>
                   <v-list-tile-content>
                     <v-list-tile-title>{{game.name}}</v-list-tile-title>
@@ -68,9 +68,9 @@
             </v-card-title>
             <v-card-text>
               <v-list>
-                <v-list-tile @click v-for="game in lowestRatedGames" :key="game.id" avatar>
+                <v-list-tile :to="{name : 'game-detail', params : {id : game.id}}" v-for="game in lowestRatedGames" :key="game.id" avatar>
                   <v-list-tile-avatar tile>
-                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar">
+                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar" />
                   </v-list-tile-avatar>
                   <v-list-tile-content>
                     <v-list-tile-title>{{game.name}}</v-list-tile-title>
@@ -88,9 +88,9 @@
             </v-card-title>
             <v-card-text>
               <v-list>
-                <v-list-tile @click v-for="game in mostOverratedGames" :key="game.id" avatar>
+                <v-list-tile :to="{name : 'game-detail', params : {id : game.id}}" v-for="game in mostOverratedGames" :key="game.id" avatar>
                   <v-list-tile-avatar tile>
-                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar">
+                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar" />
                   </v-list-tile-avatar>
                   <v-list-tile-content>
                     <v-list-tile-title>{{game.name}}</v-list-tile-title>
@@ -117,9 +117,9 @@
             </v-card-title>
             <v-card-text>
               <v-list>
-                <v-list-tile @click v-for="game in mostUnderatedGames" :key="game.id" avatar>
+                <v-list-tile :to="{name : 'game-detail', params : {id : game.id}}" v-for="game in mostUnderatedGames" :key="game.id" avatar>
                   <v-list-tile-avatar tile>
-                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar">
+                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar" />
                   </v-list-tile-avatar>
                   <v-list-tile-content>
                     <v-list-tile-title>{{game.name}}</v-list-tile-title>
@@ -145,47 +145,65 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { httpClient } from "../axios-service";
-import { Player } from '../models/Player'
-import { GameListItem } from '../models/GameListItem'
+import Vue from 'vue';
+import { httpClient } from '../axios-service';
+import { Player } from '../models/Player';
+import { GameListItem } from '../models/GameListItem';
 export default Vue.extend({
-  data: () => ({
-    players: [] as Player[],
-    games: [] as GameListItem[],
-    error: ''
-  }),
-  async created() {
-    try {
-      this.players = (await httpClient.get(`dashboard`)).data
-      this.games = (await httpClient.get(`games`)).data
-
+    data: () => ({
+        players: [] as Player[],
+        games: [] as GameListItem[],
+        error: ''
+    }),
+    async created() {
+        try {
+            this.players = (await httpClient.get(`dashboard`)).data;
+            this.games = (await httpClient.get(`games`)).data;
+        } catch (e) {
+            this.error = e;
+        }
+    },
+    computed: {
+        winLeaderBoard(): Player[] {
+            return this.players
+                .map(p => p)
+                .sort((p, p2) => p2.gamesWonPercentage - p.gamesWonPercentage);
+        },
+        averageRating(): Player[] {
+            return this.players
+                .map(p => p)
+                .sort((p, p2) => p2.averageRating - p.averageRating);
+        },
+        highestRatedGames(): GameListItem[] {
+            return this.games
+                .filter(g => g.playersAverageRating != null)
+                .sort(
+                    (p, p2) => p2.playersAverageRating - p.playersAverageRating
+                )
+                .slice(0, 3);
+        },
+        lowestRatedGames(): GameListItem[] {
+            return this.games
+                .filter(g => g.playersAverageRating != null)
+                .sort(
+                    (p, p2) => p.playersAverageRating - p2.playersAverageRating
+                )
+                .slice(0, 3);
+        },
+        mostOverratedGames(): GameListItem[] {
+            return this.games
+                .filter(g => g.difference != null)
+                .sort((p, p2) => p2.difference - p.difference)
+                .slice(0, 3);
+        },
+        mostUnderatedGames(): GameListItem[] {
+            return this.games
+                .filter(g => g.difference != null)
+                .sort((p, p2) => p.difference - p2.difference)
+                .slice(0, 3);
+        }
     }
-    catch (e) {
-      this.error = e;
-    }
-  },
-  computed: {
-    winLeaderBoard(): Player[] {
-      return this.players.map(p => p).sort((p, p2) => p2.gamesWonPercentage - p.gamesWonPercentage)
-    },
-    averageRating(): Player[] {
-      return this.players.map(p => p).sort((p, p2) => p2.averageRating - p.averageRating)
-    },
-    highestRatedGames(): GameListItem[] {
-      return this.games.filter(g => g.playersAverageRating != null).sort((p, p2) => p2.playersAverageRating - p.playersAverageRating).slice(0, 3)
-    },
-    lowestRatedGames(): GameListItem[] {
-      return this.games.filter(g => g.playersAverageRating != null).sort((p, p2) => p.playersAverageRating - p2.playersAverageRating).slice(0, 3)
-    },
-    mostOverratedGames(): GameListItem[] {
-      return this.games.filter(g => g.difference != null).sort((p, p2) => p2.difference - p.difference).slice(0, 3)
-    },
-    mostUnderatedGames(): GameListItem[] {
-      return this.games.filter(g => g.difference != null).sort((p, p2) => p.difference - p2.difference).slice(0, 3)
-    }
-  }
-})
+});
 </script>
 
 
