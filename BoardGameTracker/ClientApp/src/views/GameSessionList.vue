@@ -55,31 +55,31 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { httpClient } from "@/axios-service";
-import moment from "moment";
+import Vue from 'vue';
+import { httpClient } from '@/axios-service';
+import moment from 'moment';
 export default Vue.extend({
-  name: "GameSessionList",
-  data: () => ({
-    gameSessionGroups: [],
-    error: "",
-    isLoading: false
-  }),
-  filters: {
-    bigDate: (value: string) => {
-      return moment(value).format("Do MMM YYYY");
+    name: 'GameSessionList',
+    data: () => ({
+        gameSessionGroups: [],
+        error: '',
+        isLoading: false
+    }),
+    filters: {
+        bigDate: (value: string) => {
+            return moment(value).format('Do MMM YYYY');
+        }
+    },
+    created() {
+        this.isLoading = true;
+        httpClient.get('game-session').then(response => {
+            response.data.forEach((element: any) => {
+                element.show = false;
+            });
+            this.gameSessionGroups = response.data;
+            this.isLoading = false;
+        });
     }
-  },
-  created() {
-    this.isLoading = true;
-    httpClient.get("game-session").then(response => {
-      response.data.forEach((element: any) => {
-        element.show = false;
-      });
-      this.gameSessionGroups = response.data;
-      this.isLoading = false;
-    });
-  }
 });
 </script>
 

@@ -15,6 +15,7 @@ namespace BoardGameTracker.Database
         public DbSet<Player> Players { get; set; }
         public DbSet<PlayerRating> Ratings { get; set; }
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<WishListEntry> WishList { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,9 @@ namespace BoardGameTracker.Database
 
             modelBuilder.Entity<GamePlaySessionWinner>()
                .HasKey(t => new { t.GamePlaySessionId, t.PlayerId });
+
+            modelBuilder.Entity<WishListEntry>()
+                .HasKey(t => new { t.GameId, t.PlayerId});
 
             modelBuilder.Entity<BoardGameEntry>()
                 .HasMany(nv => nv.Categories);

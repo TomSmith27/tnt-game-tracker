@@ -15,6 +15,7 @@
         public List<GamePlaySessionPlayer> GamePlaySessions { get; set; } = new List<GamePlaySessionPlayer>();
         public List<GamePlaySessionWinner> GamePlayWins { get; set; } = new List<GamePlaySessionWinner>();
         public ICollection<PlayerRating> Ratings { get; set; }
+        public ICollection<WishListEntry> WishList { get; set; }
  
         private int colour;
 

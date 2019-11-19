@@ -66,13 +66,13 @@ namespace BoardGameTracker.Controllers
                 .Include(g => g.Categories)
                 .Include(g => g.PlayerRatings)
                 .FirstOrDefault(g => g.Id == id);
+            bool isOnWishList = db.WishList.Any(a =>
+                a.PlayerId == int.Parse(this.HttpContext.User.Identity.Name) && a.GameId == id);
 
-
-            return this.Ok(game);
+            return this.Ok(new {game, isOnWishList});
         }
 
         [HttpGet("player-ratings")]
-
         public IActionResult PlayerRating(int? userId = null)
         {
             if (!userId.HasValue)
@@ -88,7 +88,6 @@ namespace BoardGameTracker.Controllers
         }
 
         [HttpGet("player-unrated-games")]
-
         public IActionResult PlayerUnratedGamesCount()
         {
             var userId = int.Parse(this.HttpContext.User.Identity.Name);
@@ -169,6 +168,31 @@ namespace BoardGameTracker.Controllers
 
         }
 
+        [HttpPost("{id:int}/add-to-wishlist")]
+        public async Task<IActionResult> AddToWishList(int id)
+        {
+            var userId = int.Parse(this.HttpContext.User.Identity.Name);
+            this.db.WishList.Add(new WishListEntry()
+            {
+                GameId = id,
+                PlayerId = userId
+            });
+            await db.SaveChangesAsync();
+
+            return this.Ok();
+        }
+
+        [HttpPost("{id:int}/remove-from-wishlist")]
+        public async Task<IActionResult> RemoveFromWishList(int id)
+        {
+            var userId = int.Parse(this.HttpContext.User.Identity.Name);
+            var wishList = this.db.WishList.First(w => w.PlayerId == userId && w.GameId == id);
+            this.db.WishList.Remove(wishList);
+            await db.SaveChangesAsync();
+
+            return this.Ok();
+        }
+
         [HttpPost("import")]
         public IActionResult ReImport()
         {
@@ -207,5 +231,7 @@ namespace BoardGameTracker.Controllers
 
             return this.Ok();
         }
+
+
     }
 }

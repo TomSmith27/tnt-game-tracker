@@ -15,7 +15,7 @@ namespace BoardGameTracker.Dto
             this.Date = g.Date;
             this.BggAverageRating = g.Game.AverageRating;
             this.PlayerAverageRating = g.Game.PlayerRatings.Average(a => a.Rating);
-            this.Players = g.Players.Select(p => new PlayerSessionDto(p.Player, g.Winners.Any(w => w.PlayerId == p.PlayerId))).ToList();
+            this.Players = g.Players.OrderBy(p => p.Player.Name).Select(p => new PlayerSessionDto(p.Player, g.Winners.Any(w => w.PlayerId == p.PlayerId))).ToList();
             this.Guests = g.Guests;
         }
 

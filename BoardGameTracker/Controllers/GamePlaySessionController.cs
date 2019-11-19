@@ -21,7 +21,7 @@
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             this.db.Players.Load();
             var gamePlaySessions = this.db.GamePlaySessions.Include(g => g.Game)

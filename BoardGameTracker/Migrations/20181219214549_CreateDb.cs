@@ -158,26 +158,6 @@ namespace BoardGameTracker.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "GamePlaySessions",
-                columns: new[] { "Id", "Date", "GameId" },
-                values: new object[] { 1, new DateTimeOffset(new DateTime(2018, 12, 19, 21, 45, 49, 401, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null });
-
-            migrationBuilder.InsertData(
-                table: "Games",
-                columns: new[] { "Id", "Age", "AverageRating", "BestPlayerCount", "Description", "Image", "MaxPlayers", "MaxPlaytime", "MinPlayers", "MinPlaytime", "Name", "ObjectId", "PlayingTime", "Thumbnail", "UsersRated", "YearPublished" },
-                values: new object[] { 1, 0, 0.0, null, null, null, 0, 0, 0, 0, "Azul", 0, 0, null, 0, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)) });
-
-            migrationBuilder.InsertData(
-                table: "Players",
-                columns: new[] { "Id", "Name", "PasswordHash", "PasswordSalt", "Username" },
-                values: new object[] { 1, "Admin", new byte[] { 56, 188, 29, 154, 139, 68, 170, 219, 75, 179, 108, 164, 165, 12, 78, 93, 237, 213, 240, 240, 129, 1, 195, 245, 182, 78, 241, 34, 127, 142, 240, 181, 68, 18, 43, 154, 144, 123, 18, 55, 48, 180, 16, 159, 14, 37, 179, 5, 216, 255, 75, 246, 182, 214, 215, 213, 65, 108, 112, 21, 0, 140, 129, 221 }, new byte[] { 118, 114, 33, 38, 250, 92, 241, 72, 89, 49, 191, 255, 168, 152, 167, 10, 233, 203, 156, 8, 41, 176, 21, 103, 147, 176, 82, 160, 195, 208, 68, 31, 119, 66, 66, 226, 163, 148, 216, 146, 238, 197, 190, 13, 104, 173, 172, 130, 124, 175, 99, 165, 254, 192, 195, 83, 118, 7, 124, 121, 140, 217, 20, 45, 243, 43, 172, 28, 13, 217, 141, 187, 168, 46, 221, 250, 146, 190, 92, 27, 17, 175, 51, 119, 104, 72, 253, 121, 119, 211, 123, 71, 241, 168, 208, 59, 43, 204, 116, 35, 116, 100, 174, 7, 31, 255, 148, 166, 18, 198, 142, 78, 128, 71, 144, 14, 24, 105, 37, 203, 40, 54, 50, 11, 135, 198, 174, 109 }, "admin" });
-
-            migrationBuilder.InsertData(
-                table: "Ratings",
-                columns: new[] { "GameId", "PlayerId", "Rating" },
-                values: new object[] { 1, 1, 4 });
-
             migrationBuilder.CreateIndex(
                 name: "IX_GameCategoryGameEntry_BoardGameEntryId",
                 table: "GameCategoryGameEntry",
