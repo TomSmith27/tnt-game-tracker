@@ -115,9 +115,11 @@ export default Vue.extend({
     methods: {
         async addToWishList() {
             await httpClient.post(`games/${this.id}/add-to-wishlist`);
+            this.isOnWishList = !this.isOnWishList;
         },
         async removeFromWishList() {
             await httpClient.post(`games/${this.id}/remove-from-wishlist`);
+            this.isOnWishList = !this.isOnWishList;
         }
     }
 });

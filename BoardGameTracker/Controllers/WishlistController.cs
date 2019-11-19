@@ -30,7 +30,7 @@ namespace BoardGameTracker.Controllers
 
             var wishListRanks = wishLists.Select(w => new GameWishListRanking(w));
 
-            return this.Ok(wishListRanks.OrderBy(w => w.Players.Count));
+            return this.Ok(wishListRanks.OrderByDescending(w => w.Players.Count));
         }
     }
 }
