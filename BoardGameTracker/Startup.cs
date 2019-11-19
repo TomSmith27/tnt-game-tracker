@@ -168,15 +168,15 @@ namespace BoardGameTracker
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            //app.UseSpa(spa =>
-            //{
-            //    spa.Options.SourcePath = "ClientApp";
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
 
-            //    if (env.IsDevelopment())
-            //    {
-            //        spa.UseVueCli(npmScript: "serve", port: 8080);
-            //    }
-            //});
+                //if (env.IsDevelopment())
+                //{
+                //    spa.UseVueCli(npmScript: "serve", port: 8080);
+                //}
+            });
         }
     }
 }
