@@ -31,6 +31,7 @@
               </v-list-tile>
             </v-card-text>
             <v-card-actions>
+              <v-btn v-if="game.imported" block color="primary" :to="{name : 'game-detail', params : { id : game.id}}">View</v-btn>
               <v-btn v-if="!game.imported" block color="primary" @click="importGame(game.objectId)">Import</v-btn>
               <v-btn v-else block color="secondary" @click="importGame(game.objectId)">ReImport</v-btn>
             </v-card-actions>
@@ -49,61 +50,67 @@ import _ from 'lodash';
 import { httpClient } from '../axios-service';
 import router from '../router';
 export default Vue.extend({
-  name: 'home',
-  components: {},
-  data: () => ({
-    search: '',
-    exact: false,
-    searching: false,
-    searchError: '',
-    lastSearch: '',
-    lastExact: false,
-    boardGames: [],
-  }),
-  methods: {
-    slowSearch: _.debounce(async function (this: any) {
-      this.fastSearch();
-    }, 2000),
-    async fastSearch() {
-      (this.$refs.search as HTMLElement).blur();
-      if (this.lastSearch !== this.search || this.lastExact !== this.exact) {
-        this.lastSearch = this.search;
-        this.lastExact = this.exact;
-        this.searching = true;
-        try {
-          const result = await httpClient.get(
-            `games/search-import?search=${this.search}&exact=${this.exact}`,
-          );
-          this.boardGames = result.data;
-        } catch (e) {
-          if (e.message === 'Network Error') {
-            this.searchError = 'Network Error';
-          }
+    name: 'home',
+    components: {},
+    data: () => ({
+        search: '',
+        exact: false,
+        searching: false,
+        searchError: '',
+        lastSearch: '',
+        lastExact: false,
+        boardGames: []
+    }),
+    methods: {
+        slowSearch: _.debounce(async function(this: any) {
+            this.fastSearch();
+        }, 2000),
+        async fastSearch() {
+            (this.$refs.search as HTMLElement).blur();
+            if (
+                this.lastSearch !== this.search ||
+                this.lastExact !== this.exact
+            ) {
+                this.lastSearch = this.search;
+                this.lastExact = this.exact;
+                this.searching = true;
+                try {
+                    const result = await httpClient.get(
+                        `games/search-import?search=${this.search}&exact=${this.exact}`
+                    );
+                    this.boardGames = result.data;
+                } catch (e) {
+                    if (e.message === 'Network Error') {
+                        this.searchError = 'Network Error';
+                    }
+                }
+                this.searching = false;
+            }
+        },
+        importGame(objectid: number) {
+            httpClient
+                .post('games', {
+                    objectid
+                })
+                .then(response => {
+                    router.push({
+                        name: 'game-detail',
+                        params: { id: response.data }
+                    });
+                });
         }
-        this.searching = false;
-      }
     },
-    importGame(objectid: number) {
-      httpClient
-        .post('games', {
-          objectid,
-        })
-        .then(response => {
-          router.push({ name: 'game-detail', params: { id: response.data } });
-        });
-    },
-  },
-  watch: {
-    async search() {
-      if (this.search.length > 2) {
-        this.slowSearch();
-      }
-    },
-    async exact() {
-      if (this.search.length > 2) {
-        this.fastSearch();
-      }
-    },
-  },
+    watch: {
+        async search() {
+            if (this.search.length > 2) {
+                this.slowSearch();
+            }
+        },
+        async exact() {
+            if (this.search.length > 2) {
+                this.fastSearch();
+            }
+        }
+    }
 });
 </script>

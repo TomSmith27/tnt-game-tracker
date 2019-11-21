@@ -232,6 +232,13 @@ namespace BoardGameTracker.Controllers
             return this.Ok();
         }
 
+        [HttpGet("recommendations")]
+        public async Task<IActionResult> GetRecommendations()
+        {
+            var allGames = await this.db.Games.Include(g => g.Sessions).Include(g => g.PlayerRatings).ToListAsync();
+            return this.Ok(allGames.Select(g => new GameDto(g)));
+        }
+
 
     }
 }

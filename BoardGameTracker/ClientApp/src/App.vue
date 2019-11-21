@@ -62,6 +62,14 @@
             <v-list-tile-title>Wishlist</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile :to="{ name: 'recommendation' }">
+          <v-list-tile-action>
+            <v-icon>lightbulb</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Recommendation</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="primary" dark fixed app>
@@ -70,23 +78,20 @@
       <v-spacer></v-spacer>
       <v-menu left offset-y="offset-y" v-if="loggedIn" class="pr-3">
         <v-badge slot="activator" color="red">
-          <span v-if="unratedGamesCount > 0" slot="badge">{{
+          <span v-if="unratedGamesCount > 0" slot="badge">
+            {{
             unratedGamesCount
-          }}</span>
+            }}
+          </span>
           <v-icon color="white">notifications</v-icon>
         </v-badge>
         <v-list>
           <v-list-tile>
             <v-list-tile-title v-if="unratedGamesCount > 0">
               You have {{ unratedGamesCount }} unrated games
-              <router-link
-                :to="{ name: 'game-ratings', query: { showOnlyUnrated: true } }"
-                >Click here to rate</router-link
-              >
+              <router-link :to="{ name: 'game-ratings', query: { showOnlyUnrated: true } }">Click here to rate</router-link>
             </v-list-tile-title>
-            <v-list-tile-title v-else
-              >You have no unrated games</v-list-tile-title
-            >
+            <v-list-tile-title v-else>You have no unrated games</v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-menu>
@@ -96,9 +101,7 @@
           <v-icon>keyboard_arrow_down</v-icon>
         </v-btn>
         <v-list>
-          <v-list-tile
-            :to="{ name: 'player-profile', params: { id: user.id } }"
-          >
+          <v-list-tile :to="{ name: 'player-profile', params: { id: user.id } }">
             <v-icon class="mr-2">person</v-icon>
             <v-list-tile-title>Profile</v-list-tile-title>
           </v-list-tile>
@@ -110,9 +113,7 @@
       </v-menu>
       <div v-else>
         <v-btn flat :to="{ name: 'login' }">Login</v-btn>
-        <v-btn class="hidden-sm-and-down" flat :to="{ name: 'register' }"
-          >Register</v-btn
-        >
+        <v-btn class="hidden-sm-and-down" flat :to="{ name: 'register' }">Register</v-btn>
       </div>
     </v-toolbar>
     <v-content>
@@ -131,40 +132,40 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { httpClient } from "./axios-service";
+import Vue from 'vue';
+import { httpClient } from './axios-service';
 export default Vue.extend({
-  data: () => ({
-    drawer: null
-  }),
-  props: {
-    source: String
-  },
-  methods: {
-    logout() {
-      this.$store.commit("logout");
-      this.$router.push({ name: "login" });
-    }
-  },
-  async created() {},
-  computed: {
-    unratedGamesCount(): number {
-      return this.$store.state.unratedGamesCount;
+    data: () => ({
+        drawer: null
+    }),
+    props: {
+        source: String
     },
-    user(): any {
-      return this.$store.state.user;
+    methods: {
+        logout() {
+            this.$store.commit('logout');
+            this.$router.push({ name: 'login' });
+        }
     },
-    loggedIn(): boolean {
-      return this.$store.getters.loggedIn;
+    async created() {},
+    computed: {
+        unratedGamesCount(): number {
+            return this.$store.state.unratedGamesCount;
+        },
+        user(): any {
+            return this.$store.state.user;
+        },
+        loggedIn(): boolean {
+            return this.$store.getters.loggedIn;
+        }
     }
-  }
 });
 </script>
 
 <style>
 @media only screen and (max-width: 959px) {
-  #inspire .container {
-    padding: 5px;
-  }
+    #inspire .container {
+        padding: 5px;
+    }
 }
 </style>
