@@ -177,6 +177,14 @@ namespace BoardGameTracker.Controllers
                 GameId = id,
                 PlayerId = userId
             });
+
+            this.db.Activities.Add(new Activity
+            {
+                Date = DateTimeOffset.Now,
+                Message = $"added {db.Games.Find(id).Name} to their wish to play list",
+                PlayerId = userId
+            });
+
             await db.SaveChangesAsync();
 
             return this.Ok();
@@ -188,6 +196,14 @@ namespace BoardGameTracker.Controllers
             var userId = int.Parse(this.HttpContext.User.Identity.Name);
             var wishList = this.db.WishList.First(w => w.PlayerId == userId && w.GameId == id);
             this.db.WishList.Remove(wishList);
+
+            this.db.Activities.Add(new Activity
+            {
+                Date = DateTimeOffset.Now,
+                Message = $"removed {db.Games.Find(id).Name} to their wish to play list",
+                PlayerId = userId
+            });
+
             await db.SaveChangesAsync();
 
             return this.Ok();
@@ -236,7 +252,7 @@ namespace BoardGameTracker.Controllers
         public async Task<IActionResult> GetRecommendations()
         {
             var allGames = await this.db.Games.Include(g => g.Sessions).Include(g => g.PlayerRatings).ToListAsync();
-            return this.Ok(allGames.Select(g => new GameDto(g)));
+            return this.Ok(allGames.Select(g => new BoardGameDto(g)));
         }
 
 

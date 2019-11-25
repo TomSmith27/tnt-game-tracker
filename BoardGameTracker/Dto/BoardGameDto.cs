@@ -1,6 +1,7 @@
 ﻿using BoardGameTracker.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BoardGameTracker.Dto
 {
@@ -22,6 +23,8 @@ namespace BoardGameTracker.Dto
             this.AverageRating = boardGame.AverageRating;
             this.UsersRated = boardGame.UsersRated;
             this.Age = boardGame.Age;
+            this.HavePlayed = boardGame.Sessions.Any();
+      
             //this.Categories = boardGame.Categories;
         }
         public int Id { get; }
@@ -57,5 +60,6 @@ namespace BoardGameTracker.Dto
         public List<BoardGameCategoryDto> Categories { get; } = new List<BoardGameCategoryDto>();
 
         public string BestPlayerCount { get; }
+        public bool HavePlayed { get; }
     }
 }

@@ -17,33 +17,35 @@
               </v-btn>
             </v-flex>
             <v-flex xs12 md3 lg2>
-              <v-flex md12>
-                <h4>Bgg Rating</h4>
-                <div class="rating">{{game.averageRating | round}}</div>
-              </v-flex>
-              <v-flex md12>
-                <h4>Our Rating</h4>
-                <v-btn color="primary" block @click="ratingsPanelOpen = true">{{ourRating | round}}</v-btn>
-                <div class="rating"></div>
-                <v-dialog v-model="ratingsPanelOpen" max-width="90%">
-                  <v-card>
-                    <v-card-title>
-                      <h4>Ratings</h4>
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-list dense>
-                      <player-rating :key="playerRating.id" v-for="playerRating in game.playerRatings" :id="id" :player-rating="playerRating"></player-rating>
-                    </v-list>
-                    <v-card-actions>
-                      <v-btn color="primary" block @click="ratingsPanelOpen=false">Close</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-flex>
-              <v-flex xs12>
-                <h5>Categories</h5>
-                <v-chip :key="category.id" v-for="category in game.categories">{{category.boardGameCategory.name}}</v-chip>
-              </v-flex>
+              <v-layout row wrap>
+                <v-flex xs6>
+                  <h4>Bgg Rating</h4>
+                  <v-btn :href="`https://boardgamegeek.com/boardgame/${game.objectId}`" color="secondary" block>{{game.averageRating | round}}</v-btn>
+                </v-flex>
+                <v-flex xs6>
+                  <h4>Our Rating</h4>
+                  <v-btn color="primary" block @click="ratingsPanelOpen = true">{{ourRating | round}}</v-btn>
+                  <div class="rating"></div>
+                  <v-dialog v-model="ratingsPanelOpen" max-width="90%">
+                    <v-card>
+                      <v-card-title>
+                        <h4>Ratings</h4>
+                      </v-card-title>
+                      <v-divider></v-divider>
+                      <v-list dense>
+                        <player-rating :key="playerRating.id" v-for="playerRating in game.playerRatings" :id="id" :player-rating="playerRating"></player-rating>
+                      </v-list>
+                      <v-card-actions>
+                        <v-btn color="primary" block @click="ratingsPanelOpen=false">Close</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-flex>
+                <v-flex xs12>
+                  <h5>Categories</h5>
+                  <v-chip :key="category.id" v-for="category in game.categories">{{category.boardGameCategory.name}}</v-chip>
+                </v-flex>
+              </v-layout>
             </v-flex>
             <v-flex md7 lg8>
               <div class="headline">{{game.name}}</div>

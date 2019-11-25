@@ -16,8 +16,6 @@ namespace BoardGameTracker.Dto
             this.AverageRating = g.AverageRating;
             this.PlayersAverageRating = g.PlayerRatings.Average(p => p.Rating);
             this.Thumbnail = g.Thumbnail;
-            this.MinPlayers = g.MinPlayers;
-            this.MaxPlayers = g.MaxPlayers;
         }
 
         public int Id { get; }
@@ -29,7 +27,5 @@ namespace BoardGameTracker.Dto
         public double? PlayersAverageRating { get; }
         public double? Difference => this.PlayersAverageRating - this.AverageRating;
         public string Thumbnail { get; }
-        public int MinPlayers { get; }
-        public int MaxPlayers { get; }
     }
 }

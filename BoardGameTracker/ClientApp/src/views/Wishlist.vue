@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>WishList</h1>
+    <h1>Want to Play list</h1>
     <v-layout row wrap>
       <v-flex xs12>
         <h2 class="text-xs-left">Players</h2>

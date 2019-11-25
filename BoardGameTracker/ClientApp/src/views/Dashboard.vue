@@ -1,7 +1,9 @@
 <template>
   <div>
     <h1>Dashboard</h1>
-    <v-container grid-list-md>
+    <v-progress-circular v-if="loading" :size="50" color="primary" indeterminate></v-progress-circular>
+
+    <v-container v-else grid-list-md>
       <v-alert :value="error" type="error">{{error}}</v-alert>
       <!--  {{players}} -->
       <v-layout row wrap>
@@ -158,7 +160,7 @@
               <v-list>
                 <v-list-tile @click v-for="game in mostPlayedGames" :key="game.id" avatar>
                   <v-list-tile-avatar tile>
-                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar">
+                    <img v-if="game.thumbnail" :src="game.thumbnail" alt="Avatar" />
                   </v-list-tile-avatar>
                   <v-list-tile-content>
                     <v-list-tile-title>
@@ -185,7 +187,8 @@ export default Vue.extend({
     data: () => ({
         players: [] as Player[],
         games: [] as GameListItem[],
-        error: ''
+        error: '',
+        loading: true
     }),
     async created() {
         try {
@@ -194,6 +197,7 @@ export default Vue.extend({
         } catch (e) {
             this.error = e;
         }
+        this.loading = false;
     },
     computed: {
         winLeaderBoard(): Player[] {
@@ -212,7 +216,7 @@ export default Vue.extend({
                 .sort(
                     (p, p2) => p2.playersAverageRating - p.playersAverageRating
                 )
-                .slice(0, 3);
+                .slice(0, 5);
         },
         lowestRatedGames(): GameListItem[] {
             return this.games
@@ -220,19 +224,24 @@ export default Vue.extend({
                 .sort(
                     (p, p2) => p.playersAverageRating - p2.playersAverageRating
                 )
-                .slice(0, 3);
+                .slice(0, 5);
         },
         mostOverratedGames(): GameListItem[] {
             return this.games
                 .filter(g => g.difference != null)
                 .sort((p, p2) => p2.difference - p.difference)
-                .slice(0, 3);
+                .slice(0, 5);
         },
         mostUnderatedGames(): GameListItem[] {
             return this.games
                 .filter(g => g.difference != null)
                 .sort((p, p2) => p.difference - p2.difference)
-                .slice(0, 3);
+                .slice(0, 5);
+        },
+        mostPlayedGames(): GameListItem[] {
+            return this.games
+                .sort((g, g2) => g2.timesPlayed - g.timesPlayed)
+                .slice(0, 5);
         }
     }
 });
@@ -241,7 +250,7 @@ export default Vue.extend({
 
 <style>
 .v-list__tile__title a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 </style>
