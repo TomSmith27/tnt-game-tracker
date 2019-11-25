@@ -46,7 +46,7 @@
             <v-list-tile-title>Players</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile :to="{name : 'activity-log'}">
+        <v-list-tile :to="{ name: 'activity-log' }">
           <v-list-tile-action>
             <v-icon>trending_up</v-icon>
           </v-list-tile-action>
@@ -79,9 +79,7 @@
       <v-menu left offset-y="offset-y" v-if="loggedIn" class="pr-3">
         <v-badge slot="activator" color="red">
           <span v-if="unratedGamesCount > 0" slot="badge">
-            {{
-            unratedGamesCount
-            }}
+            {{ unratedGamesCount }}
           </span>
           <v-icon color="white">notifications</v-icon>
         </v-badge>
@@ -126,46 +124,50 @@
       </v-container>
     </v-content>
     <v-footer color="secondary" app>
-      <span class="pl-4 white--text">&copy; 2019</span>
+      <span class="pl-4 white--text">&copy; {{ packageInfo.version }}</span>
     </v-footer>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import version from '../package.json';
 import { httpClient } from './axios-service';
 export default Vue.extend({
-    data: () => ({
-        drawer: null
-    }),
-    props: {
-        source: String
-    },
-    methods: {
-        logout() {
-            this.$store.commit('logout');
-            this.$router.push({ name: 'login' });
-        }
-    },
-    async created() {},
-    computed: {
-        unratedGamesCount(): number {
-            return this.$store.state.unratedGamesCount;
-        },
-        user(): any {
-            return this.$store.state.user;
-        },
-        loggedIn(): boolean {
-            return this.$store.getters.loggedIn;
-        }
+  data: () => ({
+    drawer: null
+  }),
+  props: {
+    source: String
+  },
+  methods: {
+    logout() {
+      this.$store.commit('logout');
+      this.$router.push({ name: 'login' });
     }
+  },
+  async created() {},
+  computed: {
+    packageInfo() {
+      return version;
+    },
+    unratedGamesCount(): number {
+      return this.$store.state.unratedGamesCount;
+    },
+    user(): any {
+      return this.$store.state.user;
+    },
+    loggedIn(): boolean {
+      return this.$store.getters.loggedIn;
+    }
+  }
 });
 </script>
 
 <style>
 @media only screen and (max-width: 959px) {
-    #inspire .container {
-        padding: 5px;
-    }
+  #inspire .container {
+    padding: 5px;
+  }
 }
 </style>

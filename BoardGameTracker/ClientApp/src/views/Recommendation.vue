@@ -31,9 +31,9 @@
             <v-icon>alarm</v-icon>
             {{game.minPlaytime}}" - {{game.maxPlaytime}}"
           </span>
-          <v-btn small @click="addToWishList(game.id)" color="success">
+          <!--         <v-btn small @click="addToWishList(game.id)" color="success">
             <v-icon>favorite</v-icon>
-          </v-btn>
+          </v-btn>-->
         </div>
       </v-flex>
     </v-layout>
