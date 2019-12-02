@@ -26,6 +26,7 @@ namespace BoardGameTracker.Controllers
             var wishLists = this.db.WishList
                 .Include(w => w.Game)
                 .Include(w => w.Player)
+                .AsEnumerable()
                 .GroupBy(w => w.Game);
 
             var wishListRanks = wishLists.Select(w => new GameWishListRanking(w));

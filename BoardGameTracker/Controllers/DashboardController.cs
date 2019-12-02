@@ -23,16 +23,18 @@ namespace BoardGameTracker.Controllers
         [HttpGet("")]
         public IActionResult Get()
         {
-            var players = this.db.Players
-               .Include(p => p.GamePlaySessions)
+
+               this.db.Players.Include(p => p.GamePlaySessions)
                .ThenInclude(s => s.GamePlaySession)
-               .ThenInclude(g => g.Game)
-               .Include(p => p.GamePlaySessions)
+               .ThenInclude(g => g.Game).Load();
+
+               this.db.Players.Include(p => p.GamePlaySessions)
                .ThenInclude(s => s.GamePlaySession)
-               .ThenInclude(g => g.Winners)
-               .Include(p => p.Ratings)
+               .ThenInclude(g => g.Winners).Load();
+
+              var players =  this.db.Players.Include(p => p.Ratings)
                .ThenInclude(g => g.Game)
-               .Include(p => p.GamePlayWins).ToList().Select(player => new PlayerDetailDto(player));
+               .Include(p => p.GamePlayWins).AsEnumerable().Select(player => new PlayerDetailDto(player));
 
             return Ok(players);
         }
