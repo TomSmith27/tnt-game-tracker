@@ -49,6 +49,7 @@
 
 <script>
 import { httpClient } from '../axios-service';
+import { groupBy, values, sortBy } from 'lodash';
 export default {
     name: 'WishList',
     data() {
@@ -62,31 +63,26 @@ export default {
     computed: {
         filteredWishList() {
             if (this.wishlist.length > 0) {
-                return this.groupBy(
-                    this.wishlist
-                        .map(w => ({
-                            game: w.game,
-                            players: w.players.filter(p =>
-                                this.selectedPlayers.some(s => s.id == p.id)
-                            ),
-                            numPlayers: w.players.filter(p =>
-                                this.selectedPlayers.some(s => s.id == p.id)
-                            ).length
-                        }))
-                        .filter(w => w.players.length > 0),
-                    'numPlayers'
-                );
+                return values(
+                    groupBy(
+                        this.wishlist
+                            .map(w => ({
+                                game: w.game,
+                                players: w.players.filter(p =>
+                                    this.selectedPlayers.some(s => s.id == p.id)
+                                ),
+                                numPlayers: w.players.filter(p =>
+                                    this.selectedPlayers.some(s => s.id == p.id)
+                                ).length
+                            }))
+                            .filter(w => w.players.length > 0),
+                        'numPlayers'
+                    )
+                ).sort((a, b) => a.length - b.length);
             }
         }
     },
-    methods: {
-        groupBy(xs, key) {
-            return xs.reduce((rv, x) => {
-                (rv[x[key]] = rv[x[key]] || []).push(x);
-                return rv;
-            }, {});
-        }
-    },
+    methods: {},
     async created() {
         this.isLoading = true;
         this.players = (await httpClient.get('users')).data;
