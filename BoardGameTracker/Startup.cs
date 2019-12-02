@@ -19,6 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using VueCliMiddleware;
 
 namespace BoardGameTracker
@@ -42,10 +44,11 @@ namespace BoardGameTracker
                     .RequireAuthenticatedUser()
                     .Build();
                 o.Filters.Add(new AuthorizeFilter(policy));
-            }).AddJsonOptions(options =>
+            }).AddNewtonsoftJson(c =>
             {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                c.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -72,18 +75,31 @@ namespace BoardGameTracker
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
-                    In = "header",
+                    In = ParameterLocation.Header,
                     Description = "Please paste JWT Token with Bearer + White Space + Token into field",
                     Name = "Authorization",
-                    Type = "apiKey"
+                    Type = SecuritySchemeType.ApiKey
                 });
-                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    { "Bearer", new string[] { } }
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+
                 });
+
             });
 
             services.AddScoped<IBggService, BggService>();
@@ -131,9 +147,10 @@ namespace BoardGameTracker
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthentication();
+            
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
@@ -150,13 +167,18 @@ namespace BoardGameTracker
             app.UseSpaStaticFiles();
 
             app.UseCors("MyPolicy");
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+            app.UseRouting();
+            
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
             });
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller}/{action=Index}/{id?}");
+            //});
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
