@@ -6,8 +6,9 @@
     </router-link>
     <v-progress-circular v-if="isLoading" :size="50" color="primary" indeterminate></v-progress-circular>
     <v-container grid-list-md>
+      <v-pagination v-model="page" :length="totalPages"></v-pagination>
       <v-layout row wrap>
-        <v-flex xs12 :key="gameSessionGroup.id" v-for="gameSessionGroup in gameSessionGroups">
+        <v-flex xs12 :key="gameSessionGroup.id" v-for="gameSessionGroup in gameSessionsGroupsPaged">
           <v-card>
             <v-card-title class="primary lighten-1">
               <h2 class="white--text font-weight-light">{{gameSessionGroup.key | date}}</h2>
@@ -50,6 +51,7 @@
           </v-card>
         </v-flex>
       </v-layout>
+      <v-pagination v-model="page" :length="totalPages"></v-pagination>
     </v-container>
   </div>
 </template>
@@ -63,7 +65,9 @@ export default Vue.extend({
     data: () => ({
         gameSessionGroups: [],
         error: '',
-        isLoading: false
+        isLoading: false,
+        page: 1,
+        pageSize: 10
     }),
     filters: {
         bigDate: (value: string) => {
@@ -79,6 +83,17 @@ export default Vue.extend({
             this.gameSessionGroups = response.data;
             this.isLoading = false;
         });
+    },
+    computed: {
+        gameSessionsGroupsPaged() {
+            return this.gameSessionGroups.slice(
+                (this.page - 1) * this.pageSize,
+                this.page * this.pageSize - 1 + this.pageSize
+            );
+        },
+        totalPages() {
+            return Math.round(this.gameSessionGroups.length / this.pageSize);
+        }
     }
 });
 </script>

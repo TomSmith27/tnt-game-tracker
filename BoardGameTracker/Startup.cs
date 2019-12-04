@@ -194,10 +194,10 @@ namespace BoardGameTracker
             {
                 spa.Options.SourcePath = "ClientApp";
 
-                //if (env.IsDevelopment())
-                //{
-                //    spa.UseVueCli(npmScript: "serve", port: 8080);
-                //}
+                if (env.IsDevelopment())
+                {
+                    spa.UseVueCli();
+                }
             });
         }
     }
