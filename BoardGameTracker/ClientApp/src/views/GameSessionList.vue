@@ -85,13 +85,13 @@ export default Vue.extend({
         });
     },
     computed: {
-        gameSessionsGroupsPaged() {
+        gameSessionsGroupsPaged(): any[] {
             return this.gameSessionGroups.slice(
                 (this.page - 1) * this.pageSize,
                 this.page * this.pageSize - 1 + this.pageSize
             );
         },
-        totalPages() {
+        totalPages(): number {
             return Math.round(this.gameSessionGroups.length / this.pageSize);
         }
     }
