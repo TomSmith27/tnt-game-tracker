@@ -9,22 +9,21 @@ namespace BoardGameTracker.Controllers
 {
     [Route("api/dashboard")]
     [ApiController]
-    public class DashboardController : ControllerBase
+    public class DashboardController : BaseController
     {
-        private readonly BoardGameContext db;
         private readonly IBggService bggService;
 
-        public DashboardController(BoardGameContext db, IBggService bggService)
+        public DashboardController(BoardGameContext db, IBggService bggService) : base(db)
         {
-            this.db = db;
             this.bggService = bggService;
         }
 
         [HttpGet("")]
         public IActionResult Get()
         {
+            var user = this.db.Players.First(p => p.Id == this.UserId);
 
-               this.db.Players.Include(p => p.GamePlaySessions)
+            this.db.Players.Include(p => p.GamePlaySessions)
                .ThenInclude(s => s.GamePlaySession)
                .ThenInclude(g => g.Game).Load();
 
@@ -34,7 +33,7 @@ namespace BoardGameTracker.Controllers
 
               var players =  this.db.Players.Include(p => p.Ratings)
                .ThenInclude(g => g.Game)
-               .Include(p => p.GamePlayWins).AsEnumerable().Select(player => new PlayerDetailDto(player));
+               .Include(p => p.GamePlayWins).AsEnumerable().Select(player => new PlayerDetailDto(player, user.CurrentYearFilter.Year));
 
             return Ok(players);
         }

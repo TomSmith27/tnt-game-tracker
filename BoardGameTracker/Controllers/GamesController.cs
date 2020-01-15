@@ -158,8 +158,7 @@ namespace BoardGameTracker.Controllers
             });
 
             rating.Rating = dto.Rating;
-            
-          
+            rating.RatingDate = DateTime.Now;          
 
 
             await db.SaveChangesAsync();

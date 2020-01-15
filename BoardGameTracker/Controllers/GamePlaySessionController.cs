@@ -11,25 +11,24 @@
 
     [Route("api/game-session")]
     [ApiController]
-    public class GamePlaySessionController : ControllerBase
+    public class GamePlaySessionController : BaseController
     {
-        private readonly BoardGameContext db;
 
-        public GamePlaySessionController(BoardGameContext db)
+        public GamePlaySessionController(BoardGameContext db) : base(db)
         {
-            this.db = db;
         }
 
         [HttpGet("")]
         public IActionResult Get()
         {
+            
             this.db.Players.Load();
             var gamePlaySessions = this.db.GamePlaySessions.Include(g => g.Game)
                 .ThenInclude(g => g.PlayerRatings)
                 .Include(p => p.Players)
                 .Include(p => p.Winners);
 
-            var gameSessions = gamePlaySessions.Select(g => new GamePlaySessionDto(g)).ToList().GroupBy(g => g.Date);
+            var gameSessions = gamePlaySessions.Where(g => g.Date.Year == this.CurrentYearFilter).Select(g => new GamePlaySessionDto(g)).ToList().GroupBy(g => g.Date);
 
 
             return this.Ok(gameSessions.Select(g => new { g.Key, g }).OrderByDescending(o => o.Key));

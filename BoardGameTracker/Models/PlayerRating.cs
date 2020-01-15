@@ -1,4 +1,6 @@
-﻿namespace BoardGameTracker.Models
+﻿using System;
+
+namespace BoardGameTracker.Models
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -10,5 +12,6 @@
         public int GameId { get; set; }
         [Range(0, 5)]
         public int? Rating { get; set; }
+        public DateTime RatingDate { get; set; }
     }
 }

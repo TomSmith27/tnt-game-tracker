@@ -78,9 +78,7 @@
       <v-spacer></v-spacer>
       <v-menu left offset-y="offset-y" v-if="loggedIn" class="pr-3">
         <v-badge slot="activator" color="red">
-          <span v-if="unratedGamesCount > 0" slot="badge">
-            {{ unratedGamesCount }}
-          </span>
+          <span v-if="unratedGamesCount > 0" slot="badge">{{ unratedGamesCount }}</span>
           <v-icon color="white">notifications</v-icon>
         </v-badge>
         <v-list>
@@ -134,40 +132,40 @@ import Vue from 'vue';
 import version from '../package.json';
 import { httpClient } from './axios-service';
 export default Vue.extend({
-  data: () => ({
-    drawer: null
-  }),
-  props: {
-    source: String
-  },
-  methods: {
-    logout() {
-      this.$store.commit('logout');
-      this.$router.push({ name: 'login' });
+    data: () => ({
+        drawer: null
+    }),
+    props: {
+        source: String
+    },
+    methods: {
+        logout() {
+            this.$store.commit('logout');
+            this.$router.push({ name: 'login' });
+        }
+    },
+    async created() {},
+    computed: {
+        packageInfo() {
+            return version;
+        },
+        unratedGamesCount(): number {
+            return this.$store.state.unratedGamesCount;
+        },
+        user(): any {
+            return this.$store.state.user;
+        },
+        loggedIn(): boolean {
+            return this.$store.getters.loggedIn;
+        }
     }
-  },
-  async created() {},
-  computed: {
-    packageInfo() {
-      return version;
-    },
-    unratedGamesCount(): number {
-      return this.$store.state.unratedGamesCount;
-    },
-    user(): any {
-      return this.$store.state.user;
-    },
-    loggedIn(): boolean {
-      return this.$store.getters.loggedIn;
-    }
-  }
 });
 </script>
 
 <style>
 @media only screen and (max-width: 959px) {
-  #inspire .container {
-    padding: 5px;
-  }
+    #inspire .container {
+        padding: 5px;
+    }
 }
 </style>

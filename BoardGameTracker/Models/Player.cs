@@ -1,4 +1,6 @@
-﻿namespace BoardGameTracker.Models
+﻿using System;
+
+namespace BoardGameTracker.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +18,7 @@
         public List<GamePlaySessionWinner> GamePlayWins { get; set; } = new List<GamePlaySessionWinner>();
         public ICollection<PlayerRating> Ratings { get; set; }
         public ICollection<WishListEntry> WishList { get; set; }
+        public DateTime CurrentYearFilter { get; set; }
  
         private int colour;
 

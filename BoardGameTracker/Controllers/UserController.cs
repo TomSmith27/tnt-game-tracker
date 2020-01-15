@@ -18,18 +18,16 @@
 
     [ApiController]
     [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseController
     {
-        private readonly BoardGameContext db;
         private IUserService userService;
         private readonly AppSettings appSettings;
 
         public UsersController(
             BoardGameContext db,
             IUserService userService,
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings) : base(db)
         {
-            this.db = db;
             this.userService = userService;
             this.appSettings = appSettings.Value;
         }
@@ -93,6 +91,8 @@
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            var user = this.db.Players.First(p => p.Id == this.UserId);
+
             var player = this.db.Players
                 .Include(p => p.GamePlaySessions)
                 .ThenInclude(s => s.GamePlaySession)
@@ -105,7 +105,7 @@
                 .Include(p => p.GamePlayWins)
                 .SingleOrDefault(p => p.Id == id);
 
-            return Ok(new PlayerDetailDto(player));
+            return Ok(new PlayerDetailDto(player, user.CurrentYearFilter.Year));
         }
 
         [HttpPut("{id}")]
