@@ -194,6 +194,11 @@ export default Vue.extend({
         try {
             this.players = (await httpClient.get(`dashboard`)).data;
             this.games = (await httpClient.get(`games`)).data;
+            this.games = this.games.filter(
+                g =>
+                    g.lastPlayed != undefined &&
+                    new Date(g.lastPlayed.toString()).getFullYear() == 2020
+            );
         } catch (e) {
             this.error = e;
         }
