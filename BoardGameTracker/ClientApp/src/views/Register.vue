@@ -59,7 +59,7 @@ export default Vue.extend({
     loading: false,
     displayName: '',
     username: '',
-    password: ',,,',
+    password: '',
   }),
   methods: {
     async signUp() {

@@ -95,51 +95,21 @@
           </v-card>
         </v-flex>
         <v-flex xs12 md4 lg3>
-          <v-card>
-            <v-card-title primary-title>
-              <div>
-                <h3 class="headline mb-0">Highest Rated Games</h3>
-                <v-list>
-                  <v-list-tile v-for="r in player.highestRatedGames" :key="r.title" avatar>
-                    <v-list-tile-avatar tile>
-                      <img :src="r.thumbnail">
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                      <v-list-tile-title>{{r.name}}</v-list-tile-title>
-                    </v-list-tile-content>
-                    <v-list-tile-action>{{r.rating}}</v-list-tile-action>
-                  </v-list-tile>
-                </v-list>
-              </div>
-            </v-card-title>
-          </v-card>
+          <dashboard-card :title="'Highest Rated Games'">
+            <game-dashboard-item v-for="game in player.highestRatedGames" :key="game.id" avatar :game="game">{{game.rating | round}}</game-dashboard-item>
+          </dashboard-card>
         </v-flex>
         <v-flex xs12 md4 lg3>
-          <v-card>
-            <v-card-title primary-title>
-              <div>
-                <h3 class="headline mb-0">Lowest Rated Games</h3>
-                <v-list>
-                  <v-list-tile v-for="r in player.lowestRatedGames" :key="r.title" avatar>
-                    <v-list-tile-avatar tile>
-                      <img :src="r.thumbnail">
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                      <v-list-tile-title>{{r.name}}</v-list-tile-title>
-                    </v-list-tile-content>
-                    <v-list-tile-action>{{r.rating}}</v-list-tile-action>
-                  </v-list-tile>
-                </v-list>
-              </div>
-            </v-card-title>
-          </v-card>
+          <dashboard-card :title="'Lowest Rated Games'">
+            <game-dashboard-item v-for="game in player.lowestRatedGames" :key="game.id" avatar :game="game">{{game.rating | round}}</game-dashboard-item>
+          </dashboard-card>
         </v-flex>
         <v-flex xs12 md3 lg12>
           <v-card>
             <v-card-title primary-title>
               <div>
                 <h4 class="mb-0">Rating Distribution</h4>
-                <apexchart type="bar" :options="chartOptions" :series="ratingsDistribution"/>
+                <apexchart type="bar" :options="chartOptions" :series="ratingsDistribution" />
               </div>
             </v-card-title>
           </v-card>
@@ -153,8 +123,12 @@
 import Vue from 'vue'
 import { httpClient } from '../axios-service'
 import { Player } from '../models/Player'
+import GameDashboardItem from '../components/game-dashboard-item.vue';
+import DashboardCard from '../components/dashboard-card.vue';
 export default Vue.extend({
   components: {
+    GameDashboardItem,
+    DashboardCard
   },
   props: {
     id: {

@@ -16,6 +16,9 @@ export interface Game {
   usersRated: number;
   categories: any[];
   bestPlayerCount: string;
-  playerRatings: any[];
+    playerRatings: PlayerRating[];
   havePlayed: Boolean;
+}
+export interface PlayerRating {
+    rating: number;
 }

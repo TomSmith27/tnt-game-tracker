@@ -12,24 +12,23 @@ Vue.config.productionTip = false;
 //Vue.use(VueApexCharts);
 
 import 'vue-swatches/dist/vue-swatches.min.css';
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
 Vue.component('star-rating', StarRating);
 
 Vue.filter('date', (value: string, format: string) => {
-  if (format == undefined) {
-    format = 'Do MMM YYYY';
-  }
-  return moment(value).format(format);
+	if (format == undefined) {
+		format = 'Do MMM YYYY';
+	}
+	return moment(value).format(format);
 });
 
 Vue.filter('round', (value: string) => {
-  return _.round(Number.parseFloat(value), 2);
+	return _.round(Number.parseFloat(value), 2);
 });
 
 Vue.component('apexchart', VueApexCharts);
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+	router,
+	store,
+	render: (h) => h(App)
 }).$mount('#app');
