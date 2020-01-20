@@ -40,6 +40,9 @@
                               <span>Guests</span>
                             </v-chip>
                           </div>
+                          <div>
+                            <small class="font-weight-light">{{gameSession.notes}}</small>
+                          </div>
                         </div>
                       </v-card-title>
                     </v-flex>
@@ -61,40 +64,40 @@ import Vue from 'vue';
 import { httpClient } from '@/axios-service';
 import moment from 'moment';
 export default Vue.extend({
-    name: 'GameSessionList',
-    data: () => ({
-        gameSessionGroups: [],
-        error: '',
-        isLoading: false,
-        page: 1,
-        pageSize: 10
-    }),
-    filters: {
-        bigDate: (value: string) => {
-            return moment(value).format('Do MMM YYYY');
-        }
-    },
-    created() {
-        this.isLoading = true;
-        httpClient.get('game-session').then(response => {
-            response.data.forEach((element: any) => {
-                element.show = false;
-            });
-            this.gameSessionGroups = response.data;
-            this.isLoading = false;
-        });
-    },
-    computed: {
-        gameSessionsGroupsPaged(): any[] {
-            return this.gameSessionGroups.slice(
-                (this.page - 1) * this.pageSize,
-                this.page * this.pageSize - 1 + this.pageSize
-            );
-        },
-        totalPages(): number {
-            return Math.round(this.gameSessionGroups.length / this.pageSize);
-        }
+  name: 'GameSessionList',
+  data: () => ({
+    gameSessionGroups: [],
+    error: '',
+    isLoading: false,
+    page: 1,
+    pageSize: 10
+  }),
+  filters: {
+    bigDate: (value: string) => {
+      return moment(value).format('Do MMM YYYY');
     }
+  },
+  created() {
+    this.isLoading = true;
+    httpClient.get('game-session').then(response => {
+      response.data.forEach((element: any) => {
+        element.show = false;
+      });
+      this.gameSessionGroups = response.data;
+      this.isLoading = false;
+    });
+  },
+  computed: {
+    gameSessionsGroupsPaged(): any[] {
+      return this.gameSessionGroups.slice(
+        (this.page - 1) * this.pageSize,
+        this.page * this.pageSize - 1 + this.pageSize
+      );
+    },
+    totalPages(): number {
+      return Math.round(this.gameSessionGroups.length / this.pageSize);
+    }
+  }
 });
 </script>
 
