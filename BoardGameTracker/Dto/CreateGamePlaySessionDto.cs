@@ -10,6 +10,7 @@ namespace BoardGameTracker.Dto
     {
         public int GameId { get; set; }
         public DateTimeOffset Date { get; set; }
+        public string Notes { get; set; }
         public List<int> Players { get; set; }
         public List<int> Winners { get; set; }
         public int Guests { get; set; }
@@ -20,6 +21,7 @@ namespace BoardGameTracker.Dto
             {
                 GameId = this.GameId,
                 Date = this.Date,
+                Notes = this.Notes,
                 Players = this.Players.Select(p => new GamePlaySessionPlayer()
                 {
                     PlayerId = p

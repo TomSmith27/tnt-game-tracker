@@ -4,18 +4,20 @@ using BoardGameTracker.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BoardGameTracker.Migrations
 {
     [DbContext(typeof(BoardGameContext))]
-    partial class BoardGameContextModelSnapshot : ModelSnapshot
+    [Migration("20200120225227_add-notes-to-games")]
+    partial class addnotestogames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -160,8 +162,6 @@ namespace BoardGameTracker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CurrentYearFilter");
-
                     b.Property<bool>("IsAdmin");
 
                     b.Property<string>("Name");
@@ -187,26 +187,11 @@ namespace BoardGameTracker.Migrations
 
                     b.Property<int?>("Rating");
 
-                    b.Property<DateTime>("RatingDate");
-
                     b.HasKey("GameId", "PlayerId");
 
                     b.HasIndex("PlayerId");
 
                     b.ToTable("Ratings");
-                });
-
-            modelBuilder.Entity("BoardGameTracker.Models.WishListEntry", b =>
-                {
-                    b.Property<int>("GameId");
-
-                    b.Property<int>("PlayerId");
-
-                    b.HasKey("GameId", "PlayerId");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("WishList");
                 });
 
             modelBuilder.Entity("BoardGameTracker.Models.Activity", b =>
@@ -273,19 +258,6 @@ namespace BoardGameTracker.Migrations
 
                     b.HasOne("BoardGameTracker.Models.Player", "Player")
                         .WithMany("Ratings")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("BoardGameTracker.Models.WishListEntry", b =>
-                {
-                    b.HasOne("BoardGameTracker.Models.BoardGameEntry", "Game")
-                        .WithMany("WishList")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BoardGameTracker.Models.Player", "Player")
-                        .WithMany("WishList")
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

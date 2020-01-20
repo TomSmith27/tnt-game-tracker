@@ -34,6 +34,9 @@
           <v-checkbox color="warning" v-model="winningPlayers" :label="p.name" :value="p"></v-checkbox>
         </v-flex>
       </v-layout>
+      <v-flex xs12>
+        <v-textarea no-resize auto-grow v-model="notes" label="Notes" rows="1"></v-textarea>
+      </v-flex>
       <v-btn @click="submit" color="primary">Save</v-btn>
     </v-form>
   </div>
@@ -57,6 +60,7 @@ export default Vue.extend({
     games: [] as Game[],
     players: [],
     guests: 0,
+    notes: '',
     selectedGame: 0,
     selectedPlayers: [],
     winningPlayers: [],
@@ -73,6 +77,7 @@ export default Vue.extend({
       this.guests = currentGame.data.guests;
       this.selectedPlayers = this.players.filter((p) => currentGame.data.players.map((p: any) => p.player.id).indexOf((p as any).id) !== -1);
       this.winningPlayers = this.players.filter((p) => currentGame.data.winners.map((p: any) => p.player.id).indexOf((p as any).id) !== -1);
+      this.notes = currentGame.data.notes;
     } catch (error) { }
 
     this.isLoading = false;
@@ -96,7 +101,8 @@ export default Vue.extend({
           date: this.date,
           players: this.selectedPlayers.map((p: any) => p.id),
           winners: this.winningPlayers.map((p: any) => p.id),
-          guests: this.guests
+          guests: this.guests,
+          notes: this.notes
         })).data;
         this.$router.push({
           name: 'game-sessions',

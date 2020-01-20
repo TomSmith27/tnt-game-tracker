@@ -26,6 +26,7 @@
           <v-text-field v-model="guests" label="Guests" type="number"></v-text-field>
         </v-flex>
       </v-layout>
+
       <v-layout row wrap>
         <v-flex xs12>
           <h2 class="text-xs-left">Winners</h2>
@@ -34,6 +35,10 @@
           <v-checkbox color="warning" v-model="winningPlayers" :label="p.name" :value="p"></v-checkbox>
         </v-flex>
       </v-layout>
+      <v-flex xs12>
+        <v-textarea no-resize auto-grow v-model="notes" label="Notes" rows="1"></v-textarea>
+      </v-flex>
+
       <v-btn @click="submit" color="primary">Save</v-btn>
     </v-form>
   </div>
@@ -57,6 +62,7 @@ export default Vue.extend({
     games: [] as Game[],
     players: [],
     guests: 0,
+    notes: '',
     selectedGame: 0,
     selectedPlayers: [],
     winningPlayers: [],
@@ -93,7 +99,8 @@ export default Vue.extend({
           date: this.date,
           players: this.selectedPlayers.map((p: any) => p.id),
           winners: this.winningPlayers.map((p: any) => p.id),
-          guests: this.guests
+          guests: this.guests,
+          notes: this.notes
         })).data;
         this.$router.push({
           name: 'game-sessions',
