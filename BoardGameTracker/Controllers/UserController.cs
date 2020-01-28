@@ -2,6 +2,8 @@
 {
     using BoardGameTracker.Database;
     using BoardGameTracker.Dto;
+    using BoardGameTracker.Models;
+    using BoardGameTracker.Queries;
     using BoardGameTracker.Services;
     using BoardGameTracker.Settings;
     using Exceptions;
@@ -80,12 +82,19 @@
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(bool includeNonFriends = false)
         {
             var users = this.db.Players
                 .Include(p => p.GamePlaySessions)
-                .Include(p => p.Ratings).Select(p => new PlayerStatsDto(p));
-            return Ok(users);
+                .Include(p => p.Ratings).AsQueryable();
+
+            if (!includeNonFriends)
+            {
+                users = users.FilterFriends(UserId);
+            }
+
+            var userDtos = users.Select(p => new PlayerStatsDto(p));
+            return Ok(userDtos);
         }
 
         [HttpGet("{id}")]
@@ -130,6 +139,23 @@
         public IActionResult Delete(int id)
         {
             userService.Delete(id);
+            return Ok();
+        }
+
+        [HttpPost("add-friend/{id}")]
+        public IActionResult AddFriend(int id)
+        {
+            var user = this.db.Players.Include(p => p.Friends).First(p => p.Id == this.UserId);
+
+            if (!user.Friends.Any(f => f.FriendId == id))
+            {
+                user.Friends.Add(new PlayerFriend()
+                {
+                    PlayerId = this.UserId,
+                    FriendId = id
+                });
+                this.db.SaveChanges();
+            }
             return Ok();
         }
     }

@@ -29,7 +29,7 @@ namespace BoardGameTracker.Database
                .HasKey(t => new { t.GamePlaySessionId, t.PlayerId });
 
             modelBuilder.Entity<WishListEntry>()
-                .HasKey(t => new { t.GameId, t.PlayerId});
+                .HasKey(t => new { t.GameId, t.PlayerId });
 
             modelBuilder.Entity<BoardGameEntry>()
                 .HasMany(nv => nv.Categories);
@@ -40,6 +40,17 @@ namespace BoardGameTracker.Database
 
             modelBuilder.Entity<Player>()
           .Property("colour");
+
+
+            modelBuilder.Entity<PlayerFriend>()
+                  .HasOne(e => e.Player)
+                  .WithMany(e => e.Friends)
+                  .HasForeignKey(p => p.PlayerId).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PlayerFriend>()
+                  .HasOne(e => e.Friend)
+                  .WithMany(e => e.Followers)
+                  .HasForeignKey(p => p.FriendId).OnDelete(DeleteBehavior.Restrict);
         }
 
         //    modelBuilder.Entity<BoardGameEntry>().HasData(new BoardGameEntry()

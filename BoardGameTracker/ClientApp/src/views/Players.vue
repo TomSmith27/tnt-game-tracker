@@ -57,7 +57,7 @@ export default Vue.extend({
   async created() {
     this.loading = true;
     try {
-      this.players = (await httpClient.get(`users`)).data;
+      this.players = (await httpClient.get(`users?includeNonFriends=true`)).data;
     } catch (error) {
 
     }
