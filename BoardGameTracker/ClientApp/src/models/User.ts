@@ -3,4 +3,5 @@ export interface User {
 	name: string;
 	token: string;
 	isAdmin: boolean;
+	yearFilter: number;
 }

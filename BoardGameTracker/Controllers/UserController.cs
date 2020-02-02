@@ -117,6 +117,21 @@
             return Ok(new PlayerDetailDto(player, user.CurrentYearFilter.Year));
         }
 
+        [HttpGet("friends")]
+        public IActionResult GetFriends()
+        {
+            var friendsAndFollowers = this.db.Players
+                .Include(f => f.Friends)
+                    .ThenInclude(f => f.Friend)
+                .Include(f => f.Followers)
+                    .ThenInclude(f => f.Player).FirstOrDefault(p => p.Id == UserId);
+
+            return Ok(new {
+                friends = friendsAndFollowers.Friends.Select(f => new { Id = f.FriendId, Name = f.Friend.Name }),
+                followers = friendsAndFollowers.Followers.Select(f => new { Id = f.PlayerId, Name = f.Player.Name })
+                });
+        }
+
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]CreatePlayerDto playerDto)
         {
@@ -157,6 +172,30 @@
                 this.db.SaveChanges();
             }
             return Ok();
+        }
+
+        [HttpPost("remove-friend/{id}")]
+        public IActionResult RemoveFriend(int id)
+        {
+            var user = this.db.Players.Include(p => p.Friends).First(p => p.Id == this.UserId);
+
+            var userFriend = user.Friends.FirstOrDefault(f => f.FriendId == id);
+            if (userFriend != null)
+            {
+                this.db.PlayerFriend.Remove(userFriend);
+                this.db.SaveChanges();
+            }
+            return Ok();
+        }
+
+        [HttpPost("year-filter/{yearFilter:int}")]
+        public IActionResult SetYearFilter(int yearFilter)
+        {
+            var user = this.db.Players.First(p => p.Id == this.UserId);
+            user.CurrentYearFilter = new DateTime(yearFilter, 1, 1);
+            this.db.SaveChanges();
+            return Ok();
+
         }
     }
 }
