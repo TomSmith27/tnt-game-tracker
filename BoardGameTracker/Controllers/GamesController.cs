@@ -63,10 +63,12 @@ namespace BoardGameTracker.Controllers
             var game = this.db.Games
                 .Include(g => g.Categories)
                 .Include(g => g.PlayerRatings)
+                .ThenInclude(g => g.Player)
+                .ThenInclude(g => g.Followers)
                 .FirstOrDefault(g => g.Id == id);
             bool isOnWishList = db.WishList.Any(a =>
                 a.PlayerId == UserId && a.GameId == id);
-            game.PlayerRatings = game.PlayerRatings.Where(pr => pr.Player.Followers.Any(p => p.FriendId == UserId) || pr.PlayerId == UserId).ToList();
+            game.PlayerRatings = game.PlayerRatings.Where(pr => pr.Player.Followers.Any(p => p.PlayerId == UserId) || pr.PlayerId == UserId).ToList();
             return this.Ok(new {game, isOnWishList});
         }
 

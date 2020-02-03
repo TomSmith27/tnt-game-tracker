@@ -120,19 +120,19 @@ export default Vue.extend({
       return this.players.map(p => p).sort((p, p2) => p2.averageRating - p.averageRating)
     },
     highestRatedGames(): GameListItem[] {
-      return this.games.filter(g => g.playersAverageRating != null).sort((p, p2) => p2.playersAverageRating - p.playersAverageRating).slice(0, 3)
+      return this.games.filter(g => g.playersAverageRating != null).sort((p, p2) => p2.playersAverageRating - p.playersAverageRating).slice(0, 5)
     },
     lowestRatedGames(): GameListItem[] {
-      return this.games.filter(g => g.playersAverageRating != null).sort((p, p2) => p.playersAverageRating - p2.playersAverageRating).slice(0, 3)
+      return this.games.filter(g => g.playersAverageRating != null).sort((p, p2) => p.playersAverageRating - p2.playersAverageRating).slice(0, 5)
     },
     mostOverratedGames(): GameListItem[] {
-      return this.games.filter(g => g.difference != null).sort((p, p2) => p2.difference - p.difference).slice(0, 3)
+      return this.games.filter(g => g.difference != null).sort((p, p2) => p2.difference - p.difference).slice(0, 5)
     },
     mostUnderatedGames(): GameListItem[] {
-      return this.games.filter(g => g.difference != null).sort((p, p2) => p.difference - p2.difference).slice(0, 3)
+      return this.games.filter(g => g.difference != null).sort((p, p2) => p.difference - p2.difference).slice(0, 5)
     },
     mostPlayedGames(): GameListItem[] {
-      return this.games.sort((p, p2) => p2.timesPlayed - p.timesPlayed).slice(0, 3)
+      return this.games.sort((p, p2) => p2.timesPlayed - p.timesPlayed).slice(0, 5)
     }
   }
 })
