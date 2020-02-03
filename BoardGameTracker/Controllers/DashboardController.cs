@@ -1,6 +1,7 @@
 ﻿using BggApi.Service;
 using BoardGameTracker.Database;
 using BoardGameTracker.Dto;
+using BoardGameTracker.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -33,7 +34,9 @@ namespace BoardGameTracker.Controllers
 
               var players =  this.db.Players.Include(p => p.Ratings)
                .ThenInclude(g => g.Game)
-               .Include(p => p.GamePlayWins).AsEnumerable().Select(player => new PlayerDetailDto(player, user.CurrentYearFilter.Year));
+               .Include(p => p.GamePlayWins)
+               .Include(p => p.Followers)
+               .FilterFriends(UserId).AsEnumerable().Select(player => new PlayerDetailDto(player, user.CurrentYearFilter.Year));
 
             return Ok(players);
         }

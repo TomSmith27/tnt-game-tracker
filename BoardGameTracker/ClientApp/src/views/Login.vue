@@ -70,7 +70,8 @@ export default Vue.extend({
           id: authPlayer.id,
           name: authPlayer.name,
           token: authPlayer.token,
-          isAdmin: authPlayer.isAdmin
+          isAdmin: authPlayer.isAdmin,
+          yearFilter: authPlayer.currentYearFilter,
         };
         this.$store.commit('setUser', user);
         if (this.$route.query.redirect) {

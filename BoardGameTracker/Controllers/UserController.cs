@@ -2,6 +2,8 @@
 {
     using BoardGameTracker.Database;
     using BoardGameTracker.Dto;
+    using BoardGameTracker.Models;
+    using BoardGameTracker.Queries;
     using BoardGameTracker.Services;
     using BoardGameTracker.Settings;
     using Exceptions;
@@ -80,12 +82,19 @@
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(bool includeNonFriends = false)
         {
             var users = this.db.Players
                 .Include(p => p.GamePlaySessions)
-                .Include(p => p.Ratings).Select(p => new PlayerStatsDto(p));
-            return Ok(users);
+                .Include(p => p.Ratings).AsQueryable();
+
+            if (!includeNonFriends)
+            {
+                users = users.FilterFriends(UserId);
+            }
+
+            var userDtos = users.Select(p => new PlayerStatsDto(p));
+            return Ok(userDtos);
         }
 
         [HttpGet("{id}")]
@@ -106,6 +115,21 @@
                 .SingleOrDefault(p => p.Id == id);
 
             return Ok(new PlayerDetailDto(player, user.CurrentYearFilter.Year));
+        }
+
+        [HttpGet("friends")]
+        public IActionResult GetFriends()
+        {
+            var friendsAndFollowers = this.db.Players
+                .Include(f => f.Friends)
+                    .ThenInclude(f => f.Friend)
+                .Include(f => f.Followers)
+                    .ThenInclude(f => f.Player).FirstOrDefault(p => p.Id == UserId);
+
+            return Ok(new {
+                friends = friendsAndFollowers.Friends.Select(f => new { Id = f.FriendId, Name = f.Friend.Name }),
+                followers = friendsAndFollowers.Followers.Select(f => new { Id = f.PlayerId, Name = f.Player.Name })
+                });
         }
 
         [HttpPut("{id}")]
@@ -131,6 +155,47 @@
         {
             userService.Delete(id);
             return Ok();
+        }
+
+        [HttpPost("add-friend/{id}")]
+        public IActionResult AddFriend(int id)
+        {
+            var user = this.db.Players.Include(p => p.Friends).First(p => p.Id == this.UserId);
+
+            if (!user.Friends.Any(f => f.FriendId == id))
+            {
+                user.Friends.Add(new PlayerFriend()
+                {
+                    PlayerId = this.UserId,
+                    FriendId = id
+                });
+                this.db.SaveChanges();
+            }
+            return Ok();
+        }
+
+        [HttpPost("remove-friend/{id}")]
+        public IActionResult RemoveFriend(int id)
+        {
+            var user = this.db.Players.Include(p => p.Friends).First(p => p.Id == this.UserId);
+
+            var userFriend = user.Friends.FirstOrDefault(f => f.FriendId == id);
+            if (userFriend != null)
+            {
+                this.db.PlayerFriend.Remove(userFriend);
+                this.db.SaveChanges();
+            }
+            return Ok();
+        }
+
+        [HttpPost("year-filter/{yearFilter:int}")]
+        public IActionResult SetYearFilter(int yearFilter)
+        {
+            var user = this.db.Players.First(p => p.Id == this.UserId);
+            user.CurrentYearFilter = new DateTime(yearFilter, 1, 1);
+            this.db.SaveChanges();
+            return Ok();
+
         }
     }
 }

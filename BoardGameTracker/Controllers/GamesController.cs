@@ -17,15 +17,13 @@ namespace BoardGameTracker.Controllers
 
     [Route("api/games")]
     [ApiController]
-    public class GamesController : ControllerBase
+    public class GamesController : BaseController
     {
-        private readonly BoardGameContext db;
         private readonly IBggService bggService;
         private readonly IUserService userService;
 
-        public GamesController(BoardGameContext db, IBggService bggService, IUserService userService)
+        public GamesController(BoardGameContext db, IBggService bggService, IUserService userService) : base(db)
         {
-            this.db = db;
             this.bggService = bggService;
             this.userService = userService;
         }
@@ -67,8 +65,8 @@ namespace BoardGameTracker.Controllers
                 .Include(g => g.PlayerRatings)
                 .FirstOrDefault(g => g.Id == id);
             bool isOnWishList = db.WishList.Any(a =>
-                a.PlayerId == int.Parse(this.HttpContext.User.Identity.Name) && a.GameId == id);
-
+                a.PlayerId == UserId && a.GameId == id);
+            game.PlayerRatings = game.PlayerRatings.Where(pr => pr.Player.Followers.Any(p => p.FriendId == UserId) || pr.PlayerId == UserId).ToList();
             return this.Ok(new {game, isOnWishList});
         }
 
@@ -90,8 +88,7 @@ namespace BoardGameTracker.Controllers
         [HttpGet("player-unrated-games")]
         public IActionResult PlayerUnratedGamesCount()
         {
-            var userId = int.Parse(this.HttpContext.User.Identity.Name);
-            var unratedGames = this.db.Players.Where(p => p.Id == userId).Select(p => p.Ratings.Count(r => !r.Rating.HasValue)).ToList().Sum();
+            var unratedGames = this.db.Players.Where(p => p.Id == UserId).Select(p => p.Ratings.Count(r => !r.Rating.HasValue)).ToList().Sum();
             return this.Ok(unratedGames);
         }
 
@@ -147,14 +144,13 @@ namespace BoardGameTracker.Controllers
         [HttpPost("{id:int}/rate")]
         public async Task<IActionResult> Rate(int id, RatingDto dto)
         {
-            var userId = int.Parse(this.HttpContext.User.Identity.Name);
-            var user = userService.GetById(userId);
+            var user = userService.GetById(UserId);
             var rating = this.db.Ratings.First(r => r.GameId == id && r.PlayerId == user.Id);
             this.db.Activities.Add(new Activity
             {
                 Date = DateTimeOffset.Now,
                 Message = $"changed {db.Games.Find(id).Name}'s rating from {rating.Rating} to {dto.Rating}",
-                PlayerId = userId
+                PlayerId = UserId
             });
 
             rating.Rating = dto.Rating;

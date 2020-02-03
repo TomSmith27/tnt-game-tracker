@@ -9,14 +9,12 @@ namespace BoardGameTracker.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class WishlistController : ControllerBase
+    public class WishlistController : BaseController
     {
-        private readonly BoardGameContext db;
         private readonly IUserService userService;
 
-        public WishlistController(BoardGameContext db, IUserService userService)
+        public WishlistController(BoardGameContext db, IUserService userService) : base(db)
         {
-            this.db = db;
             this.userService = userService;
         }
 
@@ -26,6 +24,7 @@ namespace BoardGameTracker.Controllers
             var wishLists = this.db.WishList
                 .Include(w => w.Game)
                 .Include(w => w.Player)
+                .Where(w => w.PlayerId == UserId || w.Player.Followers.Any(p => p.FriendId == UserId))
                 .AsEnumerable()
                 .GroupBy(w => w.Game);
 

@@ -7,7 +7,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		user: {},
-		unratedGamesCount: 0
+		unratedGamesCount: 0,
+		friends: [],
+		followers: []
 	},
 	mutations: {
 		setUser(state, user: User) {
@@ -21,9 +23,19 @@ export default new Vuex.Store({
 		},
 		setUnratedGamesCount(state, count) {
 			state.unratedGamesCount = count;
+		},
+		setFriends(state, { friends, followers }) {
+			state.friends = friends;
+			state.followers = followers;
 		}
 	},
 	actions: {
+		async setYearFilter(context, year: number) {
+			await httpClient.post(`users/year-filter/${year}`, null);
+			let user = context.state.user as any;
+			user.yearFilter = year;
+			context.commit('setUser', user);
+		},
 		async getNotifications(context) {
 			try {
 				if (context.getters.loggedIn) {
@@ -31,11 +43,18 @@ export default new Vuex.Store({
 					context.commit('setUnratedGamesCount', unratedGamesCount);
 				}
 			} catch (e) {}
+		},
+		async addFriend(context, friend) {
+			await httpClient.post(`users/add-friend/${friend.id}`);
+			context.commit('setFriends', { friends: [ friend, ...context.state.friends ] });
 		}
 	},
 	getters: {
 		loggedIn(state: any): boolean {
 			return state.user.id !== undefined;
+		},
+		friendIds(state): Number[] {
+			return state.friends.map((f: any) => f.id);
 		}
 	}
 });

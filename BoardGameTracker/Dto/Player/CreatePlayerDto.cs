@@ -1,6 +1,7 @@
 ﻿namespace BoardGameTracker.Dto
 {
     using Models;
+    using System;
     using System.Drawing;
 
     public class CreatePlayerDto
@@ -16,7 +17,8 @@
             {
                 Name =  this.Name,
                 Username = this.Username,
-                Colour = Color.FromArgb(this.Colour)
+                Colour = Color.FromArgb(this.Colour),
+                CurrentYearFilter = new DateTime(2020,1,1)
             };
         }
     }

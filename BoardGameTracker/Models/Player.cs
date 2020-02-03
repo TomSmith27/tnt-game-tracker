@@ -19,6 +19,9 @@ namespace BoardGameTracker.Models
         public ICollection<PlayerRating> Ratings { get; set; }
         public ICollection<WishListEntry> WishList { get; set; }
         public DateTime CurrentYearFilter { get; set; }
+
+        public ICollection<PlayerFriend> Friends { get; set; } = new List<PlayerFriend>();
+        public ICollection<PlayerFriend> Followers { get; set; } = new List<PlayerFriend>();
  
         private int colour;
 

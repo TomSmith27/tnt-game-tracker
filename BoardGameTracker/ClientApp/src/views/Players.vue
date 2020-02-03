@@ -22,6 +22,17 @@
               <td>{{props.item.uniqueGamesPlayed}}</td>
               <td>{{props.item.unratedGames}}</td>
               <td>{{props.item.ratedGames}}</td>
+              <td>
+                <template v-if="props.item.id != $store.state.user.id">
+                  <v-btn @click="addFriend(props.item.id)" color="success" v-if="$store.getters.friendIds.indexOf(props.item.id) === -1">
+                    <v-icon>person_add</v-icon>
+                  </v-btn>
+                  <v-btn @click="removeFriend(props.item.id)" color="error" v-else>
+                    <v-icon>remove</v-icon>
+                    <v-icon>person</v-icon>
+                  </v-btn>
+                </template>
+              </td>
             </tr>
           </template>
 
@@ -52,16 +63,31 @@ export default Vue.extend({
       { text: "Unique Games Played", value: "uniqueGamesPlayed" },
       { text: "Unrated Games", value: "unratedGames" },
       { text: "Rated Games", value: "ratedGames" },
+      { text: "", value: "friendShip" },
     ]
   }),
   async created() {
     this.loading = true;
     try {
-      this.players = (await httpClient.get(`users`)).data;
+      this.players = (await httpClient.get(`users?includeNonFriends=true`)).data;
+      let friends = (await httpClient.get(`users/friends`)).data;
+      this.$store.commit('setFriends', friends)
     } catch (error) {
 
     }
     this.loading = false;
+  },
+  methods: {
+    async addFriend(id: number) {
+      await httpClient.post(`users/add-friend/${id}`)
+      let friends = (await httpClient.get(`users/friends`)).data;
+      this.$store.commit('setFriends', friends)
+    },
+    async removeFriend(id: number) {
+      await httpClient.post(`users/remove-friend/${id}`)
+      let friends = (await httpClient.get(`users/friends`)).data;
+      this.$store.commit('setFriends', friends)
+    }
   }
 })
 </script>
