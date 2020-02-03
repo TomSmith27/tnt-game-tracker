@@ -105,7 +105,7 @@ export default Vue.extend({
       this.games = this.games.filter(
         g =>
           g.lastPlayed != undefined &&
-          new Date(g.lastPlayed.toString()).getFullYear() == 2020
+          new Date(g.lastPlayed.toString()).getFullYear() == this.$store.state.user.yearFilter
       );
     }
     catch (e) {
