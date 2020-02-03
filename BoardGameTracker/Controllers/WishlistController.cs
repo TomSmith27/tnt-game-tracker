@@ -24,7 +24,8 @@ namespace BoardGameTracker.Controllers
             var wishLists = this.db.WishList
                 .Include(w => w.Game)
                 .Include(w => w.Player)
-                .Where(w => w.PlayerId == UserId || w.Player.Followers.Any(p => p.FriendId == UserId))
+                .ThenInclude(w => w.Followers)
+                .Where(w => w.PlayerId == UserId || w.Player.Followers.Any(p => p.PlayerId == UserId))
                 .AsEnumerable()
                 .GroupBy(w => w.Game);
 
