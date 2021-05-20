@@ -76,7 +76,7 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Board Games</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-select v-if="loggedIn" v-model="year" :items="[2019, 2020]" label="Year Filter" @input="setYearFilter"></v-select>
+      <v-select v-if="loggedIn" v-model="year" :items="[2019, 2020, 2021]" label="Year Filter" @input="setYearFilter"></v-select>
       <v-menu left offset-y="offset-y" v-if="loggedIn" class="pr-3">
         <v-badge slot="activator" color="red">
           <span v-if="unratedGamesCount > 0" slot="badge">{{ unratedGamesCount }}</span>
